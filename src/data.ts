@@ -5,7 +5,7 @@
    ============================================================ */
 
 // --- External links (client to provide) ---
-export const BOOKING_URL = 'https://PLACEHOLDER-booking-link' // TODO: replace with real booking link
+export const BOOKING_URL = 'https://www.bookingbase.co.uk/book/matthew-knight-osteopath-sports-therapist'
 export const INSTAGRAM_URL = 'https://www.instagram.com/manualtherapymatt/'
 
 // --- Contact & location ---
