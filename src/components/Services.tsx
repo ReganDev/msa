@@ -12,12 +12,12 @@ export default function Services() {
       <div className="container">
         <div className="section__heading reveal">
           <h2 className="section__title section__title--ruled">
-            Evidence-based therapeutic bodywork
+            Treatments with Matthew
           </h2>
           <p className="section__lead">
-            Tailored massage interventions, grounded in anatomical expertise and current
-            research, to relieve musculoskeletal pain, optimise mobility and support
-            sustainable recovery &mdash; with an individualised plan for every client.
+            Osteopathy, dry needling and sports massage &mdash; grounded in anatomical
+            expertise and current research to relieve pain, restore movement and support
+            recovery, with an individualised plan for every patient.
           </p>
         </div>
 
@@ -28,11 +28,39 @@ export default function Services() {
               key={service.name}
               style={{ transitionDelay: `${i * 90}ms` }}
             >
-              <h3 className="services__card-title">{service.name}</h3>
-              <p className="services__blurb">{service.blurb}</p>
-              <div className="services__meta">
-                <span className="services__price">{priceFormatter.format(service.price)}</span>
-                <span className="services__price-unit">per session</span>
+              <img
+                className="services__image"
+                src={service.image}
+                alt={service.imageAlt}
+                loading="lazy"
+              />
+              <div className="services__content">
+                <h3 className="services__card-title">{service.name}</h3>
+                <p className="services__blurb">{service.blurb}</p>
+
+                {service.tiers ? (
+                  <ul className="services__tiers">
+                    {service.tiers.map((tier) => (
+                      <li className="services__tier" key={tier.label}>
+                        <span className="services__tier-label">{tier.label}</span>
+                        <span className="services__tier-price">
+                          {priceFormatter.format(tier.price)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="services__price-note">{service.priceNote}</p>
+                )}
+
+                <a
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn--primary services__book"
+                >
+                  Book Me
+                </a>
               </div>
             </article>
           ))}

@@ -1,29 +1,78 @@
 import { useState } from 'react'
-import { ADDRESS, ADDRESS_NOTE, EMAIL } from '../data'
+import { ADDRESS, ADDRESS_NOTE, EMAIL, FORMSPREE_ENDPOINT } from '../data'
+
+type Status = 'idle' | 'submitting' | 'success' | 'error'
+
+const isConfigured = !FORMSPREE_ENDPOINT.includes('REPLACE_WITH_FORM_ID')
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<Status>('idle')
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const form = e.currentTarget
 
-    // TODO: wire up a mail service here (e.g. Formspree, EmailJS, or a serverless
-    // function). Read the fields from `new FormData(e.currentTarget)` and POST them,
-    // or set this <form>'s `action`/`method` to your provider's endpoint.
-    // For now the form validates client-side and shows a confirmation only.
+    if (!isConfigured) {
+      setError(
+        'This form isn’t connected yet. Please email me directly and I’ll get straight back to you.',
+      )
+      setStatus('error')
+      return
+    }
 
-    setSubmitted(true)
+    setStatus('submitting')
+    setError('')
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      })
+
+      if (response.ok) {
+        form.reset()
+        setStatus('success')
+      } else {
+        const data = await response.json().catch(() => null)
+        setError(
+          data?.errors?.map((err: { message: string }) => err.message).join(', ') ||
+            'Something went wrong sending your message. Please try again, or email me directly.',
+        )
+        setStatus('error')
+      }
+    } catch {
+      setError(
+        'Couldn’t reach the server — please check your connection and try again, or email me directly.',
+      )
+      setStatus('error')
+    }
   }
 
   return (
     <section className="contact section section--alt" id="contact">
       <div className="container contact__inner">
         <div className="contact__info">
-          <h2 className="section__title section__title--ruled">Book a consultation</h2>
+          <h2 className="section__title section__title--ruled">Get in touch</h2>
           <p className="contact__lead">
             Have a question or want to arrange an assessment? Send a message and Matthew
             will get back to you.
           </p>
+
+          <div className="contact__consult">
+            <h3 className="contact__consult-title">Free 15-minute phone consultation</h3>
+            <p className="contact__consult-text">
+              Email me for a free 15-minute phone call to talk about your pain or
+              discomfort and what I can do to help.
+            </p>
+            <a
+              className="btn btn--primary contact__consult-btn"
+              href={`mailto:${EMAIL}?subject=Free%2015-minute%20phone%20consultation`}
+            >
+              Book a free phone consultation
+            </a>
+          </div>
 
           <ul className="contact__points">
             <li className="contact__point">
@@ -59,18 +108,24 @@ export default function Contact() {
           </ul>
         </div>
 
-        {submitted ? (
+        {status === 'success' ? (
           <div className="contact__form form__success" role="status">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10" />
               <path d="m8 12 2.5 2.5L16 9" />
             </svg>
             <div>
-              <p className="form__success-title">Thank you &mdash; your message is ready to send.</p>
+              <p className="form__success-title">Thank you &mdash; your message has been sent.</p>
               <p className="form__success-text">
-                Matthew will be in touch as soon as possible. (Note: connect a mail service
-                to deliver submissions automatically.)
+                Matthew will be in touch as soon as possible.
               </p>
+              <button
+                type="button"
+                className="btn btn--light form__again"
+                onClick={() => setStatus('idle')}
+              >
+                Send another message
+              </button>
             </div>
           </div>
         ) : (
@@ -105,12 +160,26 @@ export default function Contact() {
             </div>
 
             <label className="form__check">
-              <input type="checkbox" name="newsletter" value="yes" />
-              <span>Sign up for news and updates</span>
+              <input type="checkbox" name="consent" value="yes" required />
+              <span>
+                I agree to Matthew contacting me about my enquiry.{' '}
+                <span className="form__req" aria-hidden="true">*</span>
+              </span>
             </label>
 
-            <button type="submit" className="btn btn--primary btn--lg form__submit">
-              Send message
+            {status === 'error' && (
+              <p className="form__error" role="alert">
+                {error}{' '}
+                <a href={`mailto:${EMAIL}?subject=Enquiry`}>Email {EMAIL}</a>.
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="btn btn--primary btn--lg form__submit"
+              disabled={status === 'submitting'}
+            >
+              {status === 'submitting' ? 'Sending…' : 'Send message'}
             </button>
           </form>
         )}

@@ -1,5 +1,5 @@
 /* ============================================================
-   Matthew Knight - Osteopath & Sports Therapist
+   Matthew Knight - Osteopath & Sports Massage Therapist
    Self-hosted fonts (Cormorant Garamond headings + Jost body)
    ============================================================ */
 
@@ -82,14 +82,14 @@ img {
 }
 
 a {
-  color: var(--primary);
+  color: var(--primary-dark);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   transition: color var(--transition);
 }
 
 a:hover {
-  color: var(--primary-dark);
+  color: var(--ink);
 }
 
 :focus-visible {
@@ -129,19 +129,31 @@ a:hover {
   text-wrap: balance;
 }
 
-/* Single accent rule that sits with a section title as the recurring
-   identity device (used in place of a repeated uppercase kicker). */
-.section__title--ruled::before {
+/* Recurring identity device: a two-tier "motion lines" accent that sits with a
+   section title, echoing movement and momentum (used in place of a repeated
+   uppercase kicker). */
+.section__title--ruled::before,
+.section__title--ruled::after {
   content: '';
   display: block;
-  width: 44px;
   height: 3px;
   border-radius: 3px;
+}
+
+.section__title--ruled::before {
+  width: 48px;
   background: var(--primary);
+  margin: 0 0 0.32rem;
+}
+
+.section__title--ruled::after {
+  width: 22px;
+  background: var(--accent);
   margin: 0 0 1.1rem;
 }
 
-.section__heading .section__title--ruled::before {
+.section__heading .section__title--ruled::before,
+.section__heading .section__title--ruled::after {
   margin-inline: auto;
 }
 
@@ -265,29 +277,21 @@ a:hover {
 
 .nav__brand {
   display: flex;
-  flex-direction: column;
-  line-height: 1.05;
+  align-items: center;
   text-decoration: none;
   color: var(--ink);
 }
 
-.nav__brand-name {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+.nav__logo {
+  display: block;
+  height: 46px;
+  width: auto;
+  border-radius: 8px;
+  transition: opacity var(--transition);
 }
 
-.nav__brand-role {
-  font-size: 0.66rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-top: 0.15rem;
-}
-
-.nav__brand:hover .nav__brand-name {
-  color: var(--primary);
+.nav__brand:hover .nav__logo {
+  opacity: 0.85;
 }
 
 .nav__links {
@@ -329,6 +333,25 @@ a:hover {
   gap: 0.75rem;
 }
 
+.nav__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: color var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.nav__social:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
 .nav__toggle {
   display: none;
   align-items: center;
@@ -350,12 +373,27 @@ a:hover {
 
 @media (max-width: 860px) {
   .nav__links,
-  .nav__cta {
+  .nav__social {
     display: none;
+  }
+
+  /* Keep a compact, always-visible booking action in the mobile bar. */
+  .nav__cta {
+    min-height: 42px;
+    padding: 0.5rem 1.05rem;
+    font-size: 0.9rem;
   }
 
   .nav__toggle {
     display: inline-flex;
+  }
+
+  .nav__inner {
+    gap: 0.75rem;
+  }
+
+  .nav__logo {
+    height: 40px;
   }
 
   .nav {
@@ -378,6 +416,12 @@ a:hover {
     text-decoration: none;
     font-size: 1.05rem;
     border-bottom: 1px solid var(--border);
+  }
+
+  .nav__mobile-social {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
   }
 
   .nav__mobile-cta {
@@ -413,12 +457,24 @@ a:hover {
 }
 
 .hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
   font-weight: 500;
   font-size: 0.82rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--primary-dark);
   margin: 0 0 1rem;
+}
+
+.hero__eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
 }
 
 .hero__title {
@@ -496,8 +552,8 @@ a:hover {
   place-items: center;
 }
 
-/* Slot for a real photo: drop an <img> into .hero__panel and it will
-   cover the panel, sitting above the decorative SVG backdrop. */
+/* Slot for a real photo: a hero portrait image placed inside .hero__panel
+   covers the panel, sitting above the decorative SVG backdrop. */
 .hero__panel img {
   position: absolute;
   inset: 0;
@@ -593,6 +649,10 @@ a:hover {
   margin-bottom: 0;
 }
 
+.about__book {
+  margin-top: 1.75rem;
+}
+
 .about__aside {
   display: grid;
   gap: 1rem;
@@ -669,9 +729,22 @@ a:hover {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.75rem 1.6rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.services__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.services__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.6rem 1.6rem 1.75rem;
 }
 
 .services__card::before {
@@ -710,32 +783,48 @@ a:hover {
   margin: 0 0 1.4rem;
 }
 
-.services__meta {
-  margin-top: auto;
-  padding-top: 1rem;
+.services__tiers {
+  list-style: none;
+  margin: auto 0 1.4rem;
+  padding: 1rem 0 0;
   border-top: 1px solid var(--border);
+  display: grid;
+  gap: 0.7rem;
+}
+
+.services__tier {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
 }
 
-.services__price {
-  font-family: var(--font-serif);
+.services__tier-label {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.services__tier-price {
+  font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 1.7rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
   color: var(--primary-dark);
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
 
-.services__price-unit {
-  font-family: var(--font-sans);
-  font-size: 0.74rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.services__price-note {
+  margin: auto 0 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.92rem;
   color: var(--ink-soft);
+  font-style: italic;
+}
+
+.services__book {
+  width: 100%;
 }
 
 .section__footnote {
@@ -841,6 +930,32 @@ a:hover {
   color: var(--ink-soft);
   margin: 0 0 1.75rem;
   font-size: 1.04rem;
+}
+
+.contact__consult {
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem;
+  margin: 0 0 1.75rem;
+}
+
+.contact__consult-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--primary-dark);
+}
+
+.contact__consult-text {
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  margin: 0 0 1.2rem;
+}
+
+.contact__consult-btn {
+  width: 100%;
 }
 
 .contact__points {
@@ -960,6 +1075,33 @@ a:hover {
 
 .form__submit {
   width: 100%;
+}
+
+.form__submit:disabled {
+  opacity: 0.65;
+  cursor: progress;
+  transform: none;
+}
+
+.form__error {
+  margin: 0 0 1.1rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-sm);
+  background: #fbecea;
+  border: 1px solid #e7a9a2;
+  color: #7d2b22;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.form__error a {
+  color: #7d2b22;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.form__again {
+  margin-top: 0.85rem;
 }
 
 .form__success {

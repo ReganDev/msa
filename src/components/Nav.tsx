@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react'
-import { BOOKING_URL } from '../data'
+import { BOOKING_URL, INSTAGRAM_URL } from '../data'
+
+function InstagramIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
 
 const links = [
   { href: '#about', label: 'About' },
@@ -23,8 +33,7 @@ export default function Nav() {
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="nav__inner container">
         <a href="#top" className="nav__brand" aria-label="Matthew Knight Osteopathy home">
-          <span className="nav__brand-name">Matthew Knight</span>
-          <span className="nav__brand-role">Osteopath &amp; Sports Therapist</span>
+          <img className="nav__logo" src="/logo.png" alt="Matthew Knight Osteopathy" />
         </a>
 
         <nav className="nav__links" aria-label="Main navigation">
@@ -37,17 +46,27 @@ export default function Nav() {
 
         <div className="nav__actions">
           <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav__social"
+            aria-label="Matthew Knight on Instagram"
+          >
+            <InstagramIcon />
+          </a>
+          <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn--primary nav__cta"
           >
-            Book Now
+            Book Me
           </a>
           <button
             type="button"
             className="nav__toggle"
             aria-expanded={open}
+            aria-controls="nav-mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
           >
@@ -63,7 +82,7 @@ export default function Nav() {
       </div>
 
       {open && (
-        <nav className="nav__mobile" aria-label="Mobile navigation">
+        <nav className="nav__mobile" id="nav-mobile-menu" aria-label="Mobile navigation">
           {links.map((link) => (
             <a
               key={link.href}
@@ -75,13 +94,23 @@ export default function Nav() {
             </a>
           ))}
           <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav__mobile-link nav__mobile-social"
+            onClick={() => setOpen(false)}
+          >
+            <InstagramIcon />
+            Instagram
+          </a>
+          <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn--primary nav__mobile-cta"
             onClick={() => setOpen(false)}
           >
-            Book Now
+            Book Me
           </a>
         </nav>
       )}

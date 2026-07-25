@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container footer__inner">
         <div className="footer__brand">
           <p className="footer__logo">Matthew Knight</p>
-          <p className="footer__tag">Osteopath &amp; Sports Therapist &middot; Orpington</p>
+          <p className="footer__tag">Osteopath &amp; Sports Massage Therapist &middot; Orpington</p>
         </div>
 
         <nav className="footer__links" aria-label="Footer">
@@ -19,7 +19,7 @@ export default function Footer() {
             Instagram
           </a>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            Book Online
+            Book Me
           </a>
         </nav>
 
