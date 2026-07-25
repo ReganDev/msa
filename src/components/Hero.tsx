@@ -24,7 +24,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="btn btn--primary btn--lg"
             >
-              Book Me
+              Book Now
             </a>
             <a href="#services" className="btn btn--ghost btn--lg">
               View Treatments

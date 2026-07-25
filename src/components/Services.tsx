@@ -59,7 +59,7 @@ export default function Services() {
                   rel="noopener noreferrer"
                   className="btn btn--primary services__book"
                 >
-                  Book Me
+                  Book Now
                 </a>
               </div>
             </article>

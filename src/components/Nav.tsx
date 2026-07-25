@@ -60,7 +60,7 @@ export default function Nav() {
             rel="noopener noreferrer"
             className="btn btn--primary nav__cta"
           >
-            Book Me
+            Book Now
           </a>
           <button
             type="button"
@@ -110,7 +110,7 @@ export default function Nav() {
             className="btn btn--primary nav__mobile-cta"
             onClick={() => setOpen(false)}
           >
-            Book Me
+            Book Now
           </a>
         </nav>
       )}

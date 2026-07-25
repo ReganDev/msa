@@ -71,7 +71,7 @@ export default function About() {
             rel="noopener noreferrer"
             className="btn btn--primary btn--lg about__book"
           >
-            Book Me
+            Book Now
           </a>
         </div>
 

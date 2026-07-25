@@ -47,7 +47,7 @@ export default function Location() {
             rel="noopener noreferrer"
             className="btn btn--primary btn--lg"
           >
-            Book Me
+            Book Now
           </a>
         </div>
       </div>

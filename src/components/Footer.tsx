@@ -19,7 +19,7 @@ export default function Footer() {
             Instagram
           </a>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            Book Me
+            Book Now
           </a>
         </nav>
 
