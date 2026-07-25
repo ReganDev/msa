@@ -1,5 +1,18 @@
 import { BOOKING_URL } from '../data'
 
+const trustIcon = (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 2l7 3v6c0 4.5-3 8.5-7 9.8C8 19.5 5 15.5 5 11V5l7-3z" />
+    <path d="M9 11.5l2 2 4-4.5" />
+  </svg>
+)
+
+const trustItems = [
+  'Registered Osteopath',
+  'Qualified in dry needling',
+  'Qualified Sports Massage Therapist',
+]
+
 export default function Hero() {
   return (
     <section className="hero" id="top">
@@ -32,19 +45,12 @@ export default function Hero() {
           </div>
 
           <ul className="hero__trust">
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M12 2l7 3v6c0 4.5-3 8.5-7 9.8C8 19.5 5 15.5 5 11V5l7-3z" />
-                <path d="M9 11.5l2 2 4-4.5" />
-              </svg>
-              Registered Osteopath
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.3 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z" />
-              </svg>
-              Amateur &amp; professional athletes
-            </li>
+            {trustItems.map((item) => (
+              <li key={item}>
+                {trustIcon}
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
 
