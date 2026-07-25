@@ -1,4 +1,4 @@
-import { ADDRESS, ADDRESS_NOTE, BOOKING_URL, MAPS_EMBED_URL, MAPS_URL } from '../data'
+import { ADDRESS, ADDRESS_NOTE, MAPS_EMBED_URL, MAPS_URL } from '../data'
 
 export default function Location() {
   return (
@@ -40,15 +40,6 @@ export default function Location() {
               <dd>By booking &mdash; reserve your slot online at a time that suits you.</dd>
             </div>
           </dl>
-
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn--primary btn--lg"
-          >
-            Book Now
-          </a>
         </div>
       </div>
     </section>

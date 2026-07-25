@@ -1,4 +1,4 @@
-import { BOOKING_URL, services } from '../data'
+import { services } from '../data'
 
 const priceFormatter = new Intl.NumberFormat('en-GB', {
   style: 'currency',
@@ -52,15 +52,6 @@ export default function Services() {
                 ) : (
                   <p className="services__price-note">{service.priceNote}</p>
                 )}
-
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn--primary services__book"
-                >
-                  Book Now
-                </a>
               </div>
             </article>
           ))}
@@ -68,11 +59,7 @@ export default function Services() {
 
         <p className="section__footnote reveal">
           Not sure which treatment is right for you?{' '}
-          <a href="#contact">Get in touch</a> and Matthew will help you decide, or{' '}
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            book an appointment
-          </a>{' '}
-          online.
+          <a href="#contact">Get in touch</a> and Matthew will help you decide.
         </p>
       </div>
     </section>

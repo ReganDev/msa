@@ -1,4 +1,4 @@
-import { BOOKING_URL, EMAIL, INSTAGRAM_URL } from '../data'
+import { EMAIL, INSTAGRAM_URL } from '../data'
 
 export default function Footer() {
   return (
@@ -17,9 +17,6 @@ export default function Footer() {
           <a href={`mailto:${EMAIL}`}>Email</a>
           <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
             Instagram
-          </a>
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            Book Now
           </a>
         </nav>
 

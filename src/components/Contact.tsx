@@ -63,15 +63,9 @@ export default function Contact() {
           <div className="contact__consult">
             <h3 className="contact__consult-title">Free 15-minute phone consultation</h3>
             <p className="contact__consult-text">
-              Email me for a free 15-minute phone call to talk about your pain or
+              Email me to arrange a free call. We&rsquo;ll talk about your pain or
               discomfort and what I can do to help.
             </p>
-            <a
-              className="btn btn--primary contact__consult-btn"
-              href={`mailto:${EMAIL}?subject=Free%2015-minute%20phone%20consultation`}
-            >
-              Book a free phone consultation
-            </a>
           </div>
 
           <ul className="contact__points">

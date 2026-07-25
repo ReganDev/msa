@@ -936,26 +936,25 @@ a:hover {
   background: var(--accent-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem 1.6rem;
+  padding: 1.35rem 1.5rem;
   margin: 0 0 1.75rem;
 }
 
 .contact__consult-title {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  margin: 0 0 0.5rem;
+  line-height: 1.3;
+  margin: 0 0 0.65rem;
   color: var(--primary-dark);
 }
 
 .contact__consult-text {
-  color: var(--ink-soft);
-  font-size: 0.98rem;
-  margin: 0 0 1.2rem;
-}
-
-.contact__consult-btn {
-  width: 100%;
+  color: var(--ink);
+  font-size: 1.04rem;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 36ch;
 }
 
 .contact__points {

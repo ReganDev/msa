@@ -1,5 +1,3 @@
-import { BOOKING_URL } from '../data'
-
 const highlights = [
   {
     title: 'Sports science foundation',
@@ -65,14 +63,6 @@ export default function About() {
               with both amateur and professional athletes.
             </p>
           </div>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn--primary btn--lg about__book"
-          >
-            Book Now
-          </a>
         </div>
 
         <div className="about__aside">

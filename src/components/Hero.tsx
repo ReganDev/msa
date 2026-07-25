@@ -1,5 +1,3 @@
-import { BOOKING_URL } from '../data'
-
 const trustIcon = (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M12 2l7 3v6c0 4.5-3 8.5-7 9.8C8 19.5 5 15.5 5 11V5l7-3z" />
@@ -31,15 +29,7 @@ export default function Hero() {
           </p>
 
           <div className="hero__actions">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn--primary btn--lg"
-            >
-              Book Now
-            </a>
-            <a href="#services" className="btn btn--ghost btn--lg">
+            <a href="#services" className="btn btn--primary btn--lg">
               View Treatments
             </a>
           </div>
