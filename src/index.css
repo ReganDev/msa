@@ -37,7 +37,7 @@
   --bg-alt: #eef3f4;
   --surface: #ffffff;
   --ink: #1e2a32;
-  --ink-soft: #55636c;
+  --ink-soft: #3f4d56;
   --primary: #2f7d8a;
   --primary-dark: #24616b;
   --accent: #7fa6a0;
@@ -68,7 +68,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1rem;
   line-height: 1.65;
   color: var(--ink);
@@ -158,8 +158,9 @@ a:hover {
 }
 
 .section__lead {
-  color: var(--ink-soft);
-  font-size: 1.06rem;
+  color: var(--ink);
+  font-size: 1.08rem;
+  line-height: 1.65;
   margin: 0;
 }
 
@@ -492,7 +493,7 @@ a:hover {
 }
 
 .hero__credentials {
-  font-size: 0.92rem;
+  font-size: 1rem;
   letter-spacing: 0.04em;
   color: var(--ink-soft);
   margin: 0 0 1.4rem;
@@ -500,7 +501,8 @@ a:hover {
 
 .hero__lead {
   font-size: 1.12rem;
-  color: var(--ink-soft);
+  color: var(--ink);
+  line-height: 1.65;
   max-width: 48ch;
   margin: 0 0 2rem;
 }
@@ -525,7 +527,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: var(--ink-soft);
 }
 
@@ -592,8 +594,8 @@ a:hover {
 
 .hero__badge-label {
   display: block;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
   margin-top: 0.3rem;
@@ -641,8 +643,9 @@ a:hover {
 
 .about__prose p {
   margin: 0 0 1.1rem;
-  color: var(--ink-soft);
-  font-size: 1.04rem;
+  color: var(--ink);
+  font-size: 1.06rem;
+  line-height: 1.65;
 }
 
 .about__prose p:last-child {
@@ -697,9 +700,9 @@ a:hover {
 
 .about__card-text {
   color: var(--ink-soft);
-  font-size: 0.92rem;
+  font-size: 1rem;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 @media (max-width: 860px) {
@@ -778,8 +781,9 @@ a:hover {
 }
 
 .services__blurb {
-  color: var(--ink-soft);
-  font-size: 0.98rem;
+  color: var(--ink);
+  font-size: 1.02rem;
+  line-height: 1.6;
   margin: 0 0 1.4rem;
 }
 
@@ -800,7 +804,7 @@ a:hover {
 }
 
 .services__tier-label {
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: var(--ink-soft);
 }
 
@@ -818,7 +822,7 @@ a:hover {
   margin: auto 0 1.4rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: var(--ink-soft);
   font-style: italic;
 }
@@ -830,6 +834,8 @@ a:hover {
 .section__footnote {
   text-align: center;
   color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
   margin: 2.75rem auto 0;
   max-width: 56ch;
 }
@@ -862,9 +868,10 @@ a:hover {
 }
 
 .location__intro {
-  color: var(--ink-soft);
+  color: var(--ink);
   margin: 0 0 1.75rem;
-  font-size: 1.04rem;
+  font-size: 1.06rem;
+  line-height: 1.65;
 }
 
 .location__list {
@@ -883,11 +890,11 @@ a:hover {
 }
 
 .location__row dt {
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
+  font-size: 0.84rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .location__row dd {
@@ -927,9 +934,10 @@ a:hover {
 }
 
 .contact__lead {
-  color: var(--ink-soft);
+  color: var(--ink);
   margin: 0 0 1.75rem;
-  font-size: 1.04rem;
+  font-size: 1.06rem;
+  line-height: 1.65;
 }
 
 .contact__consult {
@@ -983,11 +991,11 @@ a:hover {
 }
 
 .contact__point dt {
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
+  font-size: 0.84rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.15rem;
 }
 
@@ -1018,11 +1026,11 @@ a:hover {
 }
 
 .form__label {
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .form__req {
@@ -1059,8 +1067,9 @@ a:hover {
   align-items: flex-start;
   gap: 0.6rem;
   margin-bottom: 1.35rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--ink-soft);
+  line-height: 1.5;
   cursor: pointer;
 }
 
@@ -1126,8 +1135,9 @@ a:hover {
 
 .form__success-text {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--ink-soft);
+  line-height: 1.55;
 }
 
 @media (max-width: 860px) {
@@ -1167,7 +1177,8 @@ a:hover {
 
 .footer__tag {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  color: #d5dfe3;
 }
 
 .footer__links {
@@ -1178,9 +1189,9 @@ a:hover {
 }
 
 .footer__links a {
-  color: #cdd8dd;
+  color: #d5dfe3;
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1191,8 +1202,8 @@ a:hover {
 
 .footer__copy {
   margin: 0;
-  font-size: 0.85rem;
-  color: #8ea1a8;
+  font-size: 0.9rem;
+  color: #a8b8bd;
 }
 
 /* ---------- reveal animation ---------- */
