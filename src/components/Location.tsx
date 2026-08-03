@@ -1,18 +1,13 @@
-import { ADDRESS, ADDRESS_NOTE, MAPS_EMBED_URL, MAPS_URL } from '../data'
+import { Link } from 'react-router-dom'
+import { ADDRESS, ADDRESS_NOTE, MAPS_URL } from '../data'
+import { ClinicMap } from './MapPanel'
 
 export default function Location() {
   return (
     <section className="location section" id="location">
       <div className="container location__inner">
         <div className="location__media reveal">
-          <iframe
-            className="location__map"
-            title="Map showing the clinic at the Tennis Centre, Avebury Rd, Orpington"
-            src={MAPS_EMBED_URL}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
+          <ClinicMap />
         </div>
 
         <div className="location__details reveal">
@@ -40,6 +35,10 @@ export default function Location() {
               <dd>By booking &mdash; reserve your slot online at a time that suits you.</dd>
             </div>
           </dl>
+
+          <Link className="btn btn--light" to="/locations/orpington">
+            More about the Orpington clinic
+          </Link>
         </div>
       </div>
     </section>

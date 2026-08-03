@@ -36,11 +36,14 @@ export interface Service {
   blurb: string
   tiers?: ServiceTier[]
   priceNote?: string
+  /** Internal route for treatments that have their own page. */
+  href?: string
 }
 
 export const services: Service[] = [
   {
     name: 'Osteopathy',
+    href: '/osteopathy',
     image: '/treatment-osteopathy.png',
     imageAlt: 'Matthew Knight performing a knee assessment on a patient',
     blurb:

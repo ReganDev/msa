@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/conditions/:slug",
+      "destination": "/conditions#:slug",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]

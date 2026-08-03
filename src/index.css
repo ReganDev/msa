@@ -52,6 +52,14 @@
   --radius: 16px;
   --radius-sm: 10px;
   --transition: 220ms ease;
+
+  /* Matches .nav__inner min-height. Surfaces that size themselves to the
+     viewport under the fixed nav subtract this. */
+  --nav-h: 76px;
+  /* Reading measure for the /conditions pane, shared by its header bar so the
+     title and the copy below it sit on the same left edge. Wide by prose
+     standards — the brief is to use the landscape and keep scrolling short. */
+  --pane-measure: 1080px;
 }
 
 *,
@@ -328,6 +336,120 @@ a:hover {
   transform: scaleX(1);
 }
 
+/* Where you are now. Colour and the existing underline only — a weight change
+   reflows the text and shifts the whole row as you move between pages. */
+.nav__link[aria-current]::after {
+  transform: scaleX(1);
+}
+
+.nav__link[aria-current='page'] {
+  color: var(--primary);
+}
+
+/* The menu has no underline axis, so colour carries both tiers there: on
+   /conditions/tennis-elbow, "Conditions" should still read as where you are. */
+.nav__mobile-link[aria-current] {
+  color: var(--primary);
+}
+
+/* ---------- conditions dropdown ---------- */
+
+.nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.nav__chevron-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav__chevron-btn:hover {
+  color: var(--primary);
+}
+
+.nav__chevron {
+  transition: transform var(--transition);
+}
+
+.nav__chevron-btn[aria-expanded='true'] .nav__chevron {
+  transform: rotate(180deg);
+}
+
+/* Hangs below the bar, aligned to the link it belongs to. Three region columns
+   so nine conditions read as a short, grouped list rather than a long stack. */
+.nav__menu {
+  position: absolute;
+  top: calc(100% + 1.15rem);
+  left: -1.25rem;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(190px, 1fr));
+  gap: 0.35rem 2rem;
+  padding: 1.35rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  animation: nav-menu-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.nav__menu[hidden] {
+  display: none;
+}
+
+@keyframes nav-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* 600 is the top of the self-hosted Jost range; 700 would only get a
+   synthesised faux-bold. Full-strength ink carries the rest of the emphasis. */
+.nav__menu-title {
+  margin: 0 0 0.5rem;
+  padding-inline-start: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.nav__menu-link {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+.nav__menu-link:hover {
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+}
+
 .nav__actions {
   display: flex;
   align-items: center;
@@ -338,8 +460,8 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   color: var(--ink);
   border: 1px solid var(--border);
@@ -380,7 +502,7 @@ a:hover {
 
   /* Keep a compact, always-visible booking action in the mobile bar. */
   .nav__cta {
-    min-height: 42px;
+    min-height: 44px;
     padding: 0.5rem 1.05rem;
     font-size: 0.9rem;
   }
@@ -409,14 +531,92 @@ a:hover {
     padding: 0.5rem 1.25rem 1.25rem;
     border-bottom: 1px solid var(--border);
     background: var(--bg);
+    /* .nav is fixed and this panel had no height bound, so on a short viewport
+       (landscape phone) the Book Now button was clipped with no way to reach it. */
+    max-height: calc(100dvh - 76px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Needed because the rule above sets display: flex, which would otherwise
+     beat the `hidden` attribute's default display: none. */
+  .nav__mobile[hidden] {
+    display: none;
+  }
+
+  /* The row owns the divider so the chevron sits on the same rule as the link
+     rather than beside a shorter one. */
+  .nav__mobile-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
   }
 
   .nav__mobile-link {
+    flex: 1;
     padding: 0.85rem 0.25rem;
     color: var(--ink);
     text-decoration: none;
     font-size: 1.05rem;
+  }
+
+  /* Not wrapped in a row — keeps its own divider. */
+  .nav__mobile-social {
     border-bottom: 1px solid var(--border);
+  }
+
+  .nav__mobile-expand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav__mobile-expand[aria-expanded='true'] .nav__chevron {
+    transform: rotate(180deg);
+  }
+
+  .nav__mobile-sub {
+    padding: 0.75rem 0 0.5rem 0.9rem;
+  }
+
+  .nav__mobile-sub[hidden] {
+    display: none;
+  }
+
+  .nav__mobile-group + .nav__mobile-group {
+    margin-top: 1rem;
+  }
+
+  .nav__mobile-group-title {
+    margin: 0 0 0.15rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .nav__mobile-sublink {
+    display: block;
+    min-height: 44px;
+    padding: 0.6rem 0;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.98rem;
+    line-height: 1.35;
   }
 
   .nav__mobile-social {
@@ -840,6 +1040,739 @@ a:hover {
   max-width: 56ch;
 }
 
+.services__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--primary-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  align-self: flex-start;
+  padding-bottom: 2px;
+  transition: gap var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.services__more:hover {
+  gap: 0.7rem;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ---------- interior page hero ---------- */
+
+.page-hero {
+  padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 4rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: -260px;
+  right: -180px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(127, 166, 160, 0.26), transparent 65%);
+  pointer-events: none;
+}
+
+.page-hero__inner {
+  position: relative;
+  max-width: 760px;
+}
+
+/* With a header photo the hero becomes two columns, echoing the home hero. */
+.page-hero__inner--media {
+  max-width: none;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+  align-items: center;
+}
+
+.page-hero__media {
+  justify-self: center;
+  width: min(360px, 100%);
+}
+
+.page-hero__panel {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(160deg, #eaf2f2 0%, #d9e7e7 55%, #cfe0df 100%);
+  border: 6px solid var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.page-hero__panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .page-hero__inner--media {
+    grid-template-columns: 1fr;
+  }
+
+  .page-hero__media {
+    order: -1;
+    justify-self: start;
+    width: min(260px, 60%);
+  }
+}
+
+.page-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--primary-dark);
+  margin: 0 0 1rem;
+}
+
+.page-hero__eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.page-hero__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2.3rem, 5.4vw, 3.6rem);
+  line-height: 1.08;
+  margin: 0 0 1.25rem;
+  text-wrap: balance;
+}
+
+.page-hero__lead {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  max-width: 62ch;
+}
+
+.page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.75rem;
+}
+
+/* ---------- long-form prose ---------- */
+
+.prose-wrap {
+  max-width: 780px;
+}
+
+.prose {
+  margin: 0 0 clamp(2rem, 4vw, 2.75rem);
+}
+
+.prose:last-child {
+  margin-bottom: 0;
+}
+
+.prose__heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 1.95rem);
+  line-height: 1.2;
+  margin: 0 0 0.9rem;
+  text-wrap: balance;
+}
+
+.prose p {
+  margin: 0 0 1.05rem;
+  font-size: 1.06rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Quiet emphasis panel, matching the .contact__consult treatment on the home
+   page rather than introducing a second callout style.
+
+   Carries its own type and layout so it also works outside a .prose column —
+   /osteopathy uses one under a centred .section__heading. Inside .prose the
+   more specific `.prose p` rules win, so those instances are unchanged. */
+.prose__note {
+  max-width: 720px;
+  margin: 0 auto clamp(2.5rem, 5vw, 3.25rem);
+  padding: 1.35rem 1.5rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0 0 1.35rem;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.checklist svg {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 0.18rem;
+}
+
+/* ---------- expectation pillars ---------- */
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 1.25rem;
+}
+
+.pillars__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.pillars__card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+}
+
+.pillars__icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+  margin-bottom: 1.1rem;
+}
+
+.pillars__title {
+  font-family: var(--font-serif);
+  font-size: 1.28rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+.pillars__text {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- condition links ---------- */
+
+.condition-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 0.85rem;
+}
+
+.condition-grid__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 64px;
+  height: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    color var(--transition);
+}
+
+.condition-grid__link:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-soft);
+  color: var(--primary-dark);
+}
+
+.condition-grid__name {
+  font-size: 1.04rem;
+  line-height: 1.35;
+}
+
+.condition-grid__arrow {
+  color: var(--primary);
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.condition-grid__link:hover .condition-grid__arrow {
+  transform: translateX(3px);
+}
+
+/* ============================================================
+   /conditions — two-pane reference layout
+   ------------------------------------------------------------
+   Picker left, condition right, together filling the viewport
+   under the fixed nav. Only the right pane scrolls, so the
+   picker stays put and the page has no scrollbar of its own.
+   App.tsx drops the footer on this route to match.
+   ============================================================ */
+
+.main--viewport {
+  height: calc(100vh - var(--nav-h));
+  height: calc(100dvh - var(--nav-h));
+  margin-top: var(--nav-h);
+  overflow: hidden;
+}
+
+.conditions {
+  display: grid;
+  grid-template-columns: minmax(230px, 270px) minmax(0, 1fr);
+  height: 100%;
+  background: var(--bg-alt);
+}
+
+/* ---------- picker rail ---------- */
+
+.conditions__rail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.75rem 1.25rem 1.5rem 1.5rem;
+  border-right: 1px solid var(--border);
+}
+
+.conditions__rail-head {
+  margin-bottom: 1.75rem;
+}
+
+/* The rail supports; the condition being read leads. Sized to label the tool
+   rather than to open a page. */
+.conditions__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.conditions__nav {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.conditions__group-title {
+  margin: 0 0 0.4rem;
+  padding-inline-start: 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.conditions__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.conditions__item {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  padding: 0.5rem 0.7rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+.conditions__item:hover {
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+}
+
+/* --primary-dark on --accent-soft is 5.6:1. */
+.conditions__item[aria-current] {
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+.conditions__foot {
+  margin: auto 0 0;
+  padding-top: 2rem;
+}
+
+.conditions__book {
+  width: 100%;
+}
+
+.conditions__aside {
+  margin: 1rem 0 0;
+  padding-inline-start: 0.7rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* ---------- reading pane ---------- */
+
+.conditions__pane {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+}
+
+/* Sticky so the condition you are reading stays named however far down the
+   copy runs. */
+.conditions__pane-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 1.35rem clamp(1.5rem, 4vw, 3rem);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Shares --pane-measure with the body below, so the condition name and the
+   first line of its copy start on the same edge at any width. */
+.conditions__bar {
+  max-width: var(--pane-measure);
+  margin-inline: auto;
+}
+
+.conditions__pane-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.conditions__pane-body {
+  max-width: calc(var(--pane-measure) + 2 * clamp(1.5rem, 4vw, 3rem));
+  margin-inline: auto;
+  padding: 2rem clamp(1.5rem, 4vw, 3rem) 4rem;
+}
+
+/* One authored moment: swapping conditions replaces a screenful silently, so
+   the new copy settles in rather than appearing mid-sentence. */
+.condition-detail:not([hidden]) {
+  animation: condition-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes condition-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ---------- narrow OR short: rail becomes a strip, page scrolls normally ----------
+   The height clause matters most on a phone in landscape: an iPhone Pro Max is
+   932px wide there, clearing the width breakpoint, but only ~430px tall, which
+   would leave two ~350px scrollers stacked side by side. Short desktop windows
+   get the same treatment. */
+
+@media (max-width: 860px), (max-height: 600px) {
+  .main--viewport {
+    height: auto;
+    overflow: visible;
+  }
+
+  .conditions {
+    display: block;
+    height: auto;
+  }
+
+  /* Not sticky: the rail carries a heading and a footnote as well as the
+     picker, and pinning all of it would eat half a phone screen. The slim
+     pane header below is the thing worth keeping on screen. */
+  .conditions__rail {
+    overflow: visible;
+    padding: 1.25rem 0 1rem;
+    padding-inline-start: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt);
+  }
+
+  .conditions__rail-head,
+  .conditions__foot {
+    padding-inline: 1.25rem;
+  }
+
+  .conditions__rail-head {
+    margin-bottom: 1rem;
+  }
+
+  /* Horizontal scroller: the groups stay, laid end to end. */
+  .conditions__nav {
+    display: flex;
+    gap: 1.75rem;
+    overflow-x: auto;
+    padding: 0 1.25rem 0.25rem;
+    scrollbar-width: thin;
+  }
+
+  .conditions__group {
+    flex: 0 0 auto;
+  }
+
+  .conditions__group-title {
+    padding-inline-start: 0;
+  }
+
+  .conditions__list {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .conditions__item {
+    min-height: 44px;
+    padding-inline: 0.85rem;
+    white-space: nowrap;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  /* The fixed nav bar keeps a Book Now button on screen at every scroll
+     position here, so the rail's own booking pill would only be a duplicate. */
+  .conditions__foot {
+    margin-top: 1.25rem;
+    padding-top: 0;
+  }
+
+  .conditions__book {
+    display: none;
+  }
+
+  .conditions__aside {
+    margin: 0;
+    padding-inline-start: 0;
+  }
+
+  .conditions__pane {
+    overflow: visible;
+  }
+
+  /* Narrows to a name badge telling you what you are reading. */
+  .conditions__pane-head {
+    top: var(--nav-h);
+    padding: 0.85rem 1.25rem;
+  }
+
+  .conditions__pane-title {
+    font-size: 1.25rem;
+  }
+
+  .conditions__pane-body {
+    padding-inline: 1.25rem;
+  }
+}
+
+/* ---------- condition detail (the body of one condition) ---------- */
+
+.condition-detail__intro,
+.condition-detail__section p {
+  max-width: 78ch;
+  margin: 0 0 0.8rem;
+}
+
+/* The lead under the pane header: one step up from body copy so the panel
+   opens on a summary rather than dropping straight into the first section. */
+.condition-detail__intro {
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
+}
+
+.condition-detail__section {
+  margin-top: 1.75rem;
+}
+
+/* Symptoms, causes, related conditions. The ticked .checklist is reserved for
+   the "your assessment will include" lists, so the two read differently. */
+.condition-detail__list {
+  max-width: 78ch;
+  margin: 0 0 0.8rem;
+  padding-left: 1.35rem;
+  list-style: disc;
+}
+
+/* Long lists of short items — symptoms, causes, related conditions — run in two
+   columns where there is room, which is most of what keeps a condition on one
+   screen. Applied only above four items so a two-item list is never split. */
+.condition-detail__list--split {
+  columns: 2 280px;
+  column-gap: 2.5rem;
+}
+
+.condition-detail__list li {
+  margin-bottom: 0.3rem;
+  line-height: 1.65;
+  break-inside: avoid;
+}
+
+.condition-detail__list li::marker {
+  color: var(--primary);
+}
+
+/* .checklist is sized for the wide prose column on /spinal-manipulation; inside
+   a condition panel it sits under a smaller heading, so tighten it to match.
+   Left single-column: these are full sentences, not the short fragments that
+   make the bullet lists worth splitting. */
+.condition-detail__section .checklist {
+  max-width: 78ch;
+  margin-bottom: 0.8rem;
+  gap: 0.5rem;
+}
+
+.condition-detail__section .checklist li {
+  font-size: 1rem;
+}
+
+/* Last, so it beats the equally specific list rules above and every section
+   ends flush regardless of whether it closes on a paragraph or a list. */
+.condition-detail__section > :last-child {
+  margin-bottom: 0;
+}
+
+/* Nested two levels below the page h1, so noticeably smaller than
+   .prose__heading, which is sized to open a full-width section. */
+.condition-detail__heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+}
+
+/* ---------- clinic offer / service list ---------- */
+
+.offer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+}
+
+.offer__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
+.offer__title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0 0 0.55rem;
+}
+
+.offer__text {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- closing call to action ---------- */
+
+.cta-band {
+  background: var(--bg-alt);
+  padding: clamp(3rem, 7vw, 4.5rem) 0;
+}
+
+.cta-band__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem;
+}
+
+.cta-band__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.4vw, 2.15rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  text-wrap: balance;
+}
+
+.cta-band__text {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 52ch;
+}
+
 /* ---------- location ---------- */
 
 .location__inner {
@@ -1230,9 +2163,18 @@ a:hover {
     transition: none;
   }
 
+  .condition-detail:not([hidden]) {
+    animation: none;
+  }
+
   .btn,
   .about__card,
-  .services__card {
+  .services__card,
+  .services__more,
+  .pillars__card,
+  .condition-grid__link,
+  .condition-grid__arrow,
+  .conditions__item {
     transition: none;
   }
 }

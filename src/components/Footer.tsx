@@ -1,4 +1,14 @@
+import { Link } from 'react-router-dom'
 import { EMAIL, INSTAGRAM_URL } from '../data'
+
+const links = [
+  { to: '/osteopathy', label: 'Osteopathy' },
+  { to: '/spinal-manipulation', label: 'Spinal Manipulation' },
+  { to: '/conditions', label: 'Conditions' },
+  { to: '/locations/orpington', label: 'Orpington Clinic' },
+  { to: '/#about', label: 'About' },
+  { to: '/#contact', label: 'Contact' },
+]
 
 export default function Footer() {
   return (
@@ -10,10 +20,11 @@ export default function Footer() {
         </div>
 
         <nav className="footer__links" aria-label="Footer">
-          <a href="#about">About</a>
-          <a href="#services">Treatments</a>
-          <a href="#location">Location</a>
-          <a href="#contact">Contact</a>
+          {links.map((link) => (
+            <Link key={link.to} to={link.to}>
+              {link.label}
+            </Link>
+          ))}
           <a href={`mailto:${EMAIL}`}>Email</a>
           <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
             Instagram
