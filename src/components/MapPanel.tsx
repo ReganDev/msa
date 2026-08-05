@@ -21,8 +21,13 @@ export function ClinicMap() {
 interface Props {
   heading: string
   intro?: string
-  /** Rendered as <h1> only where this block is the page's primary heading. */
   id?: string
+  /**
+   * Promotes the heading to <h1>. Set it only where this block is the page's
+   * primary heading — the Orpington page, which is this block and nothing else.
+   * Everywhere else the page hero owns the h1 and this stays an h2.
+   */
+  primary?: boolean
 }
 
 /**
@@ -30,7 +35,9 @@ interface Props {
  * call to action. Used at the foot of the Osteopathy and condition pages, and
  * as the main location block on the Orpington page.
  */
-export default function MapPanel({ heading, intro, id }: Props) {
+export default function MapPanel({ heading, intro, id, primary }: Props) {
+  const Heading = primary ? 'h1' : 'h2'
+
   return (
     <section className="section location" id={id}>
       <div className="container location__inner">
@@ -39,7 +46,7 @@ export default function MapPanel({ heading, intro, id }: Props) {
         </div>
 
         <div className="location__details reveal">
-          <h2 className="section__title section__title--ruled">{heading}</h2>
+          <Heading className="section__title section__title--ruled">{heading}</Heading>
           {intro && <p className="location__intro">{intro}</p>}
 
           <dl className="location__list">

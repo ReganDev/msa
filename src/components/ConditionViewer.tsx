@@ -59,7 +59,7 @@ export default function ConditionViewer() {
   const { hash } = useLocation()
   const navigate = useNavigate()
   const paneRef = useRef<HTMLDivElement>(null)
-  const userSelected = useRef(false)
+  const settled = useRef(false)
   const [hydrated, setHydrated] = useState(false)
 
   // The server has no hash, so it always prerenders the first condition. Reading
@@ -80,20 +80,42 @@ export default function ConditionViewer() {
   const active = conditions[activeIndex]
 
   const select = (slug: string) => {
-    userSelected.current = true
     navigate(`/conditions#${slug}`, { replace: true })
   }
 
-  // Send the reading pane back to the top on a switch. Focus deliberately stays
-  // on the rail button: the picker is always on screen here, so moving focus
-  // into the panel would cost a keyboard user their place in the list.
-  // aria-current on the button carries the change instead. Guarded on real
-  // interaction — the post-hydration correction above also changes activeIndex,
-  // and scrolling there would fight a deep link on a fresh load.
+  // Bring the new condition into view on a switch — from the rail here, or from
+  // the nav's conditions dropdown, which changes the hash without ever touching
+  // this component. Focus deliberately stays put: the picker is on screen in
+  // both layouts, so moving focus into the panel would cost a keyboard user
+  // their place in the list. aria-current carries the change instead.
+  //
+  // The first run after hydration is the correction above catching up with the
+  // URL rather than the reader choosing, so arrival is judged on intent: a bare
+  // /conditions stays at the top, where the picker greets you — wrapped, it
+  // fills most of a phone's first screen, which is the right thing for a page
+  // whose job is finding your condition. A deep link asked for one condition
+  // (search traffic via the retired /conditions/<slug> URLs, or the nav
+  // dropdown from another page), so that one gets shown instead.
   useEffect(() => {
-    if (!userSelected.current) return
-    paneRef.current?.scrollTo({ top: 0, behavior: 'instant' })
-  }, [activeIndex])
+    if (!hydrated) return
+
+    const arriving = !settled.current
+    settled.current = true
+    if (arriving && !slugFromHash) return
+
+    const pane = paneRef.current
+    if (!pane) return
+
+    // Ask the stylesheet which layout is in force rather than repeating its
+    // breakpoint here. The pane is its own scroll container only while the two
+    // panes sit side by side; narrow or short, the page scrolls instead and
+    // this same scrollTo would be a silent no-op.
+    if (getComputedStyle(pane).overflowY === 'visible') {
+      pane.scrollIntoView({ block: 'start', behavior: 'instant' })
+    } else {
+      pane.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  }, [activeIndex, hydrated, slugFromHash])
 
   return (
     <div className="conditions">

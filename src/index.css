@@ -407,6 +407,20 @@ a:hover {
   animation: nav-menu-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Bridges the gap between the nav item and the panel below it. The panel is a
+   child of .nav__item, so mouseleave ignores the trip into it — but the blank
+   1.15rem between them belongs to neither, and crossing it closed the menu
+   before the pointer ever arrived. Every condition was keyboard-reachable and
+   mouse-unreachable. Sized off the same offset as `top` above; the two must
+   move together. */
+.nav__menu::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 100%;
+  height: 1.15rem;
+}
+
 .nav__menu[hidden] {
   display: none;
 }
@@ -762,13 +776,6 @@ a:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.hero__panel-art {
-  width: 78%;
-  height: auto;
-  color: var(--primary);
-  opacity: 0.9;
 }
 
 .hero__badge {
@@ -1368,6 +1375,18 @@ a:hover {
   overflow: hidden;
 }
 
+/* The footer is rendered on /conditions but hidden only while the two-pane
+   layout is actually in force — main already fills the viewport there, so a
+   footer beneath it would hand the page the scrollbar it is designed not to
+   have. This is the exact complement of the narrow-or-short query below, so
+   the moment that layout unwinds the footer comes back and the page ends the
+   way every other page does. */
+@media (min-width: 861px) and (min-height: 601px) {
+  .main--viewport + .footer {
+    display: none;
+  }
+}
+
 .conditions {
   display: grid;
   grid-template-columns: minmax(230px, 270px) minmax(0, 1fr);
@@ -1551,7 +1570,7 @@ a:hover {
      pane header below is the thing worth keeping on screen. */
   .conditions__rail {
     overflow: visible;
-    padding: 1.25rem 0 1rem;
+    padding: 1.25rem 0 0.75rem;
     padding-inline-start: 0;
     border-right: 0;
     border-bottom: 1px solid var(--border);
@@ -1567,17 +1586,15 @@ a:hover {
     margin-bottom: 1rem;
   }
 
-  /* Horizontal scroller: the groups stay, laid end to end. */
+  /* Every condition on screen at once: the groups stack (inheriting the base
+     grid) and each region's chips wrap. This was a single end-to-end
+     horizontal scroller, which put ~1600px of picker — around 4.7 phone
+     screens — behind a swipe with no affordance that anything followed. On
+     the one page whose whole job is finding your condition, the picker is
+     worth the vertical space. */
   .conditions__nav {
-    display: flex;
-    gap: 1.75rem;
-    overflow-x: auto;
-    padding: 0 1.25rem 0.25rem;
-    scrollbar-width: thin;
-  }
-
-  .conditions__group {
-    flex: 0 0 auto;
+    gap: 1.15rem;
+    padding: 0 1.25rem;
   }
 
   .conditions__group-title {
@@ -1586,13 +1603,17 @@ a:hover {
 
   .conditions__list {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.4rem;
   }
 
+  /* width comes from the base rule's `width: 100%`, which sizes the chip to
+     the full-width rail on desktop. As a wrapping flex child that would put
+     every chip on its own line, so size to content here instead. */
   .conditions__item {
+    width: auto;
     min-height: 44px;
     padding-inline: 0.85rem;
-    white-space: nowrap;
     background: var(--surface);
     border: 1px solid var(--border);
   }

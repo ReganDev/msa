@@ -25,9 +25,17 @@ export default function ScrollManager() {
     // The browser restores scroll position on back/forward. Don't fight it.
     if (navigationType === 'POP' && !hash) return
 
-    // /conditions sizes itself to the viewport and scrolls its own reading
-    // pane, so its #slug fragments are a selection, not a scroll target.
-    if (pathname === '/conditions') return
+    // /conditions reads its #slug fragment as a selection rather than a scroll
+    // target — ConditionViewer picks the condition from it, and the matching
+    // article may still be `hidden` when this runs. Arriving from another page
+    // must still land at the top: at narrow or short sizes the two-pane layout
+    // unwinds into an ordinary scrolling page, so keeping the previous page's
+    // offset would drop the reader midway down an article they never opened.
+    // Switching condition while already here is ConditionViewer's to handle.
+    if (pathname === '/conditions') {
+      if (changedPage) window.scrollTo({ top: 0, behavior: 'instant' })
+      return
+    }
 
     if (hash) {
       const target = document.getElementById(hash.slice(1))

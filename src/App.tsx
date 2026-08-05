@@ -31,7 +31,7 @@ export default function App() {
   const route = routeByPath.get(pathname)
 
   // /conditions is a two-pane reference tool sized to the viewport: it owns its
-  // own scrolling, so the page gets no footer and no page-level scrollbar.
+  // own scrolling, so the page gets no page-level scrollbar.
   const isViewport = pathname === '/conditions'
 
   usePageMeta(route?.title ?? HOME_TITLE, route?.description ?? HOME_DESCRIPTION)
@@ -56,7 +56,10 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!isViewport && <Footer />}
+      {/* Always rendered; CSS drops it only while the two-pane layout holds, so
+          the narrow and short cases — where /conditions is an ordinary
+          scrolling page — end with the same footer as everywhere else. */}
+      <Footer />
     </>
   )
 }

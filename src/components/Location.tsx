@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { ADDRESS, ADDRESS_NOTE, MAPS_URL } from '../data'
 import { ClinicMap } from './MapPanel'
 
@@ -35,10 +34,6 @@ export default function Location() {
               <dd>By booking &mdash; reserve your slot online at a time that suits you.</dd>
             </div>
           </dl>
-
-          <Link className="btn btn--light" to="/locations/orpington">
-            More about the Orpington clinic
-          </Link>
         </div>
       </div>
     </section>
