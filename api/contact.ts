@@ -37,7 +37,23 @@ const json = (body: unknown, status: number) =>
     headers: { 'content-type': 'application/json' },
   })
 
-export async function POST(request: Request): Promise<Response> {
+/**
+ * Vercel resolves handlers differently per framework: named method exports
+ * (`export function POST`) are the Next.js convention, while a project with no
+ * framework — this one — needs a default export exposing `fetch`. Exporting the
+ * wrong shape leaves the module with no handler Vercel recognises, and the
+ * request fails as a bare 500 before any code here runs.
+ */
+export default {
+  fetch: handleRequest,
+}
+
+async function handleRequest(request: Request): Promise<Response> {
+  // The fetch handler receives every method, so POST is enforced here.
+  if (request.method !== 'POST') {
+    return json({ error: 'Method not allowed.' }, 405)
+  }
+
   const apiKey = process.env.RESEND_API_KEY
 
   // Missing config is the deploy's problem, not the visitor's, but they still
