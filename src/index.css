@@ -2056,6 +2056,16 @@ a:hover {
   line-height: 1.5;
 }
 
+/* Honeypot. Positioned away rather than `display: none` — some bots skip
+   fields they can tell are hidden, and this one is meant to be filled in. */
+.form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form__error a {
   color: #7d2b22;
   font-weight: 500;

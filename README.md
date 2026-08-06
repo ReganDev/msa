@@ -74,11 +74,15 @@ discarding it.
 
 1. **Booking link** — replace `BOOKING_URL` in `src/data.ts`.
 2. **Instagram handle** — replace `INSTAGRAM_URL` in `src/data.ts`.
-3. **Contact form delivery** — the form in `src/components/Contact.tsx` is fully built
-   (fields, validation, success state) but does **not** send email yet. Connect a mail
-   service at the `// TODO: wire up a mail service` marker in `handleSubmit`, e.g.
-   [Formspree](https://formspree.io) or [EmailJS](https://www.emailjs.com) — usually just
-   a form `action` URL or a small `fetch` POST.
+3. **Contact form delivery** — wired to [Resend](https://resend.com) through the Vercel
+   Function at `api/contact.ts`. All that is outstanding is the credential: add
+   `RESEND_API_KEY` in Vercel → Settings → Environment Variables, and copy `.env.example`
+   to `.env.local` for local runs. **The key must never be committed or given a `VITE_`
+   prefix** — `VITE_*` variables are inlined into the public client bundle. Until the key
+   is set the form fails gracefully and points the visitor at the mailto link. Also set
+   `CONTACT_FROM` to an address on a domain verified in Resend; the default sender is
+   Resend's shared testing address. Note `vite dev` does not run the function — use
+   `vercel dev` to exercise the form locally.
 4. **Photos (optional)** — the hero uses a decorative SVG. To use a real portrait, drop an
    `<img>` into `.hero__panel` in `src/components/Hero.tsx` (a slot comment marks the spot).
 5. **Live domain** — set `SITE_URL` in `src/routes.ts` to the production origin (no

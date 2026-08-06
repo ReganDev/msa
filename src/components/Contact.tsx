@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { ADDRESS, ADDRESS_NOTE, EMAIL, FORMSPREE_ENDPOINT } from '../data'
+import { ADDRESS, ADDRESS_NOTE, CONTACT_ENDPOINT, EMAIL } from '../data'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
-
-const isConfigured = !FORMSPREE_ENDPOINT.includes('REPLACE_WITH_FORM_ID')
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>('idle')
@@ -12,32 +10,34 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const form = e.currentTarget
-
-    if (!isConfigured) {
-      setError(
-        'This form isn’t connected yet. Please email me directly and I’ll get straight back to you.',
-      )
-      setStatus('error')
-      return
-    }
+    const fields = new FormData(form)
 
     setStatus('submitting')
     setError('')
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      const response = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          firstName: fields.get('firstName'),
+          lastName: fields.get('lastName'),
+          email: fields.get('email'),
+          message: fields.get('message'),
+          consent: fields.get('consent') === 'yes',
+          company: fields.get('company'),
+        }),
       })
 
       if (response.ok) {
         form.reset()
         setStatus('success')
       } else {
+        // The function writes messages meant for the visitor; anything else it
+        // hit is logged server-side and never surfaced here.
         const data = await response.json().catch(() => null)
         setError(
-          data?.errors?.map((err: { message: string }) => err.message).join(', ') ||
+          data?.error ||
             'Something went wrong sending your message. Please try again, or email me directly.',
         )
         setStatus('error')
@@ -160,6 +160,21 @@ export default function Contact() {
                 <span className="form__req" aria-hidden="true">*</span>
               </span>
             </label>
+
+            {/* Honeypot. Off-screen and out of the tab order, so no person
+                reaches it and no screen reader announces it; bots fill every
+                field they find, and the server drops anything that arrives
+                with this one set. */}
+            <div className="form__trap" aria-hidden="true">
+              <label htmlFor="company">Company</label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
 
             {status === 'error' && (
               <p className="form__error" role="alert">

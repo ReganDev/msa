@@ -8,11 +8,11 @@
 export const BOOKING_URL = 'https://www.bookingbase.co.uk/book/matthew-knight-osteopath-sports-therapist'
 export const INSTAGRAM_URL = 'https://www.instagram.com/manualtherapymatt/'
 
-// Contact form delivery. Create a free form at https://formspree.io (point it at
-// the EMAIL below), then paste its endpoint here, e.g.
-// 'https://formspree.io/f/abcdwxyz'. Until a real endpoint is set, the form
-// tells the visitor to email directly instead of silently failing.
-export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_FORM_ID'
+// Contact form delivery. The form posts here and api/contact.ts sends the mail
+// through Resend. No key belongs in this file or anywhere else under src/:
+// everything here ships to the browser in readable form. RESEND_API_KEY lives
+// in Vercel's environment variables, and in .env.local for local runs.
+export const CONTACT_ENDPOINT = '/api/contact'
 
 // --- Contact & location ---
 export const EMAIL = 'msaknight2000@gmail.com'
