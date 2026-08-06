@@ -15,6 +15,9 @@ export const INSTAGRAM_URL = 'https://www.instagram.com/manualtherapymatt/'
 export const CONTACT_ENDPOINT = '/api/contact'
 
 // --- Contact & location ---
+// Change this and change DEFAULT_TO in api/contact.ts to match: that function
+// cannot import from here (see the note at the top of it), so enquiries would
+// otherwise keep going to the old address.
 export const EMAIL = 'msaknight2000@gmail.com'
 export const ADDRESS = 'Tennis Centre, Avebury Rd, Orpington BR6 9SA'
 export const ADDRESS_NOTE = 'Located inside the Jon W Sports injury clinic'

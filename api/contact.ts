@@ -1,13 +1,23 @@
-import { EMAIL } from '../src/data'
-
 /**
  * Contact form delivery, running as a Vercel Function so RESEND_API_KEY stays
  * on the server. A Resend key is a send-as-this-domain credential: anything the
  * browser can read, anyone can read, so it must never be bundled into the
  * client or exposed through a VITE_-prefixed variable.
+ *
+ * This file must stay self-contained. Vercel transpiles each file under api/ on
+ * its own rather than bundling it, so an import reaching outside this directory
+ * still points at `../src/...` at runtime, where nothing was emitted, and the
+ * function dies on startup with ERR_MODULE_NOT_FOUND. Bare npm imports are fine;
+ * relative ones out of api/ are not.
  */
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails'
+
+/**
+ * Kept in step with EMAIL in src/data.ts by hand, for the reason above. Setting
+ * CONTACT_TO overrides it without touching either.
+ */
+const DEFAULT_TO = 'msaknight2000@gmail.com'
 
 /**
  * Resend's shared sender works immediately without domain verification, which
@@ -108,7 +118,7 @@ async function handleRequest(request: Request): Promise<Response> {
       },
       body: JSON.stringify({
         from: process.env.CONTACT_FROM || DEFAULT_FROM,
-        to: [process.env.CONTACT_TO || EMAIL],
+        to: [process.env.CONTACT_TO || DEFAULT_TO],
         // So replying in his mail client reaches the patient, not Resend.
         reply_to: email,
         subject: `Website enquiry — ${name}`,
