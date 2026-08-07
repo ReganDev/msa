@@ -718,6 +718,14 @@ a:hover {
   color: var(--ink);
   line-height: 1.65;
   max-width: 48ch;
+  margin: 0 0 0.75rem;
+}
+
+.hero__serve {
+  font-size: 1.06rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  max-width: 48ch;
   margin: 0 0 2rem;
 }
 
@@ -814,7 +822,8 @@ a:hover {
     text-align: center;
   }
 
-  .hero__lead {
+  .hero__lead,
+  .hero__serve {
     margin-inline: auto;
   }
 
@@ -1312,18 +1321,15 @@ a:hover {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 0.65rem;
 }
 
 .condition-grid__link {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 64px;
+  flex-direction: column;
   height: 100%;
-  padding: 1rem 1.25rem;
+  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -1344,19 +1350,38 @@ a:hover {
   color: var(--primary-dark);
 }
 
+.condition-grid__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
 .condition-grid__name {
-  font-size: 1.04rem;
-  line-height: 1.35;
+  display: block;
+  padding: 0.45rem 0.3rem 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  font-weight: 500;
+  text-align: center;
+  text-wrap: balance;
 }
 
-.condition-grid__arrow {
-  color: var(--primary);
-  flex-shrink: 0;
-  transition: transform var(--transition);
-}
+@media (max-width: 900px) {
+  .condition-grid {
+    display: flex;
+    gap: 0.65rem;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
 
-.condition-grid__link:hover .condition-grid__arrow {
-  transform: translateX(3px);
+  .condition-grid > li {
+    flex: 0 0 108px;
+    scroll-snap-align: start;
+  }
 }
 
 /* ============================================================
@@ -1443,16 +1468,18 @@ a:hover {
 }
 
 .conditions__item {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   width: 100%;
-  min-height: 40px;
-  padding: 0.5rem 0.7rem;
+  min-height: 44px;
+  padding: 0.4rem 0.55rem;
   border: 0;
   border-radius: var(--radius-sm);
   background: none;
   text-align: left;
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.35;
   color: var(--ink-soft);
   cursor: pointer;
@@ -1461,6 +1488,21 @@ a:hover {
   transition:
     background-color var(--transition),
     color var(--transition);
+}
+
+.conditions__item--browse {
+  margin-bottom: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.conditions__thumb {
+  width: 44px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--bg-alt);
 }
 
 .conditions__item:hover {
@@ -1530,15 +1572,118 @@ a:hover {
 }
 
 .conditions__pane-body {
-  max-width: calc(var(--pane-measure) + 2 * clamp(1.5rem, 4vw, 3rem));
-  margin-inline: auto;
-  padding: 2rem clamp(1.5rem, 4vw, 3rem) 4rem;
+  max-width: none;
+  margin-inline: 0;
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.5rem) 3.5rem;
+}
+
+/* ---------- browse grid ---------- */
+
+.conditions-browse__lead {
+  margin: 0 0 1.5rem;
+  max-width: 48ch;
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.conditions-browse__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+
+@media (min-width: 1200px) {
+  .conditions-browse__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+.conditions-browse__card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--font-sans);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.conditions-browse__card:hover,
+.conditions-browse__card:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-soft);
+}
+
+.conditions-browse__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.conditions-browse__name {
+  display: block;
+  padding: 0.75rem 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 /* One authored moment: swapping conditions replaces a screenful silently, so
    the new copy settles in rather than appearing mid-sentence. */
 .condition-detail:not([hidden]) {
+  max-width: none;
   animation: condition-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.condition-detail__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.condition-detail__copy {
+  min-width: 0;
+}
+
+.condition-detail__figure {
+  position: sticky;
+  top: 5.75rem;
+  margin: 0;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  aspect-ratio: 1;
+}
+
+.condition-detail__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 @keyframes condition-in {
@@ -1618,6 +1763,16 @@ a:hover {
     border: 1px solid var(--border);
   }
 
+  .conditions__item--browse {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+
+  .conditions__thumb {
+    width: 36px;
+    height: 28px;
+  }
+
   /* The fixed nav bar keeps a Book Now button on screen at every scroll
      position here, so the rail's own booking pill would only be a duplicate. */
   .conditions__foot {
@@ -1651,13 +1806,26 @@ a:hover {
   .conditions__pane-body {
     padding-inline: 1.25rem;
   }
+
+  .conditions-browse__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .condition-detail__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .condition-detail__figure {
+    position: static;
+    width: min(280px, 70%);
+    order: -1;
+  }
 }
 
 /* ---------- condition detail (the body of one condition) ---------- */
 
 .condition-detail__intro,
 .condition-detail__section p {
-  max-width: 78ch;
   margin: 0 0 0.8rem;
 }
 
@@ -1677,7 +1845,6 @@ a:hover {
 /* Symptoms, causes, related conditions. The ticked .checklist is reserved for
    the "your assessment will include" lists, so the two read differently. */
 .condition-detail__list {
-  max-width: 78ch;
   margin: 0 0 0.8rem;
   padding-left: 1.35rem;
   list-style: disc;
@@ -1706,7 +1873,6 @@ a:hover {
    Left single-column: these are full sentences, not the short fragments that
    make the bullet lists worth splitting. */
 .condition-detail__section .checklist {
-  max-width: 78ch;
   margin-bottom: 0.8rem;
   gap: 0.5rem;
 }
@@ -2204,7 +2370,7 @@ a:hover {
   .services__more,
   .pillars__card,
   .condition-grid__link,
-  .condition-grid__arrow,
+  .conditions-browse__card,
   .conditions__item {
     transition: none;
   }

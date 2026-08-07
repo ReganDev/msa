@@ -16,7 +16,9 @@ export default function Hero() {
     <section className="hero" id="top">
       <div className="container hero__inner">
         <div className="hero__copy">
-          <p className="hero__eyebrow">Osteopath &amp; Sports Massage Therapist</p>
+          <p className="hero__eyebrow">
+            Osteopath &amp; Sports Massage Therapist &ndash; In Orpington and Bromley
+          </p>
           <h1 className="hero__title">
             Hello, I&rsquo;m
             <br />
@@ -26,6 +28,9 @@ export default function Hero() {
           <p className="hero__lead">
             Your pain shouldn&rsquo;t be the new normal. I listen, I assess, I treat and I
             advise using holistic and evidence-based care that is for you.
+          </p>
+          <p className="hero__serve">
+            I help people in and around Orpington and Bromley.
           </p>
 
           <div className="hero__actions">

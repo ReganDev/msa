@@ -50,7 +50,7 @@ export const services: Service[] = [
     image: '/treatment-osteopathy.png',
     imageAlt: 'Matthew Knight performing a knee assessment on a patient',
     blurb:
-      'A hands-on, whole-body approach to assessing and treating pain and restricted movement. Matthew looks at how your joints, muscles and nerves work together, then uses techniques such as soft-tissue work, mobilisation and manipulation — alongside clear advice and exercises — to help you recover and move well.',
+      'Osteopathy is a hands-on, whole-body approach that focuses on how interconnected joints and their associated muscles, tendons, ligaments and nerves work together. Matthew assesses these areas to understand what may be contributing to pain or restricted movement, then uses techniques such as soft-tissue work, mobilisation and manipulation, alongside clear advice and exercises, to help you recover and move well.',
     tiers: [
       { label: 'New patient · 1 hour', price: 65 },
       { label: 'Returning · 45 min', price: 50 },
@@ -62,7 +62,7 @@ export const services: Service[] = [
     image: '/treatment-dry-needling.png',
     imageAlt: 'Sterile dry needling needles used in treatment',
     blurb:
-      'Fine, sterile needles are inserted into tight or overactive muscle trigger points to release tension, ease pain and restore normal movement. Used as part of a wider treatment plan to complement hands-on care.',
+      'Dry needling is an evidence-based therapy that has evolved from ancient Eastern techniques. Fine, sterile needles are inserted into tight or overactive areas of muscle to encourage them to release, helping to reduce tension, ease pain and restore normal movement. It is used as part of a wider treatment plan to complement hands-on care.',
     priceNote: 'Ask for pricing',
   },
   {
@@ -70,7 +70,7 @@ export const services: Service[] = [
     image: '/treatment-sports-massage.png',
     imageAlt: 'Matthew Knight giving a sports massage to a patient',
     blurb:
-      "Targeted soft-tissue treatment to relieve muscular tension, aid recovery and support performance. Suitable for everyone — not just athletes — whether you're managing an injury, training hard or sitting at a desk all day.",
+      'Sports massage is a targeted soft-tissue therapy that can help reduce muscle tension, support recovery and improve movement and performance. It is suitable for everyone—not just athletes—whether you are managing an injury, training hard or spending long periods sitting at a desk.',
     tiers: [
       { label: '60 min', price: 60 },
       { label: '45 min', price: 45 },

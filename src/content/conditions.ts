@@ -42,6 +42,9 @@ export interface Condition {
   /** Display name, as supplied by the client */
   name: string
   region: Region
+  /** Card / hero image on /conditions */
+  image: string
+  imageAlt: string
   /**
    * Per-condition meta description. Currently unused — the separate condition
    * pages were folded into /conditions, which has its own description in
@@ -59,6 +62,8 @@ export const conditions: Condition[] = [
     slug: 'lower-back-pain',
     name: 'Lower Back Pain',
     region: 'Back & neck',
+    image: '/conditions/lower-back-pain.jpg',
+    imageAlt: 'Person holding their lower back, suggesting lumbar pain',
     metaDescription:
       'Osteopathy for lower back pain in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight at the Tennis Centre, Avebury Rd.',
     intro:
@@ -141,6 +146,8 @@ export const conditions: Condition[] = [
     slug: 'sciatica',
     name: 'Sciatica',
     region: 'Back & neck',
+    image: '/conditions/sciatica.jpg',
+    imageAlt: 'Person gripping their thigh, suggesting sciatic or leg pain',
     metaDescription:
       'Osteopathy for sciatica and nerve-related leg pain in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
     intro:
@@ -190,6 +197,8 @@ export const conditions: Condition[] = [
     slug: 'neck-pain',
     name: 'Neck Pain',
     region: 'Back & neck',
+    image: '/conditions/neck-pain.jpg',
+    imageAlt: 'Person holding the back of their neck in discomfort',
     metaDescription:
       'Osteopathy for neck pain and stiffness in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight at the Tennis Centre, Avebury Rd.',
     intro:
@@ -261,6 +270,8 @@ export const conditions: Condition[] = [
     slug: 'cervicogenic-headaches',
     name: 'Cervicogenic Headaches',
     region: 'Back & neck',
+    image: '/conditions/cervicogenic-headaches.jpg',
+    imageAlt: 'Therapist treating the base of the neck with thumbs',
     metaDescription:
       'Osteopathy for cervicogenic headaches — headaches arising from the neck — in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
     intro:
@@ -305,6 +316,8 @@ export const conditions: Condition[] = [
     slug: 'rotator-cuff',
     name: 'Rotator Cuff Shoulder Pain',
     region: 'Shoulder & elbow',
+    image: '/conditions/rotator-cuff.jpg',
+    imageAlt: 'Person holding their shoulder, suggesting rotator cuff pain',
     metaDescription:
       'Osteopathy for rotator cuff and shoulder pain in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
     intro:
@@ -371,6 +384,8 @@ export const conditions: Condition[] = [
     slug: 'tennis-elbow',
     name: 'Tennis Elbow',
     region: 'Shoulder & elbow',
+    image: '/conditions/tennis-elbow.jpg',
+    imageAlt: 'Tennis player holding their elbow in pain',
     metaDescription:
       'Osteopathy for tennis elbow (lateral elbow tendinopathy) in Orpington. Assessment, hands-on treatment and loading rehabilitation with Matthew Knight.',
     intro:
@@ -439,6 +454,8 @@ export const conditions: Condition[] = [
     slug: 'gluteal-tendinopathy',
     name: 'Hip Pain — Gluteal Tendinopathy',
     region: 'Hip, knee & ankle',
+    image: '/conditions/gluteal-tendinopathy.jpg',
+    imageAlt: 'Person holding their hip, suggesting hip or gluteal pain',
     metaDescription:
       'Osteopathy for gluteal tendinopathy and pain on the outside of the hip, in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
     intro:
@@ -514,6 +531,8 @@ export const conditions: Condition[] = [
     slug: 'knee-meniscus',
     name: 'Meniscus Injury',
     region: 'Hip, knee & ankle',
+    image: '/conditions/knee-meniscus.jpg',
+    imageAlt: 'Therapist examining a patient\'s knee',
     metaDescription:
       'Osteopathy for meniscus and knee cartilage injuries in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
     intro:
@@ -584,6 +603,8 @@ export const conditions: Condition[] = [
     slug: 'ankle-sprains',
     name: 'Ankle Sprains',
     region: 'Hip, knee & ankle',
+    image: '/conditions/ankle-sprains.jpg',
+    imageAlt: 'Runner holding their ankle after a sprain',
     metaDescription:
       'Osteopathy for ankle sprains and ligament injuries in Orpington. Assessment, hands-on treatment and a graded return to sport with Matthew Knight.',
     intro:
