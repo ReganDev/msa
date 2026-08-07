@@ -1,12 +1,15 @@
 {
   "redirects": [
     {
-      "source": "/conditions/:slug",
+      "source": "/conditions/:slug([\\w-]+)",
       "destination": "/conditions#:slug",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/|.*\\..*).*)",
+      "destination": "/index.html"
+    }
   ]
 }
