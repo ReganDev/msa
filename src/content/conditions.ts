@@ -27,6 +27,12 @@ export interface ConditionSection {
   ticks?: string[]
   /** Paragraphs after the list, e.g. a closing caveat. */
   outro?: string[]
+  /**
+   * Renders open and uncollapsible instead of as a dropdown. Reserved for the
+   * red-flag sections: nobody should have to click to find the symptoms that
+   * mean A&E rather than an appointment.
+   */
+  alwaysOpen?: boolean
 }
 
 /**
@@ -136,6 +142,7 @@ export const conditions: Condition[] = [
       },
       {
         heading: 'When to seek urgent medical advice',
+        alwaysOpen: true,
         body: [
           'A small number of symptoms need same-day medical attention rather than an osteopathic appointment. Contact your GP or go to A&E if you develop numbness around the groin or saddle area, loss of bladder or bowel control, or rapidly worsening weakness in one or both legs. These are rare, and checking for signs like them is part of every assessment.',
         ],
@@ -187,6 +194,7 @@ export const conditions: Condition[] = [
       },
       {
         heading: 'When to seek urgent medical advice',
+        alwaysOpen: true,
         body: [
           'Go to A&E if you develop numbness around the groin or saddle area, loss of bladder or bowel control, or rapidly worsening weakness in both legs. These are rare but need immediate assessment.',
         ],

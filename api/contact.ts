@@ -17,7 +17,7 @@ const RESEND_ENDPOINT = 'https://api.resend.com/emails'
  * Kept in step with EMAIL in src/data.ts by hand, for the reason above. Setting
  * CONTACT_TO overrides it without touching either.
  */
-const DEFAULT_TO = 'msaknight2000@gmail.com'
+const DEFAULT_TO = 'info@knightosteopathy.com'
 
 /**
  * Resend's shared sender works immediately without domain verification, which

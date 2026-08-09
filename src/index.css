@@ -1419,6 +1419,13 @@ a:hover {
   background: var(--bg-alt);
 }
 
+/* No condition chosen yet: the rail is not rendered at all, because the grid of
+   conditions in the pane already is the picker. One column, and the browse view
+   gets the full landscape. */
+.conditions--browsing {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* ---------- picker rail ---------- */
 
 .conditions__rail {
@@ -1579,6 +1586,14 @@ a:hover {
 
 /* ---------- browse grid ---------- */
 
+/* Same measure as .conditions__bar above it, so the page title and the first
+   card share a left edge and the cards stay a readable size once the rail is
+   gone and the pane owns the full width. */
+.conditions-browse {
+  max-width: var(--pane-measure);
+  margin-inline: auto;
+}
+
 .conditions-browse__lead {
   margin: 0 0 1.5rem;
   max-width: 48ch;
@@ -1647,6 +1662,31 @@ a:hover {
   font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.3;
+}
+
+/* What the rail's foot carries when there is a rail, laid out along the full
+   width instead of stacked in a 270px column. */
+.conditions-browse__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.conditions-browse__aside {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.conditions-browse__book {
+  flex-shrink: 0;
 }
 
 /* One authored moment: swapping conditions replaces a screenful silently, so
@@ -1811,6 +1851,13 @@ a:hover {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Same call as .conditions__book above: the fixed nav keeps a Book Now on
+     screen at every scroll position here, and the site footer returns at these
+     sizes, so a third booking pill between them earns nothing. */
+  .conditions-browse__book {
+    display: none;
+  }
+
   .condition-detail__layout {
     grid-template-columns: 1fr;
   }
@@ -1829,17 +1876,96 @@ a:hover {
   margin: 0 0 0.8rem;
 }
 
-/* The lead under the pane header: one step up from body copy so the panel
-   opens on a summary rather than dropping straight into the first section. */
+/* The lead under the pane header, and with the sections collapsed it is the
+   only prose on screen — one step up from body copy, and given room to sit
+   apart from the list of questions beneath it. */
 .condition-detail__intro {
   color: var(--ink);
   font-size: 1.15rem;
   line-height: 1.6;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1.4rem;
 }
 
+/* ---------- section dropdowns ----------
+   Each section is a closed <details> until asked for, so a condition opens as a
+   short list of its own questions. Hairlines rather than cards or a boxed
+   accordion: nine of these stacked need to read as one quiet list, and the row
+   only lights up under the pointer. */
+
 .condition-detail__section {
-  margin-top: 1.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.condition-detail__copy > .condition-detail__section:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.condition-detail__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 0.8rem 0.7rem;
+  /* Pulled back out to the text edge, so the hover fill reads as a full-width
+     row while the heading still lines up with the prose above it. */
+  margin-inline: -0.7rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--transition);
+}
+
+/* Kill the UA disclosure triangle — the chevron on the right is the affordance.
+   `display: flex` above already does this in Chromium and Firefox; the two
+   below cover WebKit and anything still honouring list-style here. */
+.condition-detail__summary {
+  list-style: none;
+}
+
+.condition-detail__summary::-webkit-details-marker {
+  display: none;
+}
+
+.condition-detail__summary:hover {
+  background: var(--accent-soft);
+}
+
+/* --primary-dark on --accent-soft is 5.6:1, same pairing as the picker rail. */
+.condition-detail__summary:hover .condition-detail__heading,
+.condition-detail__summary:hover .condition-detail__chevron {
+  color: var(--primary-dark);
+}
+
+.condition-detail__chevron {
+  flex-shrink: 0;
+  color: var(--primary);
+  transition:
+    transform var(--transition),
+    color var(--transition);
+}
+
+.condition-detail__section[open] .condition-detail__chevron {
+  transform: rotate(180deg);
+}
+
+.condition-detail__body {
+  padding: 0.15rem 0 1.4rem;
+}
+
+/* Red-flag copy. No chevron and no control to close it: an ordinary open
+   section that happens to sit under the same hairline as the rest. */
+.condition-detail__section--urgent {
+  padding: 1.15rem 0 0.2rem;
+}
+
+.condition-detail__section--urgent .condition-detail__heading {
+  margin-bottom: 0.6rem;
+}
+
+.condition-detail__section--urgent .condition-detail__body {
+  padding: 0;
 }
 
 /* Symptoms, causes, related conditions. The ticked .checklist is reserved for
@@ -1883,19 +2009,44 @@ a:hover {
 
 /* Last, so it beats the equally specific list rules above and every section
    ends flush regardless of whether it closes on a paragraph or a list. */
-.condition-detail__section > :last-child {
+.condition-detail__body > :last-child {
   margin-bottom: 0;
 }
 
 /* Nested two levels below the page h1, so noticeably smaller than
-   .prose__heading, which is sized to open a full-width section. */
+   .prose__heading, which is sized to open a full-width section. Margin comes
+   from the summary row it sits in; the always-open variant adds its own. */
 .condition-detail__heading {
   font-family: var(--font-serif);
   font-weight: 600;
   font-size: 1.15rem;
   line-height: 1.3;
   color: var(--ink);
-  margin: 0 0 0.6rem;
+  margin: 0;
+  transition: color var(--transition);
+}
+
+/* Native <details> snaps open. Where the browser can interpolate a length to a
+   keyword, grow the disclosed block instead; everywhere else it snaps as it
+   always did, and the chevron still turns. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (interpolate-size: allow-keywords) {
+    .condition-detail__section {
+      interpolate-size: allow-keywords;
+    }
+
+    .condition-detail__section::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size var(--transition),
+        content-visibility var(--transition) allow-discrete;
+    }
+
+    .condition-detail__section[open]::details-content {
+      block-size: auto;
+    }
+  }
 }
 
 /* ---------- clinic offer / service list ---------- */
@@ -2371,7 +2522,9 @@ a:hover {
   .pillars__card,
   .condition-grid__link,
   .conditions-browse__card,
-  .conditions__item {
+  .conditions__item,
+  .condition-detail__summary,
+  .condition-detail__chevron {
     transition: none;
   }
 }
