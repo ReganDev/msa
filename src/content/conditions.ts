@@ -473,7 +473,7 @@ export const conditions: Condition[] = [
         heading: 'What are the glutes?',
         body: ['The gluteal muscles are a group of three muscles located in the buttocks:'],
         bullets: [
-          'Gluteus maximus — the largest muscle in the human body, though not the strongest relative to its size.',
+          'Gluteus maximus.',
           'Gluteus medius.',
           'Gluteus minimus.',
         ],
