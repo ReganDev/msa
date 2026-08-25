@@ -44,7 +44,7 @@ export default function Hero() {
             <img
               src="/matthew-knight.png"
               alt="Matthew Knight, Osteopath and Sports Massage Therapist"
-              width={951}
+              width={950}
               height={1024}
             />
           </div>
