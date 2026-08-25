@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { BOOKING_URL, INSTAGRAM_URL } from '../data'
+import { BOOKING_PATH, INSTAGRAM_URL } from '../data'
 import { conditionGroups } from '../content/conditions'
 import Chevron from './Chevron'
 
@@ -21,6 +21,7 @@ const links = [
   { to: '/osteopathy', label: 'Osteopathy' },
   { to: '/conditions', label: 'Conditions' },
   { to: '/locations/orpington', label: 'Locations' },
+  { to: '/booking', label: 'Booking' },
   { to: '/#about', label: 'About' },
   { to: '/#contact', label: 'Contact' },
 ]
@@ -204,14 +205,9 @@ export default function Nav() {
           >
             <InstagramIcon />
           </a>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn--primary nav__cta"
-          >
+          <Link to={BOOKING_PATH} className="btn btn--primary nav__cta">
             Book Now
-          </a>
+          </Link>
           <button
             type="button"
             ref={toggleRef}
@@ -302,15 +298,13 @@ export default function Nav() {
           <InstagramIcon />
           Instagram
         </a>
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={BOOKING_PATH}
           className="btn btn--primary nav__mobile-cta"
           onClick={() => setOpen(false)}
         >
           Book Now
-        </a>
+        </Link>
       </nav>
     </header>
   )

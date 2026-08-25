@@ -1,22 +1,17 @@
 import { Link } from 'react-router-dom'
-import { services } from '../data'
-
-const priceFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  maximumFractionDigits: 0,
-})
+import { services, tierLabel } from '../data'
+import { formatPrice } from '../lib/price'
 
 export default function Services() {
   return (
     <section className="services section section--alt" id="services">
       <div className="container">
         <div className="section__heading reveal">
-          <h2 className="section__title section__title--ruled">
+          <h2 className="section__title">
             Treatments with Matthew
           </h2>
           <p className="section__lead">
-            Osteopathy, dry needling and sports massage &mdash; grounded in anatomical
+            Osteopathy, dry needling and sports massage, grounded in anatomical
             expertise and current research to relieve pain, restore movement and support
             recovery, with an individualised plan for every patient.
           </p>
@@ -42,10 +37,10 @@ export default function Services() {
                 {service.tiers ? (
                   <ul className="services__tiers">
                     {service.tiers.map((tier) => (
-                      <li className="services__tier" key={tier.label}>
-                        <span className="services__tier-label">{tier.label}</span>
+                      <li className="services__tier" key={tier.duration}>
+                        <span className="services__tier-label">{tierLabel(tier)}</span>
                         <span className="services__tier-price">
-                          {priceFormatter.format(tier.price)}
+                          {formatPrice(tier.price)}
                         </span>
                       </li>
                     ))}

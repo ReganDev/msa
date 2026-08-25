@@ -28,6 +28,11 @@ interface Props {
    * Everywhere else the page hero owns the h1 and this stays an h2.
    */
   primary?: boolean
+  /**
+   * Drops the booking call to action. Set it on /booking itself, where the
+   * button would only link back to the page you are already on.
+   */
+  hideBooking?: boolean
 }
 
 /**
@@ -35,7 +40,13 @@ interface Props {
  * call to action. Used at the foot of the Osteopathy and condition pages, and
  * as the main location block on the Orpington page.
  */
-export default function MapPanel({ heading, intro, id, primary }: Props) {
+export default function MapPanel({
+  heading,
+  intro,
+  id,
+  primary,
+  hideBooking,
+}: Props) {
   const Heading = primary ? 'h1' : 'h2'
 
   return (
@@ -46,7 +57,7 @@ export default function MapPanel({ heading, intro, id, primary }: Props) {
         </div>
 
         <div className="location__details reveal">
-          <Heading className="section__title section__title--ruled">{heading}</Heading>
+          <Heading className="section__title">{heading}</Heading>
           {intro && <p className="location__intro">{intro}</p>}
 
           <dl className="location__list">
@@ -70,7 +81,7 @@ export default function MapPanel({ heading, intro, id, primary }: Props) {
             </div>
           </dl>
 
-          <BookButton />
+          {!hideBooking && <BookButton />}
         </div>
       </div>
     </section>

@@ -1,12 +1,19 @@
 /* ============================================================
    Matthew Knight - Osteopath & Sports Massage Therapist
-   Single source of truth for links, contact details and services.
-   Swap the two PLACEHOLDER links below when the client provides them.
+   Single source of truth for links, contact details, services and prices.
    ============================================================ */
 
-// --- External links (client to provide) ---
-export const BOOKING_URL = 'https://www.bookingbase.co.uk/book/matthew-knight-osteopath-sports-therapist'
+// --- External links ---
+// Booking runs on Acuity: every appointment type and package has its own
+// deep link, so there is no single "book" URL. In-site calls to action point
+// at /booking, which lists the prices and hands off to the links below.
+export const BOOKING_PATH = '/booking'
 export const INSTAGRAM_URL = 'https://www.instagram.com/manualtherapymatt/'
+
+const ACUITY_APPOINTMENT =
+  'https://app.acuityscheduling.com/schedule.php?owner=11454444&appointmentType='
+const ACUITY_PACKAGE =
+  'https://app.acuityscheduling.com/catalog.php?owner=11454444&action=addCart&clear=1&id='
 
 // Contact form delivery. The form posts here and api/contact.ts sends the mail
 // through Resend. No key belongs in this file or anywhere else under src/:
@@ -28,9 +35,22 @@ export const MAPS_EMBED_URL =
 
 // --- Services ---
 export interface ServiceTier {
-  label: string
+  /** Appointment type, e.g. 'Advanced'. */
+  name: string
+  /** Length of the appointment, e.g. '60 min'. */
+  duration: string
   price: number
+  /** Acuity deep link for this appointment type. */
+  bookingUrl: string
 }
+
+/**
+ * Name and duration are stored apart so the booking page can put the duration
+ * on its own button ("Book 60 min"). Anywhere that only needs the one-line
+ * version uses this, so the two pages cannot drift apart.
+ */
+export const tierLabel = (tier: ServiceTier) =>
+  `${tier.name} · ${tier.duration}`
 
 export interface Service {
   name: string
@@ -52,9 +72,18 @@ export const services: Service[] = [
     blurb:
       'Osteopathy is a hands-on, whole-body approach that focuses on how interconnected joints and their associated muscles, tendons, ligaments and nerves work together. Matthew assesses these areas to understand what may be contributing to pain or restricted movement, then uses techniques such as soft-tissue work, mobilisation and manipulation, alongside clear advice and exercises, to help you recover and move well.',
     tiers: [
-      { label: 'New patient · 1 hour', price: 65 },
-      { label: 'Returning · 45 min', price: 50 },
-      { label: 'Returning · 30 min', price: 45 },
+      {
+        name: 'Advanced',
+        duration: '60 min',
+        price: 70,
+        bookingUrl: `${ACUITY_APPOINTMENT}96983426`,
+      },
+      {
+        name: 'Standard',
+        duration: '30 min',
+        price: 55,
+        bookingUrl: `${ACUITY_APPOINTMENT}96983308`,
+      },
     ],
   },
   {
@@ -63,18 +92,69 @@ export const services: Service[] = [
     imageAlt: 'Sterile dry needling needles used in treatment',
     blurb:
       'Dry needling is an evidence-based therapy that has evolved from ancient Eastern techniques. Fine, sterile needles are inserted into tight or overactive areas of muscle to encourage them to release, helping to reduce tension, ease pain and restore normal movement. It is used as part of a wider treatment plan to complement hands-on care.',
-    priceNote: 'Ask for pricing',
+    priceNote: 'In conjunction with sports massage and osteopathy',
   },
   {
     name: 'Sports Massage',
     image: '/treatment-sports-massage.png',
     imageAlt: 'Matthew Knight giving a sports massage to a patient',
     blurb:
-      'Sports massage is a targeted soft-tissue therapy that can help reduce muscle tension, support recovery and improve movement and performance. It is suitable for everyone—not just athletes—whether you are managing an injury, training hard or spending long periods sitting at a desk.',
+      'Sports massage is a targeted soft-tissue therapy that can help reduce muscle tension, support recovery and improve movement and performance. It is suitable for everyone, not just athletes, whether you are managing an injury, training hard or spending long periods sitting at a desk.',
     tiers: [
-      { label: '60 min', price: 60 },
-      { label: '45 min', price: 45 },
-      { label: '30 min', price: 30 },
+      {
+        name: 'Advanced',
+        duration: '60 min',
+        price: 60,
+        bookingUrl: `${ACUITY_APPOINTMENT}97381701`,
+      },
+      {
+        name: 'Standard',
+        duration: '30 min',
+        price: 30,
+        bookingUrl: `${ACUITY_APPOINTMENT}97381665`,
+      },
+    ],
+  },
+]
+
+// --- Sports massage packages ---
+// Blocks of sessions bought up front, each priced at 10% below the equivalent
+// number of single sessions. Bought through Acuity's catalogue rather than its
+// scheduler, so these links add to a cart instead of opening a calendar.
+
+export interface PackageOption {
+  sessions: number
+  price: number
+  bookingUrl: string
+}
+
+export interface PackageGroup {
+  /** Length of a single session in the block, e.g. '30 min'. */
+  duration: string
+  /** Price of that session bought on its own — used to show the saving. */
+  singlePrice: number
+  options: PackageOption[]
+}
+
+/** Every package is priced at this discount off the single-session rate. */
+export const PACKAGE_DISCOUNT = 0.1
+
+export const sportsMassagePackages: PackageGroup[] = [
+  {
+    duration: '30 min',
+    singlePrice: 30,
+    options: [
+      { sessions: 6, price: 162, bookingUrl: `${ACUITY_PACKAGE}2266535` },
+      { sessions: 9, price: 243, bookingUrl: `${ACUITY_PACKAGE}2266536` },
+      { sessions: 12, price: 324, bookingUrl: `${ACUITY_PACKAGE}2266537` },
+    ],
+  },
+  {
+    duration: '60 min',
+    singlePrice: 60,
+    options: [
+      { sessions: 6, price: 324, bookingUrl: `${ACUITY_PACKAGE}2266539` },
+      { sessions: 9, price: 486, bookingUrl: `${ACUITY_PACKAGE}2266551` },
     ],
   },
 ]

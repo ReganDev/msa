@@ -8,8 +8,8 @@ export default function OrpingtonClinic() {
   return (
     <MapPanel
       primary
-      heading="Visiting the Osteopath Clinic in Orpington — Clinic Address and Location"
-      intro="Free parking is available at the Tennis Centre."
+      heading="Visiting the Osteopath Clinic in Orpington"
+      intro="Where to find the clinic, how to get here and where to park. Free parking is available at the Tennis Centre."
     />
   )
 }

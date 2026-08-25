@@ -69,7 +69,7 @@ export const conditions: Condition[] = [
     name: 'Lower Back Pain',
     region: 'Back & neck',
     image: '/conditions/lower-back-pain.jpg',
-    imageAlt: 'Person holding their lower back, suggesting lumbar pain',
+    imageAlt: 'Person at a desk holding their lower back, suggesting lumbar pain',
     metaDescription:
       'Osteopathy for lower back pain in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight at the Tennis Centre, Avebury Rd.',
     intro:
@@ -251,7 +251,7 @@ export const conditions: Condition[] = [
         body: ['The assessment and treatment process will include:'],
         ticks: [
           'A detailed conversation to understand your symptoms and concerns.',
-          'A physical examination of the neck, as well as the joints and muscles above and below it — such as the shoulders and upper back — to identify factors contributing to your pain.',
+          'A physical examination of the neck, as well as the joints and muscles above and below it, such as the shoulders and upper back, to identify factors contributing to your pain.',
           'A clear explanation of the findings so you can better understand what treatment and rehabilitation will entail.',
           'Manual, hands-on treatment and professional advice based on the assessment findings.',
           'Rehabilitation advice and activity modifications to help you regain strength and mobility, and reach your goals.',
@@ -281,7 +281,7 @@ export const conditions: Condition[] = [
     image: '/conditions/cervicogenic-headaches.jpg',
     imageAlt: 'Therapist treating the base of the neck with thumbs',
     metaDescription:
-      'Osteopathy for cervicogenic headaches — headaches arising from the neck — in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
+      'Osteopathy for cervicogenic headaches (headaches arising from the neck) in Orpington. Assessment, hands-on treatment and rehabilitation with Matthew Knight.',
     intro:
       'A cervicogenic headache is a headache linked to structures in or around the neck. Sensitive muscles and joints in the upper neck can refer pain into the head.',
     sections: [
@@ -356,7 +356,7 @@ export const conditions: Condition[] = [
       {
         heading: 'Where is rotator cuff pain normally felt?',
         body: [
-          'Pain is commonly felt around the front or the side of the shoulder. This often occurs because the deltoid — the muscle on the side of the shoulder — takes on increased force to compensate for the rotator cuff. While the pain may travel down the outer upper arm, it does not usually extend into the hand.',
+          'Pain is commonly felt around the front or the side of the shoulder. This often occurs because the deltoid, the muscle on the side of the shoulder, takes on increased force to compensate for the rotator cuff. While the pain may travel down the outer upper arm, it does not usually extend into the hand.',
           'Shoulder pain can also originate from the neck, joints or other structures. Numbness, pins and needles, or symptoms travelling into the hand may indicate that the nerves or neck require assessment.',
         ],
       },
@@ -460,7 +460,7 @@ export const conditions: Condition[] = [
   },
   {
     slug: 'gluteal-tendinopathy',
-    name: 'Hip Pain — Gluteal Tendinopathy',
+    name: 'Hip Pain: Gluteal Tendinopathy',
     region: 'Hip, knee & ankle',
     image: '/conditions/gluteal-tendinopathy.jpg',
     imageAlt: 'Person holding their hip, suggesting hip or gluteal pain',

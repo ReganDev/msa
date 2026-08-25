@@ -115,6 +115,13 @@ a:hover {
   padding: clamp(4rem, 9vw, 6.5rem) 0;
 }
 
+/* First section on a page that has no hero. The nav is fixed, and every other
+   page clears it with its hero's top padding, so a bare section needs the same
+   or its heading sits under the nav. */
+.section--first {
+  padding-top: clamp(7.5rem, 14vw, 10rem);
+}
+
 .section--alt {
   background: var(--bg-alt);
 }
@@ -132,37 +139,9 @@ a:hover {
   font-weight: 600;
   font-size: clamp(2.05rem, 4.6vw, 3rem);
   line-height: 1.12;
-  margin: 0 0 1rem;
+  margin: 0 0 1.35rem;
   letter-spacing: 0.005em;
   text-wrap: balance;
-}
-
-/* Recurring identity device: a two-tier "motion lines" accent that sits with a
-   section title, echoing movement and momentum (used in place of a repeated
-   uppercase kicker). */
-.section__title--ruled::before,
-.section__title--ruled::after {
-  content: '';
-  display: block;
-  height: 3px;
-  border-radius: 3px;
-}
-
-.section__title--ruled::before {
-  width: 48px;
-  background: var(--primary);
-  margin: 0 0 0.32rem;
-}
-
-.section__title--ruled::after {
-  width: 22px;
-  background: var(--accent);
-  margin: 0 0 1.1rem;
-}
-
-.section__heading .section__title--ruled::before,
-.section__heading .section__title--ruled::after {
-  margin-inline: auto;
 }
 
 .section__lead {
@@ -238,6 +217,21 @@ a:hover {
   min-height: 54px;
   padding: 0.85rem 2rem;
   font-size: 1.02rem;
+}
+
+/* Text for screen readers only — used to make repeated "Book" buttons say
+   which appointment they book without repeating it on screen. */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ---------- skip link ---------- */
@@ -666,7 +660,7 @@ a:hover {
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 1.25fr 0.75fr;
   gap: clamp(2.5rem, 6vw, 5rem);
   align-items: center;
 }
@@ -674,22 +668,12 @@ a:hover {
 .hero__eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
   font-weight: 500;
   font-size: 0.82rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--primary-dark);
   margin: 0 0 1rem;
-}
-
-.hero__eyebrow::before {
-  content: '';
-  width: 30px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--accent);
-  flex-shrink: 0;
 }
 
 .hero__title {
@@ -761,23 +745,26 @@ a:hover {
 .hero__media {
   position: relative;
   justify-self: center;
-  width: min(420px, 100%);
+  width: min(340px, 100%);
 }
 
+/* No frame or drop shadow: a hard white border around the photo was what made
+   it read as a poster pushed at the viewer. */
 .hero__panel {
   position: relative;
-  aspect-ratio: 4 / 5;
+  /* Matches the source file (951x1024) exactly, so object-fit: cover crops
+     nothing and the full frame — including the wall either side of his
+     shoulders — stays visible. A narrower panel eats that breathing room. */
+  aspect-ratio: 951 / 1024;
   border-radius: var(--radius);
   overflow: hidden;
   background: linear-gradient(160deg, #eaf2f2 0%, #d9e7e7 55%, #cfe0df 100%);
-  border: 6px solid var(--surface);
-  box-shadow: var(--shadow-soft);
   display: grid;
   place-items: center;
 }
 
 /* Slot for a real photo: a hero portrait image placed inside .hero__panel
-   covers the panel, sitting above the decorative SVG backdrop. */
+   covers the panel. */
 .hero__panel img {
   position: absolute;
   inset: 0;
@@ -786,24 +773,19 @@ a:hover {
   object-fit: cover;
 }
 
+/* Sits below the portrait as a quiet caption. It used to float over the photo
+   as a card, which crowded the subject and re-introduced a hard edge. */
 .hero__badge {
-  position: absolute;
-  left: -1.5rem;
-  bottom: 1.75rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-card);
-  padding: 0.85rem 1.3rem;
+  margin-top: 0.35rem;
   text-align: center;
 }
 
 .hero__badge-value {
   display: block;
   font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.2;
   color: var(--primary-dark);
 }
 
@@ -813,7 +795,7 @@ a:hover {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-top: 0.3rem;
+  margin-top: 0.15rem;
 }
 
 @media (max-width: 900px) {
@@ -834,12 +816,6 @@ a:hover {
 
   .hero__media {
     margin-top: 1rem;
-  }
-
-  .hero__badge {
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -1.1rem;
   }
 }
 
@@ -1149,22 +1125,12 @@ a:hover {
 .page-hero__eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
   font-weight: 500;
   font-size: 0.82rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--primary-dark);
   margin: 0 0 1rem;
-}
-
-.page-hero__eyebrow::before {
-  content: '';
-  width: 30px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--accent);
-  flex-shrink: 0;
 }
 
 .page-hero__title {
@@ -2433,6 +2399,137 @@ a:hover {
   }
 }
 
+/* ---------- booking ---------- */
+
+/* ---------- booking: the price list ----------
+   Every bookable option lives in one column-aligned list. Acuity has a separate
+   deep link per option, so the page's job is to make nine distinct choices
+   scannable side by side rather than present one call to action. Cards were
+   tried and dropped: they scattered the options and never lined up. */
+
+.rates {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.rates__group + .rates__group {
+  margin-top: 3rem;
+}
+
+/* The heading has to out-rank a price that repeats on every row below it, so
+   the step is carried by size, space and colour together rather than size
+   alone: 1.35rem against a 1.2rem price was too close to read as a different
+   job. Space above stays larger than space below (see .rates__group + .rates__group). */
+.rates__group-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+  margin: 0 0 0.9rem;
+}
+
+.rates__tag {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+}
+
+.rates__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Identical tracks on every row, so labels, prices and buttons line up down the
+   whole page. Fixed price column keeps the numbers in a straight edge. */
+.rates__row {
+  display: grid;
+  grid-template-columns: 1fr 5rem auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 0;
+}
+
+/* A rule between rows within a group only. The group headings carry the larger
+   separation, so the list is not fenced top and bottom on every line. */
+.rates__row:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
+
+.rates__label {
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.rates__saving {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--primary-dark);
+}
+
+.rates__price {
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1;
+  text-align: right;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* min-width levels the "Book" and "Buy" pills so the right edge stays straight.
+   Shadow suppressed: the site button glow reads as clutter repeated nine times. */
+.rates__btn {
+  min-width: 5.5rem;
+  min-height: 40px;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.95rem;
+  box-shadow: none;
+}
+
+.rates__btn:hover {
+  box-shadow: none;
+}
+
+/* Treatments delivered inside another appointment rather than booked separately. */
+.rates__note {
+  margin: 2rem auto 0;
+  max-width: 60ch;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.rates__note strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+@media (max-width: 460px) {
+  /* The button drops to its own line rather than squeezing the label. */
+  .rates__row {
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1rem;
+  }
+
+  .rates__btn {
+    grid-column: 2;
+  }
+}
+
 /* ---------- footer ---------- */
 
 .footer {
@@ -2479,6 +2576,25 @@ a:hover {
 
 .footer__links a:hover {
   color: var(--accent);
+}
+
+.footer__badges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.footer__badge {
+  display: block;
+  width: auto;
+  height: 96px;
+  border-radius: 4px;
+  background: #fff;
 }
 
 .footer__copy {

@@ -34,7 +34,7 @@ const pillars = [
   },
   {
     title: 'Care Built Around You',
-    text: 'No two people present the same way. Your plan is shaped by your history, your goals and what you need to get back to — whether that is sport, work or simply moving comfortably again.',
+    text: 'No two people present the same way. Your plan is shaped by your history, your goals and what you need to get back to, whether that is sport, work or simply moving comfortably again.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M12 20.5S4.5 15.6 4.5 10.2A4.2 4.2 0 0 1 12 7.6a4.2 4.2 0 0 1 7.5 2.6c0 5.4-7.5 10.3-7.5 10.3z" />
@@ -70,12 +70,12 @@ export default function Osteopathy() {
       <section className="section section--alt">
         <div className="container">
           <div className="section__heading reveal">
-            <h2 className="section__title section__title--ruled">
+            <h2 className="section__title">
               What you can expect from an osteopathic appointment
             </h2>
             <p className="section__lead">
               Every appointment starts with listening. From there, assessment and
-              treatment are built around what your body — and your goals — actually
+              treatment are built around what your body, and your goals, actually
               need.
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function Osteopathy() {
       <section className="section">
         <div className="container">
           <div className="section__heading reveal">
-            <h2 className="section__title section__title--ruled">
+            <h2 className="section__title">
               Common Injuries &amp; Conditions
             </h2>
             <p className="section__lead">
@@ -131,7 +131,7 @@ export default function Osteopathy() {
 
       <MapPanel
         heading="Visiting the osteopathy clinic in Orpington"
-        intro="Appointments are held at the Tennis Centre on Avebury Road, in the same treatment rooms as the Jon W Sports Therapy group — a calm, professional space set up for assessment, treatment and rehabilitation."
+        intro="Appointments are held at the Tennis Centre on Avebury Road, in the same treatment rooms as the Jon W Sports Therapy group, a calm, professional space set up for assessment, treatment and rehabilitation."
       />
     </>
   )

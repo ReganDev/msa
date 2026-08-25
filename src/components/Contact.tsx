@@ -44,7 +44,7 @@ export default function Contact() {
       }
     } catch {
       setError(
-        'Couldn’t reach the server — please check your connection and try again, or email me directly.',
+        'Couldn’t reach the server. Please check your connection and try again, or email me directly.',
       )
       setStatus('error')
     }
@@ -54,7 +54,7 @@ export default function Contact() {
     <section className="contact section section--alt" id="contact">
       <div className="container contact__inner">
         <div className="contact__info">
-          <h2 className="section__title section__title--ruled">Get in touch</h2>
+          <h2 className="section__title">Get in touch</h2>
           <p className="contact__lead">
             Have a question or want to arrange an assessment? Send a message and Matthew
             will get back to you.
@@ -109,7 +109,7 @@ export default function Contact() {
               <path d="m8 12 2.5 2.5L16 9" />
             </svg>
             <div>
-              <p className="form__success-title">Thank you &mdash; your message has been sent.</p>
+              <p className="form__success-title">Thank you. Your message has been sent.</p>
               <p className="form__success-text">
                 Matthew will be in touch as soon as possible.
               </p>

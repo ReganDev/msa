@@ -52,10 +52,16 @@ export const routes: RouteDef[] = [
       'Osteopathy and sports injury clinic in Orpington at the Tennis Centre, Avebury Rd BR6 9SA. Treatments, conditions treated, clinic address and how to book.',
   },
   {
+    path: '/booking',
+    title: `Book an Appointment · Prices · Osteopath in Orpington · ${SITE_NAME}`,
+    description:
+      'Book osteopathy or sports massage in Orpington with Matthew Knight. Prices for 30 and 60 minute appointments, plus sports massage packages of 6, 9 and 12 sessions at 10% off.',
+  },
+  {
     path: '/conditions',
     title: `Common Injuries & Conditions · Osteopath in Orpington · ${SITE_NAME}`,
     description:
-      'Lower back pain, sciatica, neck pain, cervicogenic headaches, shoulder, elbow, hip, knee and ankle problems — what each involves, the symptoms people describe and how osteopathy may help. Orpington clinic.',
+      'Lower back pain, sciatica, neck pain, cervicogenic headaches, shoulder, elbow, hip, knee and ankle problems. What each involves, the symptoms people describe and how osteopathy may help. Orpington clinic.',
   },
 ]
 

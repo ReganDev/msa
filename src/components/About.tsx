@@ -37,7 +37,7 @@ export default function About() {
     <section className="about section" id="about">
       <div className="container about__inner">
         <div className="about__body">
-          <h2 className="section__title section__title--ruled">
+          <h2 className="section__title">
             Osteopathy rooted in sport and movement
           </h2>
           <div className="about__prose">

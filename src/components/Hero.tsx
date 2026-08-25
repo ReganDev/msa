@@ -17,7 +17,7 @@ export default function Hero() {
       <div className="container hero__inner">
         <div className="hero__copy">
           <p className="hero__eyebrow">
-            Osteopath &amp; Sports Massage Therapist &ndash; In Orpington and Bromley
+            Osteopath &amp; Sports Massage Therapist in Orpington and Bromley
           </p>
           <h1 className="hero__title">
             Hello, I&rsquo;m

@@ -1,4 +1,5 @@
-import { BOOKING_URL } from '../data'
+import { Link } from 'react-router-dom'
+import { BOOKING_PATH } from '../data'
 
 interface Props {
   /** Button label. Defaults to the wording the client uses across the new pages. */
@@ -8,21 +9,17 @@ interface Props {
 }
 
 /**
- * The booking call-to-action. Booking is handled by an external system, so this
- * is always a real external link rather than a router <Link>.
+ * The booking call-to-action. Acuity gives every appointment type and package
+ * its own deep link, so there is no single URL to send people to — this points
+ * at /booking, which lists the prices and hands off to the right Acuity link.
  */
 export default function BookButton({
   children = 'Book an appointment',
   className = 'btn--lg',
 }: Props) {
   return (
-    <a
-      href={BOOKING_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`btn btn--primary ${className}`}
-    >
+    <Link to={BOOKING_PATH} className={`btn btn--primary ${className}`}>
       {children}
-    </a>
+    </Link>
   )
 }

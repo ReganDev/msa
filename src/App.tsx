@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Osteopathy from './pages/Osteopathy'
 import SpinalManipulation from './pages/SpinalManipulation'
 import OrpingtonClinic from './pages/OrpingtonClinic'
+import Booking from './pages/Booking'
 import ConditionsIndex from './pages/ConditionsIndex'
 import NotFound from './pages/NotFound'
 import { useReveal } from './hooks/useReveal'
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/osteopathy" element={<Osteopathy />} />
           <Route path="/spinal-manipulation" element={<SpinalManipulation />} />
           <Route path="/locations/orpington" element={<OrpingtonClinic />} />
+          <Route path="/booking" element={<Booking />} />
           <Route path="/conditions" element={<ConditionsIndex />} />
           <Route path="/conditions/:slug" element={<ConditionRedirect />} />
           <Route path="*" element={<NotFound />} />

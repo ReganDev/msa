@@ -135,7 +135,7 @@ function ConditionsBrowse({ onSelect }: { onSelect: (slug: string) => void }) {
 
       <div className="conditions-browse__foot">
         <p className="conditions-browse__aside">
-          Not seeing yours? <Link to="/#contact">Get in touch</Link> — Matthew offers a
+          Not seeing yours? <Link to="/#contact">Get in touch</Link>. Matthew offers a
           free 15-minute call to talk it through.
         </p>
         <BookButton className="conditions-browse__book">Book an appointment</BookButton>
@@ -274,7 +274,7 @@ export default function ConditionViewer() {
           <div className="conditions__foot">
             <BookButton className="conditions__book">Book an appointment</BookButton>
             <p className="conditions__aside">
-              Not seeing yours? <Link to="/#contact">Get in touch</Link> — Matthew
+              Not seeing yours? <Link to="/#contact">Get in touch</Link>. Matthew
               offers a free 15-minute call to talk it through.
             </p>
           </div>

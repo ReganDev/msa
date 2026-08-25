@@ -10,7 +10,7 @@ export default function Location() {
         </div>
 
         <div className="location__details reveal">
-          <h2 className="section__title section__title--ruled">Find the clinic</h2>
+          <h2 className="section__title">Find the clinic</h2>
           <p className="location__intro">
             I operate in the same treatment rooms as the Jon W Sports Therapy group, in a
             calm, professional space set up for assessment, treatment and rehabilitation.
@@ -31,7 +31,7 @@ export default function Location() {
             </div>
             <div className="location__row">
               <dt>Appointments</dt>
-              <dd>By booking &mdash; reserve your slot online at a time that suits you.</dd>
+              <dd>By booking. Reserve your slot online at a time that suits you.</dd>
             </div>
           </dl>
         </div>

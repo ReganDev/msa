@@ -6,8 +6,25 @@ const links = [
   { to: '/spinal-manipulation', label: 'Spinal Manipulation' },
   { to: '/conditions', label: 'Conditions' },
   { to: '/locations/orpington', label: 'Orpington Clinic' },
+  { to: '/booking', label: 'Booking' },
   { to: '/#about', label: 'About' },
   { to: '/#contact', label: 'Contact' },
+]
+
+/**
+ * The two marks are different shapes — the GOsC badge is landscape, the iO one
+ * portrait — so they are sized to a shared height in CSS rather than a shared
+ * width, which would leave the iO badge towering over the other.
+ */
+const badges = [
+  {
+    src: '/gosc-registered.jpg',
+    alt: "General Osteopathic Council I'm Registered badge, registration number 12186",
+  },
+  {
+    src: '/io-member.png',
+    alt: 'The Institute of Osteopathy member badge',
+  },
 ]
 
 export default function Footer() {
@@ -30,6 +47,16 @@ export default function Footer() {
             Instagram
           </a>
         </nav>
+
+        {/* Regulator and professional-body marks. Rendered from a list so the
+            iO badge only needs its file dropping into /public. */}
+        <ul className="footer__badges">
+          {badges.map((badge) => (
+            <li key={badge.src}>
+              <img className="footer__badge" src={badge.src} alt={badge.alt} />
+            </li>
+          ))}
+        </ul>
 
         <p className="footer__copy">
           © {new Date().getFullYear()} Matthew Knight Osteopathy. All rights reserved.
