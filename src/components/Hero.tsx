@@ -1,10 +1,3 @@
-const trustIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 2l7 3v6c0 4.5-3 8.5-7 9.8C8 19.5 5 15.5 5 11V5l7-3z" />
-    <path d="M9 11.5l2 2 4-4.5" />
-  </svg>
-)
-
 const trustItems = [
   'Registered Osteopath',
   'Qualified in dry needling',
@@ -41,10 +34,7 @@ export default function Hero() {
 
           <ul className="hero__trust">
             {trustItems.map((item) => (
-              <li key={item}>
-                {trustIcon}
-                {item}
-              </li>
+              <li key={item}>{item}</li>
             ))}
           </ul>
         </div>
@@ -57,10 +47,6 @@ export default function Hero() {
               width={951}
               height={1024}
             />
-          </div>
-          <div className="hero__badge" aria-hidden="true">
-            <span className="hero__badge-value">Orpington</span>
-            <span className="hero__badge-label">Tennis Centre clinic</span>
           </div>
         </div>
       </div>

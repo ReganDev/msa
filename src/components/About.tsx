@@ -66,8 +66,12 @@ export default function About() {
         </div>
 
         <div className="about__aside">
-          {highlights.map((h) => (
-            <article className="about__card reveal" key={h.title}>
+          {highlights.map((h, i) => (
+            <article
+              className="about__card reveal"
+              key={h.title}
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
               <div className="about__icon">{h.icon}</div>
               <div>
                 <h3 className="about__card-title">{h.title}</h3>

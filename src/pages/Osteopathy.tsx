@@ -117,7 +117,7 @@ export default function Osteopathy() {
             </p>
           </div>
 
-          <div className="reveal">
+          <div>
             <ConditionGrid />
           </div>
 

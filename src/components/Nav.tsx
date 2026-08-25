@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { BOOKING_PATH, INSTAGRAM_URL } from '../data'
+import { INSTAGRAM_URL } from '../data'
 import { conditionGroups } from '../content/conditions'
 import Chevron from './Chevron'
+import BookButton from './BookButton'
 
 function InstagramIcon() {
   return (
@@ -205,9 +206,7 @@ export default function Nav() {
           >
             <InstagramIcon />
           </a>
-          <Link to={BOOKING_PATH} className="btn btn--primary nav__cta">
-            Book Now
-          </Link>
+          <BookButton className="nav__cta">Book Now</BookButton>
           <button
             type="button"
             ref={toggleRef}
@@ -298,13 +297,9 @@ export default function Nav() {
           <InstagramIcon />
           Instagram
         </a>
-        <Link
-          to={BOOKING_PATH}
-          className="btn btn--primary nav__mobile-cta"
-          onClick={() => setOpen(false)}
-        >
+        <BookButton className="nav__mobile-cta" onClick={() => setOpen(false)}>
           Book Now
-        </Link>
+        </BookButton>
       </nav>
     </header>
   )

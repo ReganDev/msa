@@ -5,8 +5,14 @@ import { conditions } from '../content/conditions'
 export default function ConditionGrid() {
   return (
     <ul className="condition-grid">
-      {conditions.map((condition) => (
-        <li key={condition.slug}>
+      {conditions.map((condition, i) => (
+        // Capped so the last card in a nine-item grid is not most of a second
+        // behind the first.
+        <li
+          className="reveal"
+          key={condition.slug}
+          style={{ transitionDelay: `${Math.min(i, 6) * 70}ms` }}
+        >
           <Link className="condition-grid__link" to={`/conditions#${condition.slug}`}>
             <img
               className="condition-grid__image"

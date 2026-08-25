@@ -49,6 +49,12 @@
 
   --shadow-soft: 0 20px 45px -22px rgba(30, 55, 66, 0.32);
   --shadow-card: 0 12px 30px -18px rgba(30, 55, 66, 0.22);
+  /* Ink-hued, not teal. A shadow tinted with the button's own colour reads as
+     a glow rather than as the surface lifting off the page. */
+  --shadow-btn: 0 8px 18px -14px rgba(30, 55, 66, 0.5);
+  /* Three steps so surfaces have material rank: large framed panels, cards,
+     then small controls. */
+  --radius-lg: 24px;
   --radius: 16px;
   --radius-sm: 10px;
   --transition: 220ms ease;
@@ -128,10 +134,27 @@ a:hover {
 
 /* ---------- shared type ---------- */
 
+/* Title on the left, lead offset into a second column. Centring three of these
+   down a page flattens everything to the same axis; the split gives each
+   section a shoulder to hang off and keeps the lead at a readable measure. */
 .section__heading {
-  max-width: 660px;
-  margin: 0 auto clamp(2.5rem, 6vw, 3.75rem);
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: end;
+  max-width: none;
+  margin: 0 0 clamp(2.5rem, 6vw, 3.75rem);
+  text-align: left;
+}
+
+/* The grid gap owns the spacing here. .section__title is also used standalone
+   (About), so this stays scoped rather than changing the base rule. */
+.section__heading .section__title {
+  margin-bottom: 0;
+}
+
+.section__heading .section__lead {
+  max-width: 56ch;
 }
 
 .section__title {
@@ -178,16 +201,29 @@ a:hover {
     box-shadow var(--transition);
 }
 
+/* Actions press, surfaces settle. Cards no longer lift on hover, so the push
+   on :active is what makes a button feel like a button. */
+.btn:active {
+  transform: scale(0.985);
+  box-shadow: none;
+}
+
+/* The global :focus-visible squares the ring off at 2px, which looks wrong on
+   a pill. overflow: hidden on .btn--book does not clip the element's own
+   outline, so the ring survives the wipe. */
+.btn:focus-visible {
+  border-radius: 999px;
+}
+
 .btn--primary {
   background: var(--primary);
   color: #fff;
-  box-shadow: 0 10px 24px -12px rgba(47, 125, 138, 0.7);
+  box-shadow: var(--shadow-btn);
 }
 
 .btn--primary:hover {
   background: var(--primary-dark);
   color: #fff;
-  transform: translateY(-2px);
 }
 
 .btn--ghost {
@@ -210,13 +246,101 @@ a:hover {
 .btn--light:hover {
   background: #fff;
   color: var(--primary-dark);
-  transform: translateY(-2px);
+  border-color: var(--accent);
 }
 
 .btn--lg {
   min-height: 54px;
   padding: 0.85rem 2rem;
   font-size: 1.02rem;
+}
+
+/* ---------- the booking CTA ----------
+   Booking is the conversion, so it is the one action that does not look like
+   the rest: a split capsule with the label on the left and an inset arrow node
+   pinned right. On hover the node's colour wipes leftward across the whole
+   pill and the arrow steps forward, so the motion has a visible source rather
+   than the whole button just changing state. Transform and background-colour
+   only — no layout work, nothing off the compositor. */
+
+.btn--book {
+  --node: 40px; /* .btn is 48px tall, leaving a 4px inset */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  justify-content: space-between;
+  gap: 1.1rem;
+  /* No border. overflow clips the wipe at the padding edge, so .btn's 1px
+     transparent border would leave a ring of the lighter --primary showing
+     around the darkened fill on hover. */
+  border: 0;
+  padding-right: 4px;
+  background: var(--primary);
+  color: #fff;
+  box-shadow:
+    var(--shadow-btn),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.btn--book.btn--lg {
+  --node: 44px; /* 54px tall */
+}
+
+/* The wipe. Sits under the label via the button's own stacking context. */
+.btn--book::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--primary-dark);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn--book:hover::before,
+.btn--book:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn__label {
+  position: relative;
+  z-index: 1;
+}
+
+.btn__node {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--node);
+  height: var(--node);
+  border-radius: 999px;
+  background: var(--primary-dark);
+  transition: background-color var(--transition);
+}
+
+/* Once the pill has gone dark the node has to invert to stay visible. */
+.btn--book:hover .btn__node,
+.btn--book:focus-visible .btn__node {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.btn__node svg {
+  transition: transform var(--transition);
+}
+
+.btn--book:hover .btn__node svg,
+.btn--book:focus-visible .btn__node svg {
+  transform: translateX(2px);
+}
+
+/* Beats the global a:hover, which would otherwise pull the label to --ink. */
+.btn--book:hover {
+  color: #fff;
 }
 
 /* Text for screen readers only — used to make repeated "Book" buttons say
@@ -464,6 +588,15 @@ a:hover {
   gap: 0.75rem;
 }
 
+/* The nav bar is 76px, so the CTA and its node both come down a step from the
+   .btn default to stop the pill crowding the bar. */
+.nav__cta {
+  --node: 34px;
+  min-height: 42px;
+  font-size: 0.92rem;
+  padding-left: 1.25rem;
+}
+
 .nav__social {
   display: inline-flex;
   align-items: center;
@@ -510,8 +643,10 @@ a:hover {
 
   /* Keep a compact, always-visible booking action in the mobile bar. */
   .nav__cta {
-    min-height: 44px;
-    padding: 0.5rem 1.05rem;
+    --node: 32px;
+    min-height: 40px;
+    padding: 0 4px 0 0.95rem;
+    gap: 0.65rem;
     font-size: 0.9rem;
   }
 
@@ -646,18 +781,6 @@ a:hover {
   overflow: hidden;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -240px;
-  right: -200px;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(127, 166, 160, 0.28), transparent 65%);
-  pointer-events: none;
-}
-
 .hero__inner {
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
@@ -720,26 +843,47 @@ a:hover {
   margin-bottom: 2rem;
 }
 
+/* A credentials rule rather than a bullet list. It previously repeated one
+   shield icon three times, which read as filler; the hairline between items
+   does the same separating job without pretending to be information. */
 .hero__trust {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem 2rem;
+  gap: 0.5rem 0;
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
 .hero__trust li {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-size: 1rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--ink-soft);
+  padding-inline: 1.1rem;
 }
 
-.hero__trust svg {
-  color: var(--primary);
-  flex-shrink: 0;
+.hero__trust li:first-child {
+  padding-left: 0;
+}
+
+.hero__trust li + li {
+  border-left: 1px solid var(--border);
+}
+
+/* Once the row wraps, the dividers land at the start of a line with nothing to
+   their left, so drop them and let the gap separate instead. */
+@media (max-width: 560px) {
+  .hero__trust {
+    gap: 0.65rem 1.5rem;
+  }
+
+  .hero__trust li,
+  .hero__trust li + li {
+    padding-inline: 0;
+    border-left: 0;
+  }
 }
 
 .hero__media {
@@ -756,7 +900,7 @@ a:hover {
      nothing and the full frame — including the wall either side of his
      shoulders — stays visible. A narrower panel eats that breathing room. */
   aspect-ratio: 951 / 1024;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: linear-gradient(160deg, #eaf2f2 0%, #d9e7e7 55%, #cfe0df 100%);
   display: grid;
@@ -775,29 +919,6 @@ a:hover {
 
 /* Sits below the portrait as a quiet caption. It used to float over the photo
    as a card, which crowded the subject and re-introduced a hard edge. */
-.hero__badge {
-  margin-top: 0.35rem;
-  text-align: center;
-}
-
-.hero__badge-value {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--primary-dark);
-}
-
-.hero__badge-label {
-  display: block;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-top: 0.15rem;
-}
-
 @media (max-width: 900px) {
   .hero__inner {
     grid-template-columns: 1fr;
@@ -868,7 +989,7 @@ a:hover {
 }
 
 .about__card:hover {
-  transform: translateY(-3px);
+  border-color: var(--accent);
   box-shadow: var(--shadow-soft);
 }
 
@@ -955,7 +1076,6 @@ a:hover {
 
 .services__card:hover,
 .services__card:focus-within {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-soft);
   border-color: var(--accent);
 }
@@ -1023,12 +1143,12 @@ a:hover {
   width: 100%;
 }
 
+/* Left, to sit on the same axis as the section heading above it. */
 .section__footnote {
-  text-align: center;
   color: var(--ink-soft);
   font-size: 1rem;
   line-height: 1.6;
-  margin: 2.75rem auto 0;
+  margin: 2.75rem 0 0;
   max-width: 56ch;
 }
 
@@ -1059,18 +1179,6 @@ a:hover {
   padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 4rem);
   position: relative;
   overflow: hidden;
-}
-
-.page-hero::before {
-  content: '';
-  position: absolute;
-  top: -260px;
-  right: -180px;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(127, 166, 160, 0.26), transparent 65%);
-  pointer-events: none;
 }
 
 .page-hero__inner {
@@ -1250,7 +1358,7 @@ a:hover {
 }
 
 .pillars__card:hover {
-  transform: translateY(-3px);
+  border-color: var(--accent);
   box-shadow: var(--shadow-soft);
 }
 
@@ -1310,7 +1418,6 @@ a:hover {
 }
 
 .condition-grid__link:hover {
-  transform: translateY(-2px);
   border-color: var(--accent);
   box-shadow: var(--shadow-soft);
   color: var(--primary-dark);
@@ -1609,7 +1716,6 @@ a:hover {
 
 .conditions-browse__card:hover,
 .conditions-browse__card:focus-visible {
-  transform: translateY(-2px);
   border-color: var(--accent);
   box-shadow: var(--shadow-soft);
 }
@@ -2093,7 +2199,7 @@ a:hover {
 .location__map {
   display: block;
   border: 6px solid var(--surface);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   width: 100%;
   height: 440px;
@@ -2605,10 +2711,15 @@ a:hover {
 
 /* ---------- reveal animation ---------- */
 
+/* Opacity-led and short. 22px over 600ms on nearly every block on the page
+   made the whole site feel like it was assembling itself; the curve here is
+   the same one condition-in already uses. */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 600ms ease, transform 600ms ease;
+  transform: translateY(12px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.is-visible {
@@ -2632,6 +2743,9 @@ a:hover {
   }
 
   .btn,
+  .btn--book::before,
+  .btn__node,
+  .btn__node svg,
   .about__card,
   .services__card,
   .services__more,
