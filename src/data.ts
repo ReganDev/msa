@@ -8,7 +8,7 @@
 // deep link, so there is no single "book" URL. In-site calls to action point
 // at /booking, which lists the prices and hands off to the links below.
 export const BOOKING_PATH = '/booking'
-export const INSTAGRAM_URL = 'https://www.instagram.com/manualtherapymatt/'
+export const INSTAGRAM_URL = 'https://www.instagram.com/knightosteopathy/'
 
 const ACUITY_APPOINTMENT =
   'https://app.acuityscheduling.com/schedule.php?owner=11454444&appointmentType='
