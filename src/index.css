@@ -75,7 +75,12 @@
 
   /* Matches .nav__inner min-height. Surfaces that size themselves to the
      viewport under the fixed nav subtract this. */
-  --nav-h: 76px;
+  --nav-h: 84px;
+  /* Height of the announcement strip above the nav. Zero unless the September
+     offer is running, in which case usePromo puts .has-promo on <html>. Every
+     surface that clears the fixed nav adds this, so the bar can appear and
+     disappear on a date without anything else being touched. */
+  --promo-h: 0px;
   /* Reading measure for the /conditions pane, shared by its header bar so the
      title and the copy below it sit on the same left edge. Wide by prose
      standards — the brief is to use the landscape and keep scrolling short. */
@@ -90,7 +95,17 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 92px;
+  scroll-padding-top: calc(92px + var(--promo-h));
+}
+
+html.has-promo {
+  --promo-h: 42px;
+}
+
+@media (max-width: 640px) {
+  html.has-promo {
+    --promo-h: 38px;
+  }
 }
 
 body {
@@ -139,7 +154,7 @@ a:hover {
    page clears it with its hero's top padding, so a bare section needs the same
    or its heading sits under the nav. */
 .section--first {
-  padding-top: clamp(7.5rem, 14vw, 10rem);
+  padding-top: calc(clamp(7.5rem, 14vw, 10rem) + var(--promo-h));
 }
 
 .section--alt {
@@ -153,12 +168,21 @@ a:hover {
    section a shoulder to hang off and keeps the lead at a readable measure. */
 .section__heading {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: end;
+  gap: 1rem;
   max-width: none;
   margin: 0 0 clamp(2.5rem, 6vw, 3.75rem);
   text-align: left;
+}
+
+/* The split only earns its keep once both columns still hold a readable
+   measure. Below that it strands the title in a narrow ragged column with the
+   lead crammed beside it, so on a phone the lead simply follows the title. */
+@media (min-width: 861px) {
+  .section__heading {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: end;
+  }
 }
 
 /* The grid gap owns the spacing here. .section__title is also used standalone
@@ -417,7 +441,7 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  min-height: 76px;
+  min-height: 84px;
 }
 
 .nav__brand {
@@ -429,7 +453,7 @@ a:hover {
 
 .nav__logo {
   display: block;
-  height: 46px;
+  height: 56px;
   width: auto;
   border-radius: 8px;
   transition: opacity var(--transition);
@@ -677,7 +701,7 @@ a:hover {
   }
 
   .nav__logo {
-    height: 40px;
+    height: 48px;
   }
 
   .nav {
@@ -791,10 +815,95 @@ a:hover {
   }
 }
 
+/* ---------- September offer bar ---------- */
+
+/* Inside the fixed nav rather than above it in the flow, so the offer stays on
+   screen while the page scrolls. Height is driven entirely by --promo-h: the
+   strip grows out of nothing once usePromo confirms the date, which turns an
+   unavoidable post-hydration reflow into a deliberate arrival. */
+.promo-bar,
+.promo-panel,
+.promo-only,
+.rates__price--promo {
+  display: none;
+}
+
+.has-promo .promo-bar {
+  display: block;
+  height: var(--promo-h);
+  background: var(--ink);
+  color: #e7eef1;
+}
+
+.promo-bar__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  height: var(--promo-h);
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.86rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.promo-bar__link:hover {
+  color: #ffffff;
+}
+
+.promo-bar__code {
+  flex-shrink: 0;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(231, 238, 241, 0.42);
+  border-radius: 999px;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition);
+}
+
+.promo-bar__link:hover .promo-bar__code {
+  border-color: rgba(231, 238, 241, 0.75);
+  background: rgba(231, 238, 241, 0.1);
+}
+
+/* The short line is decoration for a narrow screen; the full sentence stays in
+   the accessibility tree at every width rather than being display: none'd out
+   of it, so the link never loses its name. */
+.promo-bar__short {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .promo-bar__full {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .promo-bar__short {
+    display: inline;
+  }
+
+  .promo-bar__link {
+    gap: 0.6rem;
+    font-size: 0.82rem;
+  }
+}
+
 /* ---------- hero ---------- */
 
 .hero {
-  padding: clamp(7rem, 14vw, 9.5rem) 0 clamp(3rem, 7vw, 5rem);
+  padding: calc(clamp(7rem, 14vw, 9.5rem) + var(--promo-h)) 0 clamp(3rem, 7vw, 5rem);
   position: relative;
   overflow: hidden;
 }
@@ -1194,7 +1303,7 @@ a:hover {
 /* ---------- interior page hero ---------- */
 
 .page-hero {
-  padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 4rem);
+  padding: calc(clamp(7.5rem, 14vw, 10rem) + var(--promo-h)) 0 clamp(2.5rem, 6vw, 4rem);
   position: relative;
   overflow: hidden;
 }
@@ -1485,9 +1594,9 @@ a:hover {
    ============================================================ */
 
 .main--viewport {
-  height: calc(100vh - var(--nav-h));
-  height: calc(100dvh - var(--nav-h));
-  margin-top: var(--nav-h);
+  height: calc(100vh - var(--nav-h) - var(--promo-h));
+  height: calc(100dvh - var(--nav-h) - var(--promo-h));
+  margin-top: calc(var(--nav-h) + var(--promo-h));
   overflow: hidden;
 }
 
@@ -2592,6 +2701,161 @@ a:hover {
   white-space: nowrap;
 }
 
+/* ---------- September offer panel ---------- */
+
+/* The one dark surface on a light page, sat directly above the prices it
+   changes. It carries the terms the nav strip has no room for. */
+.has-promo .promo-panel {
+  display: grid;
+  gap: 1.5rem;
+  margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: #e7eef1;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 861px) {
+  .has-promo .promo-panel {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+}
+
+.promo-panel__body {
+  min-width: 0;
+}
+
+.promo-panel__eyebrow {
+  margin: 0 0 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.promo-panel__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
+}
+
+.promo-panel__lead {
+  margin: 0;
+  max-width: 54ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  /* Tinted from the panel's own hue rather than grey, so it reads as quieter
+     rather than as faded. */
+  color: #b9cad1;
+}
+
+/* Not a card inside a card: a hairline divides the two halves and the code
+   carries itself on scale alone. */
+.promo-panel__code {
+  display: grid;
+  justify-items: start;
+  gap: 0.55rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid rgba(231, 238, 241, 0.18);
+}
+
+@media (min-width: 861px) {
+  .promo-panel__code {
+    padding-top: 0;
+    padding-left: clamp(2rem, 5vw, 3.5rem);
+    border-top: 0;
+    border-left: 1px solid rgba(231, 238, 241, 0.18);
+  }
+}
+
+.promo-panel__code-label {
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.promo-panel__code-value {
+  font-size: clamp(1.5rem, 4vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.1;
+  /* Selectable as a fallback for anyone the clipboard button fails for. */
+  user-select: all;
+}
+
+.promo-panel__copy {
+  margin-top: 0.35rem;
+  min-height: 44px;
+  padding: 0 1.2rem;
+  border: 1px solid rgba(231, 238, 241, 0.42);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.promo-panel__copy:hover {
+  border-color: rgba(231, 238, 241, 0.75);
+  background: rgba(231, 238, 241, 0.12);
+}
+
+/* ---- offer pricing ---- */
+
+/* Both figures on one baseline: the old price is the reference, the September
+   price is the one being offered, so it keeps the full size and the accent. */
+.has-promo .promo-only {
+  display: inline;
+}
+
+/* Exactly one of the two price cells is ever displayed. */
+.has-promo .rates__price--plain {
+  display: none;
+}
+
+.has-promo .rates__price--promo {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  min-width: 8.5rem;
+  white-space: nowrap;
+}
+
+.rates__was {
+  font-size: 1.35rem;
+  color: var(--ink-soft);
+  text-decoration-thickness: 1px;
+}
+
+.rates__now {
+  color: var(--primary-dark);
+}
+
+@media (max-width: 640px) {
+  .has-promo .rates__price--promo {
+    min-width: 0;
+    gap: 0.4rem;
+  }
+
+  .rates__was {
+    font-size: 1.15rem;
+  }
+}
+
 /* ---- the rows ---- */
 
 .rates__list {
@@ -2697,7 +2961,15 @@ a:hover {
 
   .rates__tab-full,
   .rates__tag {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
 
   .rates__tab-short {

@@ -4,6 +4,7 @@ import { INSTAGRAM_URL } from '../data'
 import { conditionGroups } from '../content/conditions'
 import Chevron from './Chevron'
 import BookButton from './BookButton'
+import PromoBar from './PromoBar'
 
 function InstagramIcon() {
   return (
@@ -111,6 +112,7 @@ export default function Nav() {
 
   return (
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
+      <PromoBar />
       <div className="nav__inner container">
         <Link to="/" className="nav__brand" aria-label="Matthew Knight Osteopathy home">
           <img

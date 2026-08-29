@@ -20,7 +20,7 @@ export default function Hero() {
           <p className="hero__credentials">M.Ost &middot; BSc (Hons) Sports and Exercise Science</p>
           <p className="hero__lead">
             Your pain shouldn&rsquo;t be the new normal. I listen, I assess, I treat and I
-            advise using holistic and evidence-based care that is for you.
+            advise using holistic and evidence-based care that is attuned to you.
           </p>
           <p className="hero__serve">
             I help people in and around Orpington and Bromley.

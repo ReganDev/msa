@@ -35,7 +35,7 @@ export const MAPS_EMBED_URL =
 
 // --- Services ---
 export interface ServiceTier {
-  /** Appointment type, e.g. 'Advanced'. */
+  /** Appointment type, e.g. 'First Osteopathy Appointment'. */
   name: string
   /** Length of the appointment, e.g. '60 min'. */
   duration: string
@@ -73,13 +73,13 @@ export const services: Service[] = [
       'Osteopathy is a hands-on, whole-body approach that focuses on how interconnected joints and their associated muscles, tendons, ligaments and nerves work together. Matthew assesses these areas to understand what may be contributing to pain or restricted movement, then uses techniques such as soft-tissue work, mobilisation and manipulation, alongside clear advice and exercises, to help you recover and move well.',
     tiers: [
       {
-        name: 'Advanced',
+        name: 'First Osteopathy Appointment',
         duration: '60 min',
         price: 70,
         bookingUrl: `${ACUITY_APPOINTMENT}96983426`,
       },
       {
-        name: 'Standard',
+        name: 'Follow up',
         duration: '30 min',
         price: 55,
         bookingUrl: `${ACUITY_APPOINTMENT}96983308`,

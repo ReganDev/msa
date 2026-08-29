@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ArrowNode from '../components/ArrowNode'
+import PromoPanel from '../components/PromoPanel'
+import { PROMO, promoPrice } from '../lib/promo'
 import {
   PACKAGE_DISCOUNT,
   services,
@@ -24,6 +26,8 @@ interface Row {
   /** Shown next to the title on package rows only. */
   saving?: string
   price: string
+  /** September price. Absent on packages, which the offer excludes. */
+  promo?: string
   action: string
   bookingUrl: string
   /** Appended to the action word for screen readers, since "Book" alone
@@ -65,6 +69,7 @@ const treatmentTabs: Tab[] = bookable.map((service) => ({
     eyebrow: `${service.name} · ${tier.duration}`,
     title: tier.name,
     price: formatPrice(tier.price),
+    promo: formatPrice(promoPrice(tier.price)),
     action: 'Book',
     bookingUrl: tier.bookingUrl,
     spokenLabel: `${service.name}, ${tierLabel(tier)}`,
@@ -131,11 +136,9 @@ export default function Booking() {
       <div className="container">
         <div className="section__heading reveal">
           <h1 className="section__title">Appointments</h1>
-          <p className="section__lead">
-            Pick a treatment, then a length. Booking opens in Acuity, Matthew&rsquo;s
-            scheduler.
-          </p>
         </div>
+
+        <PromoPanel />
 
         <div className="rates reveal">
           <div className="rates__tabs" role="tablist" aria-label="Treatment type">
@@ -188,7 +191,26 @@ export default function Booking() {
                         )}
                       </span>
                     </span>
-                    <span className="rates__price">{row.price}</span>
+                    {/* Both figures ship in the HTML; `has-promo` on <html>
+                        decides which one is displayed, so the price is right
+                        in the very first frame and never swaps under the
+                        reader. Packages have no row.promo and so never
+                        discount. */}
+                    <span className="rates__price rates__price--plain">
+                      {row.price}
+                    </span>
+                    {row.promo && (
+                      <span className="rates__price rates__price--promo">
+                        <s className="rates__was">
+                          <span className="visually-hidden">Was </span>
+                          {row.price}
+                        </s>
+                        <span className="rates__now">
+                          <span className="visually-hidden">, now </span>
+                          {row.promo}
+                        </span>
+                      </span>
+                    )}
                     <a
                       href={row.bookingUrl}
                       target="_blank"
@@ -205,7 +227,15 @@ export default function Booking() {
                 ))}
               </ul>
 
-              <p className="rates__panel-note">{tab.note}</p>
+              <p className="rates__panel-note">
+                {tab.note}
+                {tab.id === 'packages' && (
+                  <span className="promo-only">
+                    {' '}
+                    The {PROMO.code} offer applies to single appointments only.
+                  </span>
+                )}
+              </p>
             </div>
           ))}
         </div>

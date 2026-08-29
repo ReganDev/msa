@@ -32,7 +32,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer__inner">
         <div className="footer__brand">
-          <p className="footer__logo">Matthew Knight</p>
+          <p className="footer__logo">Knight Osteopathy</p>
           <p className="footer__tag">Osteopath &amp; Sports Massage Therapist &middot; Orpington</p>
         </div>
 
@@ -59,7 +59,7 @@ export default function Footer() {
         </ul>
 
         <p className="footer__copy">
-          © {new Date().getFullYear()} Matthew Knight Osteopathy. All rights reserved.
+          © {new Date().getFullYear()} Knight Osteopathy. All rights reserved.
         </p>
       </div>
     </footer>
