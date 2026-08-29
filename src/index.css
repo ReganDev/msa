@@ -98,12 +98,14 @@ html {
   scroll-padding-top: calc(92px + var(--promo-h));
 }
 
-html.has-promo {
+html.has-promo,
+html.has-promo-soon {
   --promo-h: 42px;
 }
 
 @media (max-width: 640px) {
-  html.has-promo {
+  html.has-promo,
+  html.has-promo-soon {
     --promo-h: 38px;
   }
 }
@@ -824,15 +826,36 @@ a:hover {
 .promo-bar,
 .promo-panel,
 .promo-only,
-.rates__price--promo {
+.rates__price--promo,
+.promo-bar__text,
+.promo-bar__code,
+.promo-soon,
+.promo-live {
   display: none;
 }
 
-.has-promo .promo-bar {
+.has-promo .promo-bar,
+.has-promo-soon .promo-bar {
   display: block;
   height: var(--promo-h);
   background: var(--ink);
   color: #e7eef1;
+}
+
+/* One message per phase, chosen from the class index.html sets before paint. */
+.has-promo-soon .promo-bar__text--soon,
+.has-promo .promo-bar__text--live {
+  display: block;
+}
+
+.has-promo-soon .promo-soon,
+.has-promo .promo-live {
+  display: inline;
+}
+
+/* The code earns its pill only once it can be redeemed. */
+.has-promo .promo-bar__code {
+  display: inline;
 }
 
 .promo-bar__link {
@@ -2705,7 +2728,8 @@ a:hover {
 
 /* The one dark surface on a light page, sat directly above the prices it
    changes. It carries the terms the nav strip has no room for. */
-.has-promo .promo-panel {
+.has-promo .promo-panel,
+.has-promo-soon .promo-panel {
   display: grid;
   gap: 1.5rem;
   margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
@@ -2717,7 +2741,8 @@ a:hover {
 }
 
 @media (min-width: 861px) {
-  .has-promo .promo-panel {
+  .has-promo .promo-panel,
+  .has-promo-soon .promo-panel {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: clamp(2rem, 5vw, 3.5rem);
     align-items: center;
@@ -2817,7 +2842,8 @@ a:hover {
 
 /* Both figures on one baseline: the old price is the reference, the September
    price is the one being offered, so it keeps the full size and the accent. */
-.has-promo .promo-only {
+.has-promo .promo-only,
+.has-promo-soon .promo-only {
   display: inline;
 }
 

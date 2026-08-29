@@ -31,9 +31,14 @@
     />
     <!--
       September offer — THE dates for the promotion live here and nowhere else.
-      Opens at midnight on 1 September and closes at the end of 30 September, so
-      the discounted prices are only ever on screen while they can actually be
-      claimed.
+
+        has-promo-soon  29 Aug -> 1 Sept   the offer is announced but not live
+        has-promo        1 Sept -> 1 Oct   the offer is running
+
+      Only `has-promo` ever discounts a price, so a half-price figure is on
+      screen exactly while it can be claimed; the run-up states the dates
+      instead. After 30 September neither class is set and every trace of the
+      offer is gone without anyone touching the site.
       Runs before first paint so the space above the nav is already reserved and
       the page never jumps once React hydrates. It has to be a runtime check
       rather than a build-time one: every page is prerendered to static HTML, so
@@ -44,8 +49,14 @@
     <script>
       (function () {
         var now = new Date()
-        if (now >= new Date(2026, 8, 1) && now < new Date(2026, 9, 1)) {
-          document.documentElement.classList.add('has-promo')
+        var announceFrom = new Date(2026, 7, 29)
+        var offerFrom = new Date(2026, 8, 1)
+        var offerUntil = new Date(2026, 9, 1)
+        var root = document.documentElement
+        if (now >= offerFrom && now < offerUntil) {
+          root.classList.add('has-promo')
+        } else if (now >= announceFrom && now < offerFrom) {
+          root.classList.add('has-promo-soon')
         }
       })()
     </script>
