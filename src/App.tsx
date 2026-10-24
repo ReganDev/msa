@@ -8,6 +8,8 @@ import SpinalManipulation from './pages/SpinalManipulation'
 import OrpingtonClinic from './pages/OrpingtonClinic'
 import Booking from './pages/Booking'
 import ConditionsIndex from './pages/ConditionsIndex'
+import BlogIndex from './pages/BlogIndex'
+import BlogPost from './pages/BlogPost'
 import NotFound from './pages/NotFound'
 import { useReveal } from './hooks/useReveal'
 import { usePageMeta } from './hooks/usePageMeta'
@@ -55,6 +57,8 @@ export default function App() {
           <Route path="/booking" element={<Booking />} />
           <Route path="/conditions" element={<ConditionsIndex />} />
           <Route path="/conditions/:slug" element={<ConditionRedirect />} />
+          <Route path="/blog" element={<BlogIndex />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

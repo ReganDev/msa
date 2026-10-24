@@ -28,6 +28,8 @@ npm run preview   # preview the production build (serves the prerendered HTML)
 | `/spinal-manipulation` | `src/pages/SpinalManipulation.tsx` |
 | `/locations/orpington` | `src/pages/OrpingtonClinic.tsx` |
 | `/conditions` | `src/pages/ConditionsIndex.tsx` — all 12 conditions, one expandable panel each |
+| `/blog` | `src/pages/BlogIndex.tsx` — lead story plus a ruled list of posts |
+| `/blog/<slug>` | `src/pages/BlogPost.tsx` — one prerendered page per post in `src/content/blog.ts` |
 | `/conditions/<slug>` | Retired. Redirects to `/conditions#<slug>` (`vercel.json`, plus a client fallback in `src/App.tsx`) |
 
 ## Where content lives
@@ -37,6 +39,7 @@ npm run preview   # preview the production build (serves the prerendered HTML)
 | Booking link, Instagram, email, address, services & prices | `src/data.ts` |
 | **All 12 conditions — copy, sections and FAQs** | `src/content/conditions.ts` |
 | **URLs, page titles and meta descriptions** | `src/routes.ts` |
+| **Blog posts** (currently placeholders, to be replaced by Sanity) | `src/content/blog.ts` |
 | Home-page section copy (headings, bio, blurbs) | inline in each `src/components/*.tsx` |
 | Osteopathy / spinal manipulation copy | inline in the matching `src/pages/*.tsx` |
 | Colours, fonts, spacing (design tokens) | `:root` in `src/index.css` |

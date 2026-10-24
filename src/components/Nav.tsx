@@ -24,6 +24,7 @@ const links = [
   { to: '/conditions', label: 'Conditions' },
   { to: '/locations/orpington', label: 'Locations' },
   { to: '/booking', label: 'Booking' },
+  { to: '/blog', label: 'Blog' },
   { to: '/#about', label: 'About' },
   { to: '/#contact', label: 'Contact' },
 ]

@@ -7,6 +7,8 @@
    Add a route here and it is prerendered automatically.
    ============================================================ */
 
+import { allPosts } from './content/blog'
+
 export interface RouteDef {
   path: string
   title: string
@@ -63,6 +65,19 @@ export const routes: RouteDef[] = [
     description:
       'Lower back pain, sciatica, neck pain, cervicogenic headaches, shoulder, elbow, hip, knee and ankle problems. What each involves, the symptoms people describe and how osteopathy may help. Orpington clinic.',
   },
+  {
+    path: '/blog',
+    title: `Blog · Osteopath in Orpington · ${SITE_NAME}`,
+    description:
+      'Plain-English articles on pain, movement and recovery from Matthew Knight, osteopath and sports massage therapist in Orpington.',
+  },
+  // One page per post. Title and excerpt come from the post itself, so a new
+  // post is prerendered with its own <title> and description automatically.
+  ...allPosts.map((post) => ({
+    path: `/blog/${post.slug}`,
+    title: `${post.title} · ${SITE_NAME}`,
+    description: post.excerpt,
+  })),
 ]
 
 export const routeByPath = new Map(routes.map((route) => [route.path, route]))
