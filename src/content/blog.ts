@@ -354,6 +354,18 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
 
 export const formatDate = (iso: string) => dateFormat.format(new Date(`${iso}T12:00:00`))
 
+const relative = new Intl.RelativeTimeFormat('en-GB', { numeric: 'auto' })
+const DAY = 24 * 60 * 60 * 1000
+
+/** "today", "yesterday", "5 days ago", "2 weeks ago", "3 months ago"… */
+export function timeAgo(iso: string, now = new Date()) {
+  const days = Math.floor((now.getTime() - new Date(`${iso}T00:00:00`).getTime()) / DAY)
+  if (days < 7) return relative.format(-Math.max(0, days), 'day')
+  if (days < 30) return relative.format(-Math.floor(days / 7), 'week')
+  if (days < 365) return relative.format(-Math.floor(days / 30), 'month')
+  return relative.format(-Math.floor(days / 365), 'year')
+}
+
 const blockText = (block: Block) =>
   'text' in block ? block.text : block.items.join(' ')
 

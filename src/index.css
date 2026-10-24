@@ -3118,7 +3118,7 @@ a:hover {
 
 .blog__back {
   display: inline-block;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   font-size: 0.92rem;
   font-weight: 500;
   color: var(--ink-soft);
@@ -3152,6 +3152,20 @@ a:hover {
 
 .blog__empty {
   color: var(--ink-soft);
+}
+
+/* Matthew's writing — title, byline and body — in one grey panel. */
+.blog-panel {
+  padding: clamp(1.5rem, 4.5vw, 2.75rem);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.blog-panel__head {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #d8e2e5;
 }
 
 /* ---------- byline ---------- */
@@ -3286,7 +3300,8 @@ a:hover {
 .article__note {
   margin: 1.5em 0;
   padding: 1rem 1.25rem;
-  background: var(--accent-soft);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 0.98rem;
   line-height: 1.65;

@@ -6,7 +6,7 @@ import CtaBand from '../components/CtaBand'
 import { otherPosts, postBySlug } from '../content/blog'
 import NotFound from './NotFound'
 
-/** One article: title, Matthew's byline with the reading time, then the text. */
+/** One article: title, Matthew's byline and the text, together in one panel. */
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
   const post = slug ? postBySlug.get(slug) : undefined
@@ -18,15 +18,18 @@ export default function BlogPost() {
   return (
     <>
       <article className="blog">
-        <header className="blog__head">
-          <Link to="/blog" className="blog__back">
-            &larr; All articles
-          </Link>
-          <h1 className="blog__title blog__title--post">{post.title}</h1>
-          <Byline post={post} />
-        </header>
+        <Link to="/blog" className="blog__back">
+          &larr; All articles
+        </Link>
 
-        <PostBody blocks={post.body} />
+        {/* Everything Matthew wrote sits in one panel, so it reads as his. */}
+        <div className="blog-panel">
+          <header className="blog-panel__head">
+            <h1 className="blog__title blog__title--post">{post.title}</h1>
+            <Byline post={post} />
+          </header>
+          <PostBody blocks={post.body} />
+        </div>
 
         {more.length > 0 && (
           <aside className="blog-more" aria-labelledby="blog-more-title">

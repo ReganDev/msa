@@ -1,10 +1,11 @@
-import { formatDate, readingMinutes, type Post } from '../../content/blog'
+import { readingMinutes, type Post } from '../../content/blog'
+import PostedAgo from './PostedAgo'
 
-/** "14 October 2026 · 4 min read" */
+/** "Posted 2 weeks ago · 4 min read" */
 export default function PostMeta({ post }: { post: Post }) {
   return (
     <p className="post-meta">
-      <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+      <PostedAgo iso={post.publishedAt} />
       <span aria-hidden="true"> · </span>
       {readingMinutes(post)} min read
     </p>

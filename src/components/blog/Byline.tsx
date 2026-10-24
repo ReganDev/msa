@@ -1,4 +1,5 @@
-import { formatDate, readingMinutes, type Post } from '../../content/blog'
+import { type Post } from '../../content/blog'
+import PostMeta from './PostMeta'
 
 /**
  * Matthew's photo and name, with the date and reading time when a post is
@@ -17,11 +18,7 @@ export default function Byline({ post }: { post?: Post }) {
       <div>
         <p className="byline__name">Matthew Knight, M.Ost</p>
         {post ? (
-          <p className="byline__meta">
-            <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-            <span aria-hidden="true"> · </span>
-            {readingMinutes(post)} min read
-          </p>
+          <PostMeta post={post} />
         ) : (
           <p className="byline__meta">Osteopath &amp; sports massage therapist, Orpington</p>
         )}
