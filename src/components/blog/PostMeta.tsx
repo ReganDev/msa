@@ -5,8 +5,8 @@ export default function PostMeta({ post }: { post: Post }) {
   return (
     <p className="post-meta">
       <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-      <span aria-hidden="true">·</span>
-      <span>{readingMinutes(post)} min read</span>
+      <span aria-hidden="true"> · </span>
+      {readingMinutes(post)} min read
     </p>
   )
 }

@@ -23,30 +23,6 @@ export type Block =
   /** Quiet emphasis panel — red flags, "when to get help". */
   | { type: 'note'; title?: string; text: string }
 
-/** Where on the body a post is about. Drives the body-map prototype. */
-export type BodyRegion =
-  | 'neck'
-  | 'shoulder'
-  | 'elbow'
-  | 'lower-back'
-  | 'hip'
-  | 'knee'
-  | 'ankle'
-
-export const regionLabel: Record<BodyRegion, string> = {
-  neck: 'Neck & head',
-  shoulder: 'Shoulder',
-  elbow: 'Elbow & wrist',
-  'lower-back': 'Lower back',
-  hip: 'Hip & glutes',
-  knee: 'Knee',
-  ankle: 'Ankle & foot',
-}
-
-export type Topic = 'Desk & posture' | 'Running & sport' | 'Pain explained' | 'Recovery'
-
-export const topics: Topic[] = ['Desk & posture', 'Running & sport', 'Pain explained', 'Recovery']
-
 export interface Post {
   slug: string
   title: string
@@ -54,10 +30,6 @@ export interface Post {
   excerpt: string
   /** ISO date */
   publishedAt: string
-  topic: Topic
-  region: BodyRegion
-  cover: string
-  coverAlt: string
   body: Block[]
 }
 
@@ -68,10 +40,6 @@ const posts: Post[] = [
     excerpt:
       'Sitting is not the enemy, but sitting still is. What actually loads your lower back at work, and five small changes that make a real difference.',
     publishedAt: '2026-10-14',
-    topic: 'Desk & posture',
-    region: 'lower-back',
-    cover: '/conditions/lower-back-pain.jpg',
-    coverAlt: 'A person holding their lower back while standing',
     body: [
       {
         type: 'p',
@@ -138,10 +106,6 @@ const posts: Post[] = [
     excerpt:
       'Pain around the kneecap is the most common running complaint there is. Why it happens, and why stopping completely is rarely the answer.',
     publishedAt: '2026-09-30',
-    topic: 'Running & sport',
-    region: 'knee',
-    cover: '/conditions/knee-meniscus.jpg',
-    coverAlt: 'A runner holding the front of their knee',
     body: [
       {
         type: 'p',
@@ -194,10 +158,6 @@ const posts: Post[] = [
     excerpt:
       'If your headaches seem to begin at the base of your skull and creep forwards, your neck may be part of the story. Here is how to tell.',
     publishedAt: '2026-09-12',
-    topic: 'Pain explained',
-    region: 'neck',
-    cover: '/conditions/cervicogenic-headaches.jpg',
-    coverAlt: 'A person rubbing the back of their neck at a desk',
     body: [
       {
         type: 'p',
@@ -247,10 +207,6 @@ const posts: Post[] = [
     excerpt:
       'Most people with tennis elbow have never held a racket. Why the outside of the elbow gets sore, and how long it really takes to settle.',
     publishedAt: '2026-08-21',
-    topic: 'Pain explained',
-    region: 'elbow',
-    cover: '/conditions/tennis-elbow.jpg',
-    coverAlt: 'A person holding the outside of their elbow',
     body: [
       {
         type: 'p',
@@ -296,10 +252,6 @@ const posts: Post[] = [
     excerpt:
       'What to do in the first three days after an ankle sprain, when to worry about a fracture, and why getting moving early pays off.',
     publishedAt: '2026-08-04',
-    topic: 'Recovery',
-    region: 'ankle',
-    cover: '/conditions/ankle-sprains.jpg',
-    coverAlt: 'A person holding a swollen ankle on a pitch',
     body: [
       {
         type: 'p',
@@ -346,10 +298,6 @@ const posts: Post[] = [
     excerpt:
       'Pain that runs down the back of the leg can be alarming. What sciatica actually is, why it usually settles, and what you can do in the meantime.',
     publishedAt: '2026-07-17',
-    topic: 'Pain explained',
-    region: 'hip',
-    cover: '/conditions/sciatica.jpg',
-    coverAlt: 'A person sitting and holding the back of their thigh',
     body: [
       {
         type: 'p',
@@ -415,7 +363,7 @@ export function readingMinutes(post: Post) {
   return Math.max(1, Math.round(words / 220))
 }
 
-/** Stable id for an h2, used for in-page contents links. */
+/** Stable id for an h2, so a section can be linked to directly. */
 export const headingId = (text: string) =>
   text
     .toLowerCase()
@@ -423,18 +371,6 @@ export const headingId = (text: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-/** The post's h2s, in order — the contents list. */
-export const outline = (post: Post) =>
-  post.body
-    .filter((block): block is { type: 'h2'; text: string } => block.type === 'h2')
-    .map((block) => ({ id: headingId(block.text), text: block.text }))
-
-/** Posts other than this one, same region first, then same topic, then newest. */
-export function relatedPosts(post: Post, count = 2) {
-  const score = (other: Post) =>
-    (other.region === post.region ? 2 : 0) + (other.topic === post.topic ? 1 : 0)
-  return allPosts
-    .filter((other) => other.slug !== post.slug)
-    .sort((a, b) => score(b) - score(a))
-    .slice(0, count)
-}
+/** The newest posts other than this one. */
+export const otherPosts = (post: Post, count = 2) =>
+  allPosts.filter((other) => other.slug !== post.slug).slice(0, count)
