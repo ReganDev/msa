@@ -1,6 +1,6 @@
-# Matthew Knight — Osteopath & Sports Therapist
+# Orpington Osteopaths
 
-A marketing site for Matthew Knight, an osteopath and sports therapist based at the
+A marketing site for Orpington Osteopaths: Matthew Knight, an osteopath and sports therapist based at the
 Tennis Centre, Avebury Rd, Orpington (inside the Jon W Sports injury clinic).
 
 Built with **Vite + React 19 + TypeScript**, with `react-router-dom` for routing. Clean,
@@ -85,8 +85,9 @@ discarding it.
    `vercel dev` to exercise the form locally.
 4. **Photos (optional)** — the hero uses a decorative SVG. To use a real portrait, drop an
    `<img>` into `.hero__panel` in `src/components/Hero.tsx` (a slot comment marks the spot).
-5. **Live domain** — set `SITE_URL` in `src/routes.ts` to the production origin (no
-   trailing slash). Until it is set, `<link rel="canonical">` and `og:url` are omitted.
+5. **Live domain** — `SITE_URL` in `src/routes.ts` is `https://www.orpingtonosteopaths.com`
+   and drives `<link rel="canonical">` and `og:url`. Keep it in step with the primary
+   domain in Vercel; knightosteopathy.com should redirect there at the domain level.
 6. **Condition copy sign-off** — the copy in `src/content/conditions.ts` is a draft
    written for Matthew to review. It is deliberately non-diagnostic and outcome-neutral
    to stay within GOsC / ASA advertising rules, so keep that tone when editing.

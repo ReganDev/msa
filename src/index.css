@@ -442,7 +442,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1rem;
   min-height: 84px;
 }
 
@@ -465,9 +465,21 @@ a:hover {
   opacity: 0.85;
 }
 
+/* Practice name beside the logo, stacked so it costs about 105px of the row
+   rather than twice that. */
+.nav__wordmark {
+  margin-left: 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
 .nav__links {
   display: flex;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 .nav__link {
@@ -679,7 +691,9 @@ a:hover {
   display: none;
 }
 
-@media (max-width: 860px) {
+/* The full row (logo and wordmark, the links, Instagram, Book Now) needs about
+   1100px, so the menu takes over below that rather than letting the row overflow. */
+@media (max-width: 1160px) {
   .nav__links,
   .nav__social {
     display: none;
@@ -814,6 +828,25 @@ a:hover {
 
   .nav__mobile-cta {
     margin-top: 0.9rem;
+  }
+}
+
+/* Phone bar: logo, wordmark, Book Now and the menu button share 320-390px.
+   Kept after the 1160px block so its .nav__inner gap doesn't override these. */
+@media (max-width: 420px) {
+  .nav__wordmark {
+    margin-left: 0.45rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 374px) {
+  .nav__inner {
+    gap: 0.5rem;
+  }
+
+  .nav__wordmark {
+    font-size: 1rem;
   }
 }
 

@@ -32,8 +32,10 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer__inner">
         <div className="footer__brand">
-          <p className="footer__logo">Knight Osteopathy</p>
-          <p className="footer__tag">Osteopath &amp; Sports Massage Therapist &middot; Orpington</p>
+          <p className="footer__logo">Orpington Osteopaths</p>
+          <p className="footer__tag">
+            Matthew Knight, M.Ost &middot; Osteopath &amp; Sports Massage Therapist
+          </p>
         </div>
 
         <nav className="footer__links" aria-label="Footer">
@@ -59,7 +61,7 @@ export default function Footer() {
         </ul>
 
         <p className="footer__copy">
-          © {new Date().getFullYear()} Knight Osteopathy. All rights reserved.
+          © {new Date().getFullYear()} Orpington Osteopaths. All rights reserved.
         </p>
       </div>
     </footer>

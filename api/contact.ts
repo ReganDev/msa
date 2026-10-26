@@ -25,7 +25,7 @@ const DEFAULT_TO = 'info@knightosteopathy.com'
  * from Matthew's domain. Set CONTACT_FROM to an address on a domain verified in
  * Resend before going live.
  */
-const DEFAULT_FROM = 'Knight Osteopathy <onboarding@resend.dev>'
+const DEFAULT_FROM = 'Orpington Osteopaths <onboarding@resend.dev>'
 
 const LIMIT = { name: 100, email: 254, message: 5000 }
 

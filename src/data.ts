@@ -24,7 +24,8 @@ export const CONTACT_ENDPOINT = '/api/contact'
 // --- Contact & location ---
 // Change this and change DEFAULT_TO in api/contact.ts to match: that function
 // cannot import from here (see the note at the top of it), so enquiries would
-// otherwise keep going to the old address.
+// otherwise keep going to the old address. Still on the old domain after the
+// rename: orpingtonosteopaths.com has no mailbox (no MX records) yet.
 export const EMAIL = 'info@knightosteopathy.com'
 export const ADDRESS = 'Tennis Centre, Avebury Rd, Orpington BR6 9SA'
 export const ADDRESS_NOTE = 'Located inside the Jon W Sports injury clinic'

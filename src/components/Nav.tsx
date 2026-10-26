@@ -114,15 +114,22 @@ export default function Nav() {
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <PromoBar />
       <div className="nav__inner container">
-        <Link to="/" className="nav__brand" aria-label="Matthew Knight Osteopathy home">
+        {/* The wordmark beside it names the practice, so the logo itself is
+            decorative and a failed image leaves no duplicate alt text behind. */}
+        <Link to="/" className="nav__brand" aria-label="Orpington Osteopaths home">
           <img
             className="nav__logo"
             src="/logo.png"
-            alt="Matthew Knight Osteopathy"
+            alt=""
             width={892}
             height={1024}
             loading="eager"
           />
+          <span className="nav__wordmark">
+            Orpington
+            <br />
+            Osteopaths
+          </span>
         </Link>
 
         <nav className="nav__links" aria-label="Main navigation">
