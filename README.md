@@ -29,7 +29,7 @@ npm run preview   # preview the production build (serves the prerendered HTML)
 | `/locations/orpington` | `src/pages/OrpingtonClinic.tsx` |
 | `/conditions` | `src/pages/ConditionsIndex.tsx` — all 12 conditions, one expandable panel each |
 | `/blog` | `src/pages/BlogIndex.tsx` — lead story plus a ruled list of posts |
-| `/blog/<slug>` | `src/pages/BlogPost.tsx` — one prerendered page per post in `src/content/blog.ts` |
+| `/blog/<slug>` | `src/pages/BlogPost.tsx` — one prerendered page per published Sanity post |
 | `/conditions/<slug>` | Retired. Redirects to `/conditions#<slug>` (`vercel.json`, plus a client fallback in `src/App.tsx`) |
 
 ## Where content lives
@@ -39,7 +39,7 @@ npm run preview   # preview the production build (serves the prerendered HTML)
 | Booking link, Instagram, email, address, services & prices | `src/data.ts` |
 | **All 12 conditions — copy, sections and FAQs** | `src/content/conditions.ts` |
 | **URLs, page titles and meta descriptions** | `src/routes.ts` |
-| **Blog posts** (currently placeholders, to be replaced by Sanity) | `src/content/blog.ts` |
+| **Blog posts** | Sanity, edited at https://orpingtonosteopaths.sanity.studio (project `tgfsg74o`). Fetched at build time by `scripts/fetch-posts.mjs`; editor schema in `studio/` |
 | Home-page section copy (headings, bio, blurbs) | inline in each `src/components/*.tsx` |
 | Osteopathy / spinal manipulation copy | inline in the matching `src/pages/*.tsx` |
 | Colours, fonts, spacing (design tokens) | `:root` in `src/index.css` |
@@ -106,3 +106,15 @@ directly.
   anchor scrolling. Nav links to home sections use `/#about` style paths so they work
   from any page (`src/components/ScrollManager.tsx` handles the scroll).
 - **Content pages** — see the Pages table above.
+
+## Blog (Sanity)
+
+Matthew writes posts in the Sanity Studio at https://orpingtonosteopaths.sanity.studio.
+Publishing calls a Sanity webhook that triggers a Vercel deploy hook; the build then runs
+`scripts/fetch-posts.mjs`, which downloads every published post into
+`src/generated/posts.json` (gitignored) before the pages are prerendered. A failed fetch
+fails the build, so a Sanity outage can never deploy an empty blog.
+
+- Change what a post contains: `studio/schemaTypes/`, then `cd studio && npx sanity deploy`.
+- Change how a post looks: `src/components/blog/PostBody.tsx` and the Blog section of `src/index.css`.
+- `npm run dev` fetches posts first, so local dev shows what is published.

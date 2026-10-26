@@ -1,56 +1,46 @@
-import { headingId, type Block } from '../../content/blog'
+import { PortableText, toPlainText, type PortableTextComponents } from '@portabletext/react'
+import { headingId, type BodyBlock, type NoteBlock } from '../../content/blog'
 
 /**
- * Renders a post's body blocks. Styling lives on `.article` so each layout can
- * place the column without restating the typography. h2s get stable ids so a
- * contents list can link to them.
+ * Maps Sanity's Portable Text onto the article styles. h2s get stable ids so a
+ * section can be linked to directly; links that leave the site open in a new
+ * tab; the "note" block is the quiet panel used for red-flag advice.
  */
-export default function PostBody({ blocks }: { blocks: Block[] }) {
+const components: PortableTextComponents = {
+  block: {
+    h2: ({ children, value }) => <h2 id={headingId(toPlainText(value))}>{children}</h2>,
+    h3: ({ children }) => <h3>{children}</h3>,
+    blockquote: ({ children }) => (
+      <blockquote className="article__quote">
+        <p>{children}</p>
+      </blockquote>
+    ),
+  },
+  marks: {
+    link: ({ children, value }) => {
+      const href: string = value?.href ?? ''
+      const external = /^https?:\/\//.test(href)
+      return (
+        <a href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+          {children}
+        </a>
+      )
+    },
+  },
+  types: {
+    note: ({ value }: { value: NoteBlock }) => (
+      <aside className="article__note">
+        {value.title && <p className="article__note-title">{value.title}</p>}
+        <p>{value.text}</p>
+      </aside>
+    ),
+  },
+}
+
+export default function PostBody({ blocks }: { blocks: BodyBlock[] }) {
   return (
     <div className="article">
-      {blocks.map((block, i) => {
-        switch (block.type) {
-          case 'p':
-            return <p key={i}>{block.text}</p>
-          case 'h2':
-            return (
-              <h2 key={i} id={headingId(block.text)}>
-                {block.text}
-              </h2>
-            )
-          case 'h3':
-            return <h3 key={i}>{block.text}</h3>
-          case 'ul':
-            return (
-              <ul key={i}>
-                {block.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            )
-          case 'ol':
-            return (
-              <ol key={i}>
-                {block.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ol>
-            )
-          case 'quote':
-            return (
-              <blockquote key={i} className="article__quote">
-                <p>{block.text}</p>
-              </blockquote>
-            )
-          case 'note':
-            return (
-              <aside key={i} className="article__note">
-                {block.title && <p className="article__note-title">{block.title}</p>}
-                <p>{block.text}</p>
-              </aside>
-            )
-        }
-      })}
+      <PortableText value={blocks} components={components} />
     </div>
   )
 }
