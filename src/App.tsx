@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import ScrollManager from './components/ScrollManager'
@@ -62,6 +63,7 @@ export default function App() {
           the narrow and short cases — where /conditions is an ordinary
           scrolling page — end with the same footer as everywhere else. */}
       <Footer />
+      <Analytics />
     </>
   )
 }
