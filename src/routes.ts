@@ -7,6 +7,8 @@
    Add a route here and it is prerendered automatically.
    ============================================================ */
 
+import { allPosts } from './content/blog'
+
 export interface RouteDef {
   path: string
   title: string
@@ -26,6 +28,24 @@ export const HOME_TITLE =
   'Matthew Knight · Osteopath & Sports Massage Therapist · Orpington'
 export const HOME_DESCRIPTION =
   'Matthew Knight - Osteopath & Sports Massage Therapist in Orpington. Osteopathy, dry needling and sports massage at the Tennis Centre, Avebury Rd, inside the Jon W Sports injury clinic. Book an appointment.'
+
+function blogRoutes(): RouteDef[] {
+  return [
+    {
+      path: '/blog',
+      title: `Blog · Osteopath in Orpington · ${SITE_NAME}`,
+      description:
+        'Plain-English articles on pain, movement and recovery from Matthew Knight, osteopath and sports massage therapist in Orpington.',
+    },
+    // One page per post. Title and excerpt come from the post itself, so a new
+    // post is prerendered with its own <title> and description automatically.
+    ...allPosts.map((post) => ({
+      path: `/blog/${post.slug}`,
+      title: `${post.title} · ${SITE_NAME}`,
+      description: post.excerpt,
+    })),
+  ]
+}
 
 export const routes: RouteDef[] = [
   {
@@ -63,6 +83,9 @@ export const routes: RouteDef[] = [
     description:
       'Lower back pain, sciatica, neck pain, cervicogenic headaches, shoulder, elbow, hip, knee and ankle problems. What each involves, the symptoms people describe and how osteopathy may help. Orpington clinic.',
   },
+  // Behind the blog flag (src/features.json): with it off, no blog pages are
+  // prerendered at all.
+  ...(__BLOG_ENABLED__ ? blogRoutes() : []),
 ]
 
 export const routeByPath = new Map(routes.map((route) => [route.path, route]))

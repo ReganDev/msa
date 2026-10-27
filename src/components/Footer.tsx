@@ -7,6 +7,7 @@ const links = [
   { to: '/conditions', label: 'Conditions' },
   { to: '/locations/orpington', label: 'Orpington Clinic' },
   { to: '/booking', label: 'Booking' },
+  ...(__BLOG_ENABLED__ ? [{ to: '/blog', label: 'Blog' }] : []),
   { to: '/#about', label: 'About' },
   { to: '/#contact', label: 'Contact' },
 ]

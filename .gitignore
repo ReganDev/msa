@@ -3,3 +3,6 @@ dist
 dist-ssr
 *.local
 .DS_Store
+
+# Written by scripts/fetch-posts.mjs before every build
+src/generated/

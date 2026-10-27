@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T13:00:00Z",
+  "title": "Design System: Knight Osteopathy",
+  "extensions": {
+    "colorMeta": {
+      "cool-paper": { "role": "neutral", "displayName": "Cool Paper", "canonical": "#f7f9fa" },
+      "mist": { "role": "neutral", "displayName": "Mist", "canonical": "#eef3f4" },
+      "surface": { "role": "neutral", "displayName": "Surface", "canonical": "#ffffff" },
+      "slate-ink": { "role": "neutral", "displayName": "Slate Ink", "canonical": "#1e2a32", "tonalRamp": ["#0f161b", "#1e2a32", "#2f3d46", "#3f4d56", "#5d6b74", "#8794a0", "#b6c1c8", "#e2e8ec"] },
+      "slate-soft": { "role": "neutral", "displayName": "Slate Soft", "canonical": "#3f4d56" },
+      "clinic-teal": { "role": "primary", "displayName": "Clinic Teal", "canonical": "#2f7d8a", "tonalRamp": ["#123238", "#1b4a52", "#24616b", "#2f7d8a", "#4f97a3", "#7fb6bf", "#b3d4d9", "#e3f0f2"] },
+      "deep-teal": { "role": "primary", "displayName": "Deep Teal", "canonical": "#24616b" },
+      "sage": { "role": "secondary", "displayName": "Sage", "canonical": "#7fa6a0", "tonalRamp": ["#2c403d", "#40605b", "#5a8079", "#7fa6a0", "#9cbcb7", "#bad1cd", "#dce8e7", "#f1f6f5"] },
+      "sage-wash": { "role": "secondary", "displayName": "Sage Wash", "canonical": "#dce8e7" },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#e3e9ec" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page hero titles." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles." },
+      "title": { "displayName": "Title", "purpose": "Card, list and article heading titles." },
+      "body": { "displayName": "Body", "purpose": "Running text, controls, forms." },
+      "label": { "displayName": "Label", "purpose": "One eyebrow per hero; uppercase tracked." },
+      "price": { "displayName": "Price", "purpose": "Prices on /booking only; subset font." }
+    },
+    "shadows": [
+      { "name": "soft", "value": "0 20px 45px -22px rgba(30, 55, 66, 0.32)", "purpose": "Framed hero photos, hovered cards." },
+      { "name": "card", "value": "0 12px 30px -18px rgba(30, 55, 66, 0.22)", "purpose": "Resting cards." },
+      { "name": "button", "value": "0 8px 18px -14px rgba(30, 55, 66, 0.5)", "purpose": "Primary and Book buttons." }
+    ],
+    "motion": [
+      { "name": "transition", "value": "220ms ease", "purpose": "Default colour/border state changes." },
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Reveals, the Book button wipe, image settles." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "640px" },
+      { "name": "split-heading", "value": "861px" },
+      { "name": "hero-stack", "value": "900px" },
+      { "name": "nav-menu", "value": "860px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Book Button",
+      "kind": "button",
+      "refersTo": "button-book",
+      "description": "Split-capsule booking CTA; the only control with this treatment.",
+      "html": "<a class=\"ds-btn-book\" href=\"#\"><span class=\"ds-btn-book__label\">Book an appointment</span><span class=\"ds-btn-book__node\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></span></a>",
+      "css": ".ds-btn-book{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:space-between;gap:1.1rem;min-height:48px;padding:0 4px 0 1.6rem;border-radius:999px;background:#2f7d8a;color:#fff;font:500 0.98rem/1 Jost,system-ui,sans-serif;letter-spacing:0.03em;text-decoration:none;box-shadow:0 8px 18px -14px rgba(30,55,66,0.5),inset 0 1px 0 rgba(255,255,255,0.16)}.ds-btn-book::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#24616b;transform:scaleX(0);transform-origin:100% 50%;transition:transform 380ms cubic-bezier(0.16,1,0.3,1)}.ds-btn-book:hover::before,.ds-btn-book:focus-visible::before{transform:scaleX(1)}.ds-btn-book__node{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:#24616b;transition:background-color 220ms ease}.ds-btn-book:hover .ds-btn-book__node{background:rgba(255,255,255,0.16)}.ds-btn-book svg{transition:transform 220ms ease}.ds-btn-book:hover svg{transform:translateX(2px)}.ds-btn-book:focus-visible{outline:2px solid #2f7d8a;outline-offset:3px}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Teal pill for non-booking primary actions such as form submit.",
+      "html": "<button class=\"ds-btn-primary\">Send message</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;min-height:48px;padding:0.7rem 1.6rem;border:0;border-radius:999px;background:#2f7d8a;color:#fff;font:500 0.98rem/1 Jost,system-ui,sans-serif;letter-spacing:0.03em;cursor:pointer;box-shadow:0 8px 18px -14px rgba(30,55,66,0.5);transition:background-color 220ms ease,transform 220ms ease}.ds-btn-primary:hover{background:#24616b}.ds-btn-primary:active{transform:scale(0.985)}.ds-btn-primary:focus-visible{outline:2px solid #2f7d8a;outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Ink-outlined pill for secondary actions.",
+      "html": "<button class=\"ds-btn-ghost\">View conditions</button>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;min-height:48px;padding:0.7rem 1.6rem;border:1px solid #1e2a32;border-radius:999px;background:transparent;color:#1e2a32;font:500 0.98rem/1 Jost,system-ui,sans-serif;letter-spacing:0.03em;cursor:pointer;transition:background-color 220ms ease,color 220ms ease}.ds-btn-ghost:hover{background:#1e2a32;color:#f7f9fa}.ds-btn-ghost:focus-visible{outline:2px solid #2f7d8a;outline-offset:3px}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Resting white card; hover changes border and shadow, no lift.",
+      "html": "<article class=\"ds-card\"><h3 class=\"ds-card__title\">Finding the Root Cause</h3><p class=\"ds-card__text\">The site of your pain is not always where the problem starts.</p></article>",
+      "css": ".ds-card{max-width:320px;padding:1.5rem;background:#fff;border:1px solid #e3e9ec;border-radius:16px;box-shadow:0 12px 30px -18px rgba(30,55,66,0.22);transition:border-color 220ms ease,box-shadow 220ms ease}.ds-card:hover{border-color:#7fa6a0;box-shadow:0 20px 45px -22px rgba(30,55,66,0.32)}.ds-card__title{margin:0 0 0.5rem;font:600 1.4rem/1.2 'Cormorant Garamond',Georgia,serif;color:#1e2a32}.ds-card__text{margin:0;font:400 1rem/1.65 Jost,system-ui,sans-serif;color:#3f4d56}"
+    },
+    {
+      "name": "Note",
+      "kind": "custom",
+      "refersTo": "panel-note",
+      "description": "Quiet emphasis panel; red-flag safety notes use it, never collapsed.",
+      "html": "<aside class=\"ds-note\"><p class=\"ds-note__title\">Get urgent help if</p><p class=\"ds-note__text\">You have numbness around the groin or weakness in both legs.</p></aside>",
+      "css": ".ds-note{max-width:420px;padding:1.35rem 1.5rem;background:#dce8e7;border:1px solid #e3e9ec;border-radius:16px}.ds-note__title{margin:0 0 0.3rem;font:600 1rem/1.4 Jost,system-ui,sans-serif;color:#24616b}.ds-note__text{margin:0;font:400 1rem/1.7 Jost,system-ui,sans-serif;color:#1e2a32}"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "description": "Uppercase Jost link with a teal underline that scales in; persists on the current page.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__link\" href=\"#\">Osteopathy</a><a class=\"ds-nav__link\" aria-current=\"page\" href=\"#\">Blog</a><a class=\"ds-nav__link\" href=\"#\">Booking</a></nav>",
+      "css": ".ds-nav{display:flex;gap:2rem}.ds-nav__link{position:relative;padding:0.4rem 0;color:#1e2a32;font:400 0.9rem/1 Jost,system-ui,sans-serif;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none}.ds-nav__link::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1.5px;background:#2f7d8a;transform:scaleX(0);transform-origin:left;transition:transform 220ms ease}.ds-nav__link:hover::after,.ds-nav__link[aria-current]::after{transform:scaleX(1)}.ds-nav__link[aria-current='page']{color:#2f7d8a}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Clinic",
+    "overview": "A quiet, well-lit treatment room. The site is a cool off-white ground with slate ink and one calm teal accent, so it reads as clean and unhurried rather than clinical-cold. Headings are set in Cormorant Garamond, which brings warmth and a sense of care; everything a patient has to read or act on is set in Jost, which keeps it plain and legible.\n\nDensity is comfortable, never packed: generous section padding, split section headings (title left, lead offset right) instead of centred stacks, and surfaces that rest rather than lift. Motion is short and opacity-led. Booking is the one action that is allowed to look different from everything else.",
+    "keyCharacteristics": [
+      "Cool paper ground (#f7f9fa), slate ink (#1e2a32), one teal accent (#2f7d8a).",
+      "Serif headings for warmth, sans body for clarity.",
+      "Soft, ink-tinted shadows; nothing glows.",
+      "Rounded but not bubbly: three radius steps by surface rank.",
+      "A single distinctive control: the split-capsule Book button."
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Teal is the only hue. New UI uses the existing palette roles; it does not introduce a second accent.", "section": "colors" },
+      { "name": "The Serif-For-Headings Rule", "body": "Cormorant never sets body copy, buttons, or form text; Jost never sets display headings.", "section": "typography" },
+      { "name": "The Ink Shadow Rule", "body": "Shadows are tinted with the ink, never with teal. A coloured shadow reads as a glow, not a surface.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep teal for action and emphasis; let neutrals carry the page.",
+      "Do use the split-capsule Book button for booking and nothing else.",
+      "Do tint shadows with the ink (rgba(30, 55, 66, …)).",
+      "Do keep red-flag safety notes visible and uncollapsed.",
+      "Do respect prefers-reduced-motion; motion is opacity-led and under ~600ms."
+    ],
+    "donts": [
+      "Don't introduce a second accent hue, gradients on text, or glows.",
+      "Don't set body copy in Cormorant or headings in Jost.",
+      "Don't make cards lift on hover.",
+      "Don't add eyebrows to every section; one per hero.",
+      "Don't fabricate testimonials, reviews or statistics to fill a layout."
+    ]
+  }
+}
