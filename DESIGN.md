@@ -175,6 +175,14 @@ Three radius steps by surface rank: large framed panels and photos (24px), cards
 ### Navigation
 - Fixed bar, transparent over the hero, turning translucent Paper with blur and a hairline once scrolled. Uppercase Jost links with a teal underline that scales in on hover and stays for the current page. Instagram circle and a compact Book button on the right; a menu toggle below 860px.
 
+### Home hero (signature)
+- Widescreen 50/50, edge to edge, starting under the nav (the nav keeps its own paper strip). Collapses to one column below 900px, copy first.
+- **Left:** deep teal (Clinic Teal into Deep Teal, a little ink at the corner) with a faint paper grain. All type is white or Sage Wash; the copy column lines up with the 1120px container.
+- **Title:** Cormorant at 500, not 600: the italic file is a 400 static, so 600 was faux-bolded.
+- **Primary button inverts on teal:** white with a Deep Teal label, Sage Wash on hover, white focus ring.
+- **Credentials:** a short uppercase checklist with small Sage Wash dots, one per line.
+- **Right:** a light Sage Wash gradient with Matthew as a 4:5 framed portrait (6px white border, 24px radius, soft ink shadow), in front of a pale teal disc and a 1px teal hairline ring. No grey studio backdrop beyond the photo itself.
+
 ### Blog article (signature)
 - Text-first, ~700px column. Matthew's title, byline (48px circular photo, name, "Posted 2 weeks ago · 4 min read") and body sit together in one Mist panel with a 24px radius to mark them as his writing.
 

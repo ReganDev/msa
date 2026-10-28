@@ -926,170 +926,297 @@ a:hover {
   }
 }
 
-/* ---------- hero ---------- */
+/* ---------- hero ----------
+   Widescreen 50/50. The left half is deep teal with white type; the right
+   half is light, with Matthew as a modest framed portrait in front of a soft
+   teal disc and a hairline ring. The row runs edge to edge and starts under
+   the nav rather than behind it: the nav's ink links would sit on teal
+   otherwise, so it keeps a paper strip of its own. */
 
 .hero {
-  padding: calc(clamp(7rem, 14vw, 9.5rem) + var(--promo-h)) 0 clamp(3rem, 7vw, 5rem);
+  /* Fine paper grain: fractal noise as black with a soft alpha, tiled. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   position: relative;
   overflow: hidden;
+  margin-top: calc(var(--nav-h) + var(--promo-h));
 }
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  gap: clamp(2.5rem, 6vw, 5rem);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  min-height: clamp(580px, calc(100svh - var(--nav-h) - var(--promo-h)), 820px);
+}
+
+.hero__copy {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+  /* Lines the text up with the site container (1120px centred): this column
+     is half the row, so its share of the side margin is 100% - 560px. */
+  padding-left: max(1.25rem, calc(100% - 560px));
+  padding-right: clamp(2rem, 5vw, 5rem);
+  color: #fff;
+  background:
+    radial-gradient(85% 75% at 0% 0%, var(--primary) 0%, transparent 70%),
+    linear-gradient(160deg, var(--primary-dark) 0%, color-mix(in srgb, var(--primary-dark) 78%, var(--ink)) 100%);
+}
+
+.hero__copy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--grain);
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 
 .hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
+  display: block;
+  margin: 0 0 1.25rem;
   font-weight: 500;
   font-size: 0.82rem;
+  line-height: 1.75;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--primary-dark);
-  margin: 0 0 1rem;
+  color: var(--accent-soft);
 }
 
+.hero__nobreak {
+  white-space: nowrap;
+}
+
+/* 500 rather than 600: the upright face is variable, and the italic file is a
+   400 static, so at 600 the name was being faux-bolded by the browser. */
 .hero__title {
+  margin: 0 0 1.3rem;
   font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: clamp(2.6rem, 6vw, 4.2rem);
-  line-height: 1.06;
-  margin: 0 0 1.1rem;
+  font-weight: 500;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.012em;
   text-wrap: balance;
+  color: #fff;
 }
 
 .hero__title em {
   font-style: italic;
-  color: var(--primary);
+  color: var(--accent-soft);
 }
 
 .hero__credentials {
+  margin: 0 0 1.6rem;
   font-size: 1rem;
   letter-spacing: 0.04em;
-  color: var(--ink-soft);
-  margin: 0 0 1.4rem;
+  text-wrap: balance;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .hero__lead {
-  font-size: 1.12rem;
-  color: var(--ink);
-  line-height: 1.65;
-  max-width: 48ch;
+  max-width: 44ch;
   margin: 0 0 0.75rem;
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.94);
 }
 
 .hero__serve {
-  font-size: 1.06rem;
-  color: var(--ink-soft);
-  line-height: 1.55;
   max-width: 48ch;
-  margin: 0 0 2rem;
+  margin: 0 0 2.25rem;
+  font-size: 1.06rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
-/* A credentials rule rather than a bullet list. It previously repeated one
-   shield icon three times, which read as filler; the hairline between items
-   does the same separating job without pretending to be information. */
+/* On teal the primary button inverts: white with a deep teal label. */
+.hero .btn--primary {
+  background: #fff;
+  color: var(--primary-dark);
+  box-shadow: 0 10px 22px -14px rgba(10, 30, 36, 0.6);
+}
+
+.hero .btn--primary:hover {
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+}
+
+.hero .btn:focus-visible {
+  outline-color: #fff;
+}
+
+/* Credentials as a short checklist: one per line, so nothing wraps mid-row
+   and strands a divider. */
 .hero__trust {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0;
+  flex-direction: column;
+  gap: 0.55rem;
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
 .hero__trust li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 0.78rem;
   line-height: 1.4;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  padding-inline: 1.1rem;
+  color: rgba(255, 255, 255, 0.78);
 }
 
-.hero__trust li:first-child {
-  padding-left: 0;
+.hero__trust li::before {
+  content: '';
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-soft);
 }
 
-.hero__trust li + li {
-  border-left: 1px solid var(--border);
-}
-
-/* Once the row wraps, the dividers land at the start of a line with nothing to
-   their left, so drop them and let the gap separate instead. */
-@media (max-width: 560px) {
-  .hero__trust {
-    gap: 0.65rem 1.5rem;
-  }
-
-  .hero__trust li,
-  .hero__trust li + li {
-    padding-inline: 0;
-    border-left: 0;
-  }
-}
-
+/* The light half. */
 .hero__media {
   position: relative;
-  justify-self: center;
-  width: min(340px, 100%);
-}
-
-/* No frame or drop shadow: a hard white border around the photo was what made
-   it read as a poster pushed at the viewer. */
-.hero__panel {
-  position: relative;
-  /* Matches the source file (951x1024) exactly, so object-fit: cover crops
-     nothing and the full frame — including the wall either side of his
-     shoulders — stays visible. A narrower panel eats that breathing room. */
-  aspect-ratio: 951 / 1024;
-  border-radius: var(--radius-lg);
+  isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(160deg, #eaf2f2 0%, #d9e7e7 55%, #cfe0df 100%);
   display: grid;
   place-items: center;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3rem);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--accent-soft) 75%, #fff) 0%,
+    color-mix(in srgb, var(--accent-soft) 25%, #fff) 75%
+  );
 }
 
-/* Slot for a real photo: a hero portrait image placed inside .hero__panel
-   covers the panel. */
+/* A soft teal disc up and to the right of the portrait, and a larger hairline
+   ring down and to the left: depth behind the frame, built only from the
+   palette's teal. */
+.hero__media::before,
+.hero__media::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.hero__media::before {
+  width: min(76%, 540px);
+  transform: translate(-36%, -62%);
+  background: color-mix(in srgb, var(--primary) 18%, #fff);
+}
+
+.hero__media::after {
+  width: min(90%, 650px);
+  transform: translate(-50%, -46%);
+  border: 1px solid color-mix(in srgb, var(--primary) 38%, transparent);
+}
+
+.hero__panel {
+  position: relative;
+  width: min(340px, 60%);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 6px solid #fff;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, #eaf2f2 0%, #d9e7e7 55%, #cfe0df 100%);
+  box-shadow: 0 30px 60px -32px rgba(30, 55, 66, 0.5);
+}
+
 .hero__panel img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 28%;
+  filter: brightness(1.04) contrast(0.96);
 }
 
-/* Sits below the portrait as a quiet caption. It used to float over the photo
-   as a card, which crowded the subject and re-introduced a hard edge. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Without a motion preference everything renders finished. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__copy > * {
+    animation: hero-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hero__copy > :nth-child(2) { animation-delay: 60ms; }
+  .hero__copy > :nth-child(3) { animation-delay: 120ms; }
+  .hero__copy > :nth-child(4) { animation-delay: 170ms; }
+  .hero__copy > :nth-child(5) { animation-delay: 210ms; }
+  .hero__copy > :nth-child(6) { animation-delay: 250ms; }
+  .hero__copy > :nth-child(7) { animation-delay: 290ms; }
+
+  .hero__panel {
+    animation: hero-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  }
+
+  .hero__media::before {
+    animation: hero-fade-in 900ms ease 80ms both;
+  }
+}
+
+/* One column: the teal copy first, then the light half beneath it. */
 @media (max-width: 900px) {
   .hero__inner {
-    grid-template-columns: 1fr;
-    text-align: center;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
   }
 
-  .hero__lead,
-  .hero__serve {
-    margin-inline: auto;
-  }
-
-  .hero__actions,
-  .hero__trust {
-    justify-content: center;
+  .hero__copy {
+    padding: 3rem 1.25rem 3.25rem;
   }
 
   .hero__media {
-    margin-top: 1rem;
+    padding: 2.5rem 1.25rem;
+  }
+
+  .hero__panel {
+    width: min(280px, 68%);
+  }
+}
+
+/* The eyebrow holds two lines broken at the place; tracking eases just
+   enough for "Osteopath & Sports Massage Therapist" to fit one line. */
+@media (max-width: 560px) {
+  .hero__eyebrow {
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (max-width: 374px) {
+  .hero__eyebrow {
+    letter-spacing: 0.11em;
   }
 }
 

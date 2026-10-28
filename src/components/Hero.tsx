@@ -4,13 +4,20 @@ const trustItems = [
   'Qualified Sports Massage Therapist',
 ]
 
+/**
+ * Widescreen 50/50: the copy on a deep teal half, Matthew as a framed portrait
+ * on a light half. The row runs edge to edge; the copy column lines itself up
+ * with the site container in CSS.
+ */
 export default function Hero() {
   return (
     <section className="hero" id="top">
-      <div className="container hero__inner">
+      <div className="hero__inner">
         <div className="hero__copy">
           <p className="hero__eyebrow">
-            Osteopath &amp; Sports Massage Therapist in Orpington and Bromley
+            {/* Lets a two-line eyebrow break at the place, not mid-phrase. */}
+            Osteopath &amp; Sports Massage Therapist{' '}
+            <span className="hero__nobreak">in Orpington and Bromley</span>
           </p>
           <h1 className="hero__title">
             Hello, I&rsquo;m
@@ -39,7 +46,8 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="hero__media reveal">
+        {/* No .reveal: the portrait has its own entrance in CSS. */}
+        <div className="hero__media">
           <div className="hero__panel">
             <img
               src="/matthew-knight.png"
