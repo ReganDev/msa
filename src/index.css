@@ -85,6 +85,10 @@
      title and the copy below it sit on the same left edge. Wide by prose
      standards — the brief is to use the landscape and keep scrolling short. */
   --pane-measure: 1080px;
+
+  /* Fine paper grain: fractal noise as black with a soft alpha, tiled. Used
+     over the teal grounds of the home hero and the reviews band. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 *,
@@ -934,8 +938,6 @@ a:hover {
    otherwise, so it keeps a paper strip of its own. */
 
 .hero {
-  /* Fine paper grain: fractal noise as black with a soft alpha, tiled. */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   position: relative;
   overflow: hidden;
   margin-top: calc(var(--nav-h) + var(--promo-h));
@@ -1451,6 +1453,281 @@ a:hover {
   gap: 0.7rem;
   color: var(--ink);
   border-color: var(--ink);
+}
+
+/* ---------- reviews ----------
+   The one band below the hero that goes teal: the same deep-teal ground and
+   grain as the hero's copy half, with white cards drifting slowly across it,
+   edge to edge. It sits between the prices and the clinic, where a visitor is
+   deciding. The motion is a single linear loop (see Reviews.tsx); script only
+   eases its speed when someone hovers to read, touches or focuses it. */
+
+.reviews {
+  --review-w: clamp(17.5rem, 80vw, 23.5rem);
+  --review-gap: 1.25rem;
+  /* The width of the gutter either side of .container. cqw rather than vw so a
+     classic scrollbar doesn't push it off the container's edge. */
+  --reviews-edge: max(1.25rem, (100cqw - 1120px) / 2);
+  container-type: inline-size;
+  position: relative;
+  /* The viewport below already holds 2.25rem of room for the card shadows, so
+     take that back off the bottom or the band ends heavier than it starts. */
+  padding-bottom: calc(clamp(4rem, 9vw, 6.5rem) - 1.75rem);
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(70% 80% at 0% 0%, var(--primary) 0%, transparent 70%),
+    linear-gradient(160deg, var(--primary-dark) 0%, color-mix(in srgb, var(--primary-dark) 78%, var(--ink)) 100%);
+}
+
+.reviews::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--grain);
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.reviews .section__title {
+  color: #fff;
+}
+
+.reviews .section__heading {
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+/* Takes the lead's place in the split heading: a quiet text link, like
+   .services__more, so it never competes with Book. Right-aligned when the
+   heading splits, so it closes the row instead of starting a ragged column. */
+.reviews__all {
+  display: inline-flex;
+  align-items: center;
+  align-self: end;
+  justify-self: start;
+  gap: 0.45rem;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: gap var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.reviews__all:hover {
+  gap: 0.7rem;
+  color: #fff;
+  border-color: #fff;
+}
+
+.reviews__all:focus-visible {
+  outline-color: #fff;
+}
+
+@media (min-width: 861px) {
+  .reviews__all {
+    justify-self: end;
+    margin-bottom: 0.45rem;
+  }
+}
+
+/* Room above and below the track for the cards' shadows, which overflow:
+   hidden would otherwise clip. The edges fade rather than cut, so cards drift
+   in out of the teal instead of being sliced off at the viewport. The fade is
+   the gutter and no wider: inside the container's column a card is always
+   fully opaque. */
+.reviews__viewport {
+  --fade: min(var(--reviews-edge), 9rem);
+  overflow: hidden;
+  padding-block: 0.5rem 2.25rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+}
+
+/* Focusing the strip already stops it, so drop the fade while the ring shows:
+   a faded focus ring reads as broken. */
+.reviews__viewport:focus-visible {
+  -webkit-mask-image: none;
+  mask-image: none;
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  border-radius: var(--radius);
+}
+
+.reviews__track {
+  display: flex;
+  width: max-content;
+}
+
+/* The trailing padding equals the gap, so three groups are exactly three times
+   one group's width and a third of the track is one full lap. */
+.reviews__group {
+  display: flex;
+  gap: var(--review-gap);
+  margin: 0;
+  padding: 0 var(--review-gap) 0 0;
+  list-style: none;
+}
+
+.reviews__item {
+  display: flex;
+  width: var(--review-w);
+}
+
+/* Starts with the middle group's first card on the container's left edge, in
+   line with the heading, and ends a lap later with the third group's first card
+   in the same place, which is where it started visually. Percentages are of the
+   track, so 33.333% is one group. */
+@keyframes reviews-drift {
+  from {
+    transform: translate3d(calc(var(--reviews-edge) - 33.3333%), 0, 0);
+  }
+
+  to {
+    transform: translate3d(calc(var(--reviews-edge) - 66.6667%), 0, 0);
+  }
+}
+
+/* About 28px a second at either size: slow enough to read a card as it
+   passes. */
+@media (prefers-reduced-motion: no-preference) {
+  .reviews__track {
+    animation: reviews-drift 84s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 640px) {
+  .reviews {
+    --review-gap: 1rem;
+  }
+
+  .reviews__track {
+    animation-duration: 70s;
+  }
+}
+
+/* The card. White on the teal, 16px like every card, and an ink shadow a
+   little deeper than --shadow-card so it still seats on the darker ground. */
+.review {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 1.75rem 1.4rem;
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--radius);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 24px 44px -28px rgba(6, 22, 28, 0.75);
+}
+
+/* Sage is the system's quote-mark colour. Cormorant's opening quote sits high
+   in its em box, so the line box is trimmed to the glyph. */
+.review__mark {
+  display: block;
+  height: 2.1rem;
+  margin: 0 0 0.6rem -0.1rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 4.6rem;
+  line-height: 0.95;
+  color: var(--accent);
+  user-select: none;
+}
+
+.review__quote {
+  flex: 1;
+  margin: 0 0 1.4rem;
+}
+
+.review__quote p {
+  margin: 0;
+  font-size: 1.04rem;
+  line-height: 1.65;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.review__by {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+.review__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.review__who {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.review__name {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.review__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.review__source-mark {
+  flex: none;
+}
+
+/* No drift: one copy of the list in a row you scroll yourself, starting on the
+   container's left edge. */
+@media (prefers-reduced-motion: reduce) {
+  .reviews__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--reviews-edge);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .reviews__group {
+    padding-inline: var(--reviews-edge);
+  }
+
+  .reviews__group[aria-hidden='true'] {
+    display: none;
+  }
+
+  .reviews__item {
+    scroll-snap-align: start;
+  }
 }
 
 /* ---------- interior page hero ---------- */
@@ -3510,6 +3787,7 @@ a:hover {
   .about__card,
   .services__card,
   .services__more,
+  .reviews__all,
   .pillars__card,
   .condition-grid__link,
   .conditions-browse__card,

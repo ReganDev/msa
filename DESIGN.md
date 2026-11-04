@@ -137,7 +137,7 @@ A restrained, cool palette: neutrals carry the page and teal is reserved for act
 
 ## Layout
 
-Single centred container (`min(1120px, 100% - 2.5rem)`). Sections pad `clamp(4rem, 9vw, 6.5rem)` vertically and alternate Cool Paper and Mist. Section headings split into two columns from 861px (title left, lead right, aligned to the bottom) and stack below. Interior pages open with `.page-hero`: copy left, framed 4:5 photo right, clearing the fixed 84px nav. Reading surfaces (articles, the blog) narrow to a ~700px column. The full nav collapses to a menu below 860px (1160px once the blog link is switched on).
+Single centred container (`min(1120px, 100% - 2.5rem)`). Sections pad `clamp(4rem, 9vw, 6.5rem)` vertically and alternate Cool Paper and Mist; on the home page the reviews band breaks the run in teal. Section headings split into two columns from 861px (title left, lead right, aligned to the bottom) and stack below. Interior pages open with `.page-hero`: copy left, framed 4:5 photo right, clearing the fixed 84px nav. Reading surfaces (articles, the blog) narrow to a ~700px column. The full nav collapses to a menu below 860px (1160px once the blog link is switched on).
 
 ## Elevation & Depth
 
@@ -182,6 +182,12 @@ Three radius steps by surface rank: large framed panels and photos (24px), cards
 - **Primary button inverts on teal:** white with a Deep Teal label, Sage Wash on hover, white focus ring.
 - **Credentials:** a short uppercase checklist with small Sage Wash dots, one per line.
 - **Right:** a light Sage Wash gradient with Matthew as a 4:5 framed portrait (6px white border, 24px radius, soft ink shadow), in front of a pale teal disc and a 1px teal hairline ring. No grey studio backdrop beyond the photo itself.
+
+### Patient reviews band (home)
+- The one teal band below the hero, between Treatments and Find the clinic: the hero's deep-teal ground and grain. The split heading pairs the white title with a quiet white text link to the Google Business profile (underline and up-right arrow, like the services "More about" link) in place of a lead.
+- **Motion:** the cards drift continuously right to left at about 28px a second, edge to edge, fading out through the page gutter only. Hover, touch or focus glides the strip to a stop in about half a second, and leaving glides it back up to speed. With reduced motion nothing moves: one copy of the list becomes a row you scroll yourself, starting on the container's edge.
+- **Card:** white, 16px radius, a deeper ink shadow so it seats on teal. A Sage Cormorant opening quote, the review in Jost at body size, then a hairline and the reviewer: a 44px Sage Wash circle with their initial in Deep Teal Cormorant, the name, and "Google review" with a small line G in Slate Soft.
+- Reviews are real and quoted as written (`src/content/reviews.ts`). No stars or dates unless the source supplies them.
 
 ### Blog article (signature)
 - Text-first, ~700px column. Matthew's title, byline (48px circular photo, name, "Posted 2 weeks ago · 4 min read") and body sit together in one Mist panel with a 24px radius to mark them as his writing.

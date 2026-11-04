@@ -30,6 +30,8 @@ export const ADDRESS = 'Tennis Centre, Avebury Rd, Orpington BR6 9SA'
 export const ADDRESS_NOTE = 'Located inside the Jon W Sports injury clinic'
 export const MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=Tennis+Centre+Avebury+Rd+Orpington+BR6+9SA'
+/** The Knight Osteopathy Google Business profile, where the reviews live. */
+export const REVIEWS_URL = 'https://share.google/gXdcvebIocKagwuan'
 export const MAPS_EMBED_URL =
   'https://maps.google.com/maps?q=Tennis%20Centre%2C%20Avebury%20Rd%2C%20Orpington%20BR6%209SA&z=15&output=embed'
 
