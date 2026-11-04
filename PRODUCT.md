@@ -41,8 +41,8 @@ Matthew Knight, M.Ost, is a GOsC-registered osteopath and sports massage therapi
 
 - Matthew's photo: `public/matthew-knight.png`. Treatment photos: `public/treatment-*.png`. Condition images: `public/conditions/`.
 - Credential badges: `public/gosc-registered.jpg`, `public/io-member.png`.
-- Six real Google reviews, in `src/content/reviews.ts` and shown on the home page. Three are cut short where the copied text ended; their star ratings weren't supplied.
-- Not available yet, and must not be fabricated: further testimonials or reviews, star ratings, patient numbers, real blog posts (the current posts in `src/content/blog.ts` are placeholders).
+- Six real Google reviews, in `src/content/reviews.ts` and shown on the home page. All are five stars. Three are cut short where the copied text ended.
+- Not available yet, and must not be fabricated: further testimonials or reviews, patient numbers, real blog posts (the current posts in `src/content/blog.ts` are placeholders).
 
 ## Product Principles
 

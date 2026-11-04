@@ -1641,12 +1641,41 @@ a:hover {
     0 24px 44px -28px rgba(6, 22, 28, 0.75);
 }
 
+/* Stars on the left, the opening quote on the right. Teal, not gold: the
+   palette has one accent, and the stars are its emphasis here. */
+.review__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.review__stars {
+  display: flex;
+  gap: 3px;
+  padding-top: 0.35rem;
+  color: var(--primary);
+}
+
+.review__star {
+  display: block;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.review__star--off {
+  color: var(--border);
+}
+
 /* Sage is the system's quote-mark colour. Cormorant's opening quote sits high
    in its em box, so the line box is trimmed to the glyph. */
 .review__mark {
   display: block;
   height: 2.1rem;
-  margin: 0 0 0.6rem -0.1rem;
+  margin: 0 -0.15rem 0 0;
   font-family: var(--font-serif);
   font-weight: 600;
   font-size: 4.6rem;

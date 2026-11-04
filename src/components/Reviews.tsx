@@ -49,12 +49,37 @@ function GoogleMark() {
   )
 }
 
+const STAR =
+  'M12 2.8l2.75 5.7 6.25.86-4.55 4.37 1.1 6.2L12 16.95l-5.55 2.98 1.1-6.2L3 9.36l6.25-.86L12 2.8z'
+
+function Stars({ rating }: { rating: number }) {
+  return (
+    <span className="review__stars" role="img" aria-label={`Rated ${rating} out of 5`}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <svg
+          key={i}
+          className={i < rating ? 'review__star' : 'review__star review__star--off'}
+          width="17"
+          height="17"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d={STAR} />
+        </svg>
+      ))}
+    </span>
+  )
+}
+
 function ReviewCard({ review }: { review: Review }) {
   return (
     <figure className="review">
-      <span className="review__mark" aria-hidden="true">
-        &ldquo;
-      </span>
+      <div className="review__head">
+        <Stars rating={review.rating} />
+        <span className="review__mark" aria-hidden="true">
+          &ldquo;
+        </span>
+      </div>
       <blockquote className="review__quote">
         <p>{review.text}</p>
       </blockquote>
