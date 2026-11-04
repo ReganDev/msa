@@ -302,19 +302,43 @@ a:hover {
 /* ---------- the booking CTA ----------
    Booking is the conversion, so it is the one action that does not look like
    the rest: a split capsule with the label on the left and an inset arrow node
-   pinned right. On hover the node's colour wipes leftward across the whole
-   pill and the arrow steps forward, so the motion has a visible source rather
-   than the whole button just changing state. Transform and background-colour
-   only — no layout work, nothing off the compositor. */
+   pinned right. Hover is the signature moment, and it answers the cursor:
+     - the deep teal fill floods out from the point the pointer came in, and
+       drains back toward the point it left (--fx/--fy);
+     - the capsule leans a few pixels toward a mouse on a spring, the node
+       further than the label, so it reads as depth (--mx/--my);
+     - the arrow leaves through the node and a fresh one arrives behind it.
+   src/lib/magneticBook.ts writes the four properties. Without it (before
+   hydration, or with no script) the fill grows from the arrow node and nothing
+   leans. Transform, clip-path and colour only: nothing triggers layout. */
+
+/* Animatable, so the press eases in rather than snapping. */
+@property --press {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+/* The fill's radius, registered so it can transition on its own. If the whole
+   clip-path transitioned, the circle's centre would glide across from wherever
+   it last was instead of starting under the cursor. */
+@property --fill-r {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 0px;
+}
 
 .btn--book {
   --node: 40px; /* .btn is 48px tall, leaving a 4px inset */
+  /* Where the fill grows from when nothing has said otherwise: the node. */
+  --fill-x: var(--fx, calc(100% - 4px - var(--node) / 2));
+  --fill-y: var(--fy, 50%);
   position: relative;
   isolation: isolate;
   overflow: hidden;
   justify-content: space-between;
   gap: 1.1rem;
-  /* No border. overflow clips the wipe at the padding edge, so .btn's 1px
+  /* No border. overflow clips the fill at the padding edge, so .btn's 1px
      transparent border would leave a ring of the lighter --primary showing
      around the darkened fill on hover. */
   border: 0;
@@ -328,13 +352,28 @@ a:hover {
   box-shadow:
     var(--shadow-btn),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0) scale(var(--press));
+  /* No transform transition: the spring in magneticBook.ts is the easing, and
+     a CSS transition on top would smear it. */
+  transition:
+    color var(--transition),
+    box-shadow var(--transition),
+    --press 160ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 .btn--book.btn--lg {
   --node: 44px; /* 54px tall */
 }
 
-/* The wipe. Sits under the label via the button's own stacking context. */
+/* Beats .btn:active, which would replace the lean with a flat scale. */
+.btn--book:active {
+  --press: 0.965;
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0) scale(var(--press));
+}
+
+/* The fill. Sits under the label via the button's own stacking context. 170%
+   of the circle() reference box clears the farthest corner from any origin
+   inside a capsule this shape. */
 .btn--book::before {
   content: '';
   position: absolute;
@@ -342,19 +381,24 @@ a:hover {
   z-index: -1;
   border-radius: inherit;
   background: var(--primary-dark);
-  transform: scaleX(0);
-  transform-origin: 100% 50%;
-  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+  clip-path: circle(var(--fill-r) at var(--fill-x) var(--fill-y));
+  /* Only the radius moves; the centre jumps straight to the cursor. A full
+     circle is 170%, which still covers the capsule wherever its centre jumps
+     to, so draining toward the exit point never shows a seam. A softened
+     ease-out rather than the site's expo curve: expo fills the capsule in
+     under 60ms, before you can see where it started. */
+  transition: --fill-r 600ms cubic-bezier(0.4, 0.6, 0.2, 1);
 }
 
 .btn--book:hover::before,
 .btn--book:focus-visible::before {
-  transform: scaleX(1);
+  --fill-r: 170%;
 }
 
 .btn__label {
   position: relative;
   z-index: 1;
+  transform: translate3d(calc(var(--mx, 0px) * -0.35), calc(var(--my, 0px) * -0.35), 0);
 }
 
 .btn__node {
@@ -366,8 +410,10 @@ a:hover {
   flex-shrink: 0;
   width: var(--node);
   height: var(--node);
+  overflow: hidden;
   border-radius: 999px;
   background: var(--primary-dark);
+  transform: translate3d(calc(var(--mx, 0px) * 0.55), calc(var(--my, 0px) * 0.55), 0);
   transition: background-color var(--transition);
 }
 
@@ -377,13 +423,32 @@ a:hover {
   background: rgba(255, 255, 255, 0.16);
 }
 
-.btn__node svg {
-  transition: transform var(--transition);
+/* Out through the right of the node, back in from the left. */
+@keyframes book-arrow-cycle {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  44% {
+    transform: translateX(160%);
+    opacity: 0;
+  }
+
+  45% {
+    transform: translateX(-160%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .btn--book:hover .btn__node svg,
 .btn--book:focus-visible .btn__node svg {
-  transform: translateX(2px);
+  animation: book-arrow-cycle 620ms cubic-bezier(0.7, 0, 0.2, 1);
 }
 
 /* Beats the global a:hover, which would otherwise pull the label to --ink. */
@@ -3823,7 +3888,12 @@ a:hover {
     animation: none;
   }
 
+  .btn__node svg {
+    animation: none !important;
+  }
+
   .btn,
+  .btn--book,
   .btn--book::before,
   .btn__node,
   .btn__node svg,

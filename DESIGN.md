@@ -158,7 +158,7 @@ Three radius steps by surface rank: large framed panels and photos (24px), cards
 
 ### Buttons
 - **Shape:** full pill (999px), 48px tall (54px large).
-- **Book (signature):** split capsule — label left, a 40px Deep Teal node with an arrow inset right. On hover a Deep Teal wipe sweeps leftward from the node and the arrow steps 2px forward. The only control with this treatment.
+- **Book (signature):** split capsule — label left, a 40px Deep Teal node with an arrow inset right. The only control with this treatment, and its hover answers the cursor: the Deep Teal fill floods out from the point the pointer entered and drains back toward where it left; with a mouse, the capsule leans up to 6px toward the cursor on a spring, the node further than the label; the arrow exits through the node and a fresh one enters behind it. Keyboard focus fills from the node. Touch gets the fill but no lean; reduced motion gets neither the lean nor the arrow travel. Script is `src/lib/magneticBook.ts`; without it the fill grows from the node.
 - **Primary:** Clinic Teal fill, white text, button shadow; hover to Deep Teal.
 - **Ghost:** transparent with an ink border; hover fills ink.
 - **Light:** white with hairline border and Deep Teal text.

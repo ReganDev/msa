@@ -3,6 +3,7 @@ import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
+import { installMagneticBook } from './lib/magneticBook'
 
 const container = document.getElementById('root')!
 
@@ -21,3 +22,6 @@ if (container.hasChildNodes()) {
 } else {
   createRoot(container).render(tree)
 }
+
+// The Book button's cursor-led hover (see src/lib/magneticBook.ts).
+installMagneticBook()
