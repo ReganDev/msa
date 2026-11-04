@@ -1459,8 +1459,9 @@ a:hover {
    The one band below the hero that goes teal: the same deep-teal ground and
    grain as the hero's copy half, with white cards drifting slowly across it,
    edge to edge. It sits between the prices and the clinic, where a visitor is
-   deciding. The motion is a single linear loop (see Reviews.tsx); script only
-   eases its speed when someone hovers to read, touches or focuses it. */
+   deciding. The motion is a single linear loop (see Reviews.tsx); script eases
+   its speed when someone hovers to read or focuses it, and lets it be dragged
+   and flicked. */
 
 .reviews {
   --review-w: clamp(17.5rem, 80vw, 23.5rem);
@@ -1598,6 +1599,19 @@ a:hover {
 @media (prefers-reduced-motion: no-preference) {
   .reviews__track {
     animation: reviews-drift 84s linear infinite;
+  }
+
+  /* Draggable (see Reviews.tsx). Vertical swipes still scroll the page; the
+     text isn't selectable, since a press is the start of a drag. */
+  .reviews__viewport {
+    cursor: grab;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .reviews__viewport.is-dragging {
+    cursor: grabbing;
   }
 }
 
