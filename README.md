@@ -84,7 +84,10 @@ discarding it.
    prefix** — `VITE_*` variables are inlined into the public client bundle. Until the key
    is set the form fails gracefully and points the visitor at the mailto link. Also set
    `CONTACT_FROM` to an address on a domain verified in Resend; the default sender is
-   Resend's shared testing address. Note `vite dev` does not run the function — use
+   Resend's shared testing address. `CONTACT_FROM` also switches on the confirmation email each
+   visitor gets after sending (a receipt with the booking link and an NHS 111 / 999 line,
+   carrying none of their message); without it only Matthew's copy is sent, because
+   Resend's shared sender can only mail the Resend account's own address. Note `vite dev` does not run the function — use
    `vercel dev` to exercise the form locally.
 4. **Photos (optional)** — the hero uses a decorative SVG. To use a real portrait, drop an
    `<img>` into `.hero__panel` in `src/components/Hero.tsx` (a slot comment marks the spot).

@@ -6,6 +6,8 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 export default function Contact() {
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
+  // Whether api/contact.ts also emailed the visitor a receipt.
+  const [confirmed, setConfirmed] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,6 +32,8 @@ export default function Contact() {
       })
 
       if (response.ok) {
+        const data = await response.json().catch(() => null)
+        setConfirmed(data?.confirmed === true)
         form.reset()
         setStatus('success')
       } else {
@@ -112,6 +116,7 @@ export default function Contact() {
               <p className="form__success-title">Thank you. Your message has been sent.</p>
               <p className="form__success-text">
                 Matthew will be in touch as soon as possible.
+                {confirmed && ' A confirmation is on its way to your inbox.'}
               </p>
               <button
                 type="button"
