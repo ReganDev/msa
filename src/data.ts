@@ -27,6 +27,16 @@ export const CONTACT_ENDPOINT = '/api/contact'
 // otherwise keep going to the old address.
 export const EMAIL = 'info@knightosteopathy.com'
 export const ADDRESS = 'Tennis Centre, Avebury Rd, Orpington BR6 9SA'
+/**
+ * The same address in parts, for the structured data search engines read
+ * (src/lib/structuredData.ts). Change ADDRESS and change this to match.
+ */
+export const POSTAL_ADDRESS = {
+  street: 'Tennis Centre, Avebury Rd',
+  locality: 'Orpington',
+  postcode: 'BR6 9SA',
+  country: 'GB',
+}
 export const ADDRESS_NOTE = 'Located inside the Jon W Sports injury clinic'
 export const MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=Tennis+Centre+Avebury+Rd+Orpington+BR6+9SA'

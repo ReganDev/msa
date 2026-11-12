@@ -18,11 +18,13 @@ export interface RouteDef {
 const SITE_NAME = 'Matthew Knight'
 
 /**
- * Production origin, no trailing slash — used to emit <link rel="canonical">
- * and og:url when prerendering. Leave empty to omit those tags.
- * CLIENT TO CONFIRM the live domain before launch.
+ * Production origin, no trailing slash. The prerender uses it for every
+ * absolute URL a search engine reads: <link rel="canonical">, og:url, the share
+ * image, the structured data, sitemap.xml and robots.txt. It has to be the
+ * address the site is finally served from, redirects and all (the bare domain
+ * and knightosteopathy.com both redirect here). Leave empty to omit all of it.
  */
-export const SITE_URL = ''
+export const SITE_URL = 'https://www.orpingtonosteopaths.com'
 
 export const HOME_TITLE =
   'Matthew Knight · Osteopath & Sports Massage Therapist · Orpington'

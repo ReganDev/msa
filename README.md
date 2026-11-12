@@ -39,6 +39,9 @@ npm run preview   # preview the production build (serves the prerendered HTML)
 | Booking link, Instagram, email, address, services & prices | `src/data.ts` |
 | **All 12 conditions — copy, sections and FAQs** | `src/content/conditions.ts` |
 | **URLs, page titles and meta descriptions** | `src/routes.ts` |
+| **Site address used in canonical URLs, the sitemap and `robots.txt`** | `SITE_URL` in `src/routes.ts` |
+| **Structured data for search engines (business, address, prices)** | `src/lib/structuredData.ts`, fed from `src/data.ts` |
+| Picture shown when a link is shared | `public/share.jpg`, regenerated from `scripts/share-image.html` |
 | **Blog posts** | Sanity, edited at https://orpingtonosteopaths.sanity.studio (project `tgfsg74o`). Fetched at build time by `scripts/fetch-posts.mjs`; editor schema in `studio/` |
 | Home-page section copy (headings, bio, blurbs) | inline in each `src/components/*.tsx` |
 | Osteopathy / spinal manipulation copy | inline in the matching `src/pages/*.tsx` |

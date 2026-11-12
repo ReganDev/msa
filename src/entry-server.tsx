@@ -15,3 +15,4 @@ export function render(url: string) {
 }
 
 export { routes, SITE_URL } from './routes'
+export { SHARE_IMAGE, structuredData } from './lib/structuredData'

@@ -8,6 +8,11 @@
 
    Adding a route to src/routes.ts is all that is needed — this
    script picks it up automatically.
+
+   When SITE_URL is set in src/routes.ts it also writes what search
+   engines need to find and understand those pages: a canonical URL,
+   share image and structured data in each page's <head>, plus
+   sitemap.xml and robots.txt.
    ============================================================ */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
@@ -44,6 +49,23 @@ function setMeta(html, attr, name, value) {
   )
 }
 
+const pageUrl = (siteUrl, path) => `${siteUrl}${path === '/' ? '' : path}`
+
+/** Every prerendered page, one <url> each. The route manifest is the list. */
+function sitemapXml(siteUrl, routes) {
+  const urls = routes
+    .map((route) => `  <url><loc>${escapeText(pageUrl(siteUrl, route.path))}</loc></url>`)
+    .join('\n')
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+}
+
+/** Everything may be crawled except the contact form's endpoint. */
+function robotsTxt(siteUrl) {
+  const lines = ['User-agent: *', 'Allow: /', 'Disallow: /api/']
+  if (siteUrl) lines.push('', `Sitemap: ${siteUrl}/sitemap.xml`)
+  return `${lines.join('\n')}\n`
+}
+
 async function main() {
   const template = await readFile(join(distDir, 'index.html'), 'utf8')
 
@@ -53,7 +75,9 @@ async function main() {
     )
   }
 
-  const { render, routes, SITE_URL } = await import(pathToFileURL(ssrEntry).href)
+  const { render, routes, SITE_URL, SHARE_IMAGE, structuredData } = await import(
+    pathToFileURL(ssrEntry).href
+  )
 
   for (const route of routes) {
     const appHtml = render(route.path)
@@ -67,11 +91,19 @@ async function main() {
     html = setMeta(html, 'property', 'og:description', route.description)
 
     if (SITE_URL) {
-      const url = `${SITE_URL}${route.path === '/' ? '' : route.path}`
+      const url = pageUrl(SITE_URL, route.path)
       html = setMeta(html, 'property', 'og:url', url)
+      html = setMeta(html, 'property', 'og:image', `${SITE_URL}${SHARE_IMAGE.path}`)
+      html = setMeta(html, 'property', 'og:image:width', String(SHARE_IMAGE.width))
+      html = setMeta(html, 'property', 'og:image:height', String(SHARE_IMAGE.height))
+      html = setMeta(html, 'property', 'og:image:alt', SHARE_IMAGE.alt)
+      // "<" is escaped so no text in the data can close the script element.
+      const jsonLd = JSON.stringify(structuredData(SITE_URL, route)).replace(/</g, '\\u003c')
       html = html.replace(
         '<!--app-head-->',
-        `<link rel="canonical" href="${escapeAttr(url)}" />\n    <!--app-head-->`,
+        // A function, so a "$" in the data is never read as a replacement pattern.
+        () =>
+          `<link rel="canonical" href="${escapeAttr(url)}" />\n    <script type="application/ld+json">${jsonLd}</script>\n    <!--app-head-->`,
       )
     }
 
@@ -96,6 +128,14 @@ async function main() {
   }
 
   console.log(`\n${routes.length} pages written to dist/`)
+
+  await writeFile(join(distDir, 'robots.txt'), robotsTxt(SITE_URL), 'utf8')
+  if (SITE_URL) {
+    await writeFile(join(distDir, 'sitemap.xml'), sitemapXml(SITE_URL, routes), 'utf8')
+    console.log('robots.txt and sitemap.xml written to dist/')
+  } else {
+    console.log('robots.txt written to dist/ (no sitemap: SITE_URL is empty)')
+  }
 }
 
 main().catch((error) => {

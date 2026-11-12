@@ -1,0 +1,176 @@
+<!doctype html>
+<!--
+  Source for public/share.jpg, the picture shown when a link to the site is
+  shared (WhatsApp, Facebook, iMessage, LinkedIn) and the business's image in
+  the structured data. It is the home hero at 1200 x 630, the size those
+  services ask for.
+
+  Not part of the site: nothing links here and it is not built. After changing
+  the wording or the photo, regenerate the picture from the project root:
+
+    npx playwright screenshot --viewport-size=1200,630 \
+      "file://$PWD/scripts/share-image.html" public/share.jpg
+
+  (Playwright asks you to run `npx playwright install chromium` the first time.)
+  Colours and type are copied from :root and .hero in src/index.css; the sizes
+  are fixed pixels because the picture is a fixed size.
+-->
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @font-face {
+        font-family: 'Cormorant Garamond';
+        font-style: normal;
+        font-weight: 400 700;
+        src: url('../public/fonts/CormorantGaramond.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Cormorant Garamond';
+        font-style: italic;
+        font-weight: 400;
+        src: url('../public/fonts/CormorantGaramond-italic.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Jost';
+        font-style: normal;
+        font-weight: 300 600;
+        src: url('../public/fonts/Jost.woff2') format('woff2');
+      }
+
+      :root {
+        --ink: #1e2a32;
+        --primary: #2f7d8a;
+        --primary-dark: #24616b;
+        --accent-soft: #dce8e7;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      body {
+        display: grid;
+        grid-template-columns: 690px 510px;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        font-family: 'Jost', sans-serif;
+      }
+
+      .copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 56px 0 72px;
+        color: #fff;
+        background:
+          radial-gradient(85% 75% at 0% 0%, var(--primary) 0%, transparent 70%),
+          linear-gradient(
+            160deg,
+            var(--primary-dark) 0%,
+            color-mix(in srgb, var(--primary-dark) 78%, var(--ink)) 100%
+          );
+      }
+
+      .eyebrow {
+        margin-bottom: 26px;
+        font-weight: 500;
+        font-size: 21px;
+        line-height: 1.6;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent-soft);
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        font-size: 104px;
+        line-height: 0.98;
+        letter-spacing: -0.012em;
+      }
+
+      h1 em {
+        font-style: italic;
+        color: var(--accent-soft);
+      }
+
+      .place {
+        font-size: 30px;
+        letter-spacing: 0.02em;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .media {
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: linear-gradient(
+          165deg,
+          color-mix(in srgb, var(--accent-soft) 75%, #fff) 0%,
+          color-mix(in srgb, var(--accent-soft) 25%, #fff) 75%
+        );
+      }
+
+      .media::before,
+      .media::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+      }
+
+      .media::before {
+        width: 400px;
+        transform: translate(-36%, -62%);
+        background: color-mix(in srgb, var(--primary) 18%, #fff);
+      }
+
+      .media::after {
+        width: 480px;
+        transform: translate(-50%, -46%);
+        border: 1px solid color-mix(in srgb, var(--primary) 38%, transparent);
+      }
+
+      .panel {
+        position: relative;
+        width: 372px;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border: 6px solid #fff;
+        border-radius: 24px;
+        box-shadow: 0 30px 60px -32px rgba(30, 55, 66, 0.5);
+      }
+
+      .panel img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 28%;
+        filter: brightness(1.04) contrast(0.96);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="copy">
+      <p class="eyebrow">Osteopath &amp; Sports<br />Massage Therapist</p>
+      <h1>Matthew<br /><em>Knight</em></h1>
+      <p class="place">Orpington &amp; Bromley</p>
+    </div>
+    <div class="media">
+      <div class="panel">
+        <img src="../public/matthew-knight.png" alt="" />
+      </div>
+    </div>
+  </body>
+</html>
