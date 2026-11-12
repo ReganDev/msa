@@ -72,8 +72,8 @@ to `routes` in `src/routes.ts` so it gets a title, a description and a prerender
    out with its own title and meta tags.
 
 Each page is written twice — `dist/osteopathy.html` and `dist/osteopathy/index.html` —
-so it resolves with or without a trailing slash and never falls through to the SPA
-rewrite in `vercel.json`. On the client, `src/main.tsx` hydrates that markup rather than
+so it resolves with or without a trailing slash. The "page not found" screen is written
+to `dist/404.html`, without a canonical URL and marked `noindex`. On the client, `src/main.tsx` hydrates that markup rather than
 discarding it.
 
 ## Before going live — client to provide
@@ -102,9 +102,10 @@ discarding it.
 
 ## Deploy
 
-Static site — the `dist/` output deploys anywhere. `vercel.json` includes an SPA rewrite,
-which only applies to URLs with no matching file; the prerendered pages are served
-directly.
+Static site — the `dist/` output deploys anywhere. Every page is a real file, so
+`vercel.json` has no catch-all rewrite: an address with no file gets `404.html` with a
+404 status, which is what tells search engines the page doesn't exist. A new page must
+therefore be in `src/routes.ts`, or it will 404 in production while working in dev.
 
 ## Structure
 

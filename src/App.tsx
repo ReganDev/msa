@@ -15,7 +15,7 @@ import NotFound from './pages/NotFound'
 import { useReveal } from './hooks/useReveal'
 import { usePageMeta } from './hooks/usePageMeta'
 import { resolveSlug } from './content/conditions'
-import { HOME_DESCRIPTION, HOME_TITLE, routeByPath } from './routes'
+import { NOT_FOUND, routeByPath } from './routes'
 
 /**
  * The per-condition pages were folded into /conditions. vercel.json redirects
@@ -38,7 +38,9 @@ export default function App() {
   // own scrolling, so the page gets no page-level scrollbar.
   const isViewport = pathname === '/conditions'
 
-  usePageMeta(route?.title ?? HOME_TITLE, route?.description ?? HOME_DESCRIPTION)
+  // An address with no route is the not-found screen, and is titled as one.
+  const meta = route ?? NOT_FOUND
+  usePageMeta(meta.title, meta.description)
   // Re-observe .reveal elements whenever a new page renders.
   useReveal(pathname)
 

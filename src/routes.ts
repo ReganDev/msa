@@ -90,4 +90,17 @@ export const routes: RouteDef[] = [
   ...(__BLOG_ENABLED__ ? blogRoutes() : []),
 ]
 
+/**
+ * The "page not found" screen, shown for any address that isn't in `routes`.
+ * Deliberately not in that list, so it gets no sitemap entry and no canonical
+ * URL. The prerender writes it to dist/404.html, which the host serves, with a
+ * 404 status, for every address that has no file of its own.
+ */
+export const NOT_FOUND: RouteDef = {
+  path: '/404',
+  title: `Page not found · ${SITE_NAME}`,
+  description:
+    'That page may have moved or no longer exists. Find osteopathy, sports massage, conditions and booking from the home page.',
+}
+
 export const routeByPath = new Map(routes.map((route) => [route.path, route]))

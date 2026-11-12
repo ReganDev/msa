@@ -75,7 +75,7 @@ async function main() {
     )
   }
 
-  const { render, routes, SITE_URL, SHARE_IMAGE, structuredData } = await import(
+  const { render, routes, NOT_FOUND, SITE_URL, SHARE_IMAGE, structuredData } = await import(
     pathToFileURL(ssrEntry).href
   )
 
@@ -111,7 +111,7 @@ async function main() {
     //   dist/osteopathy.html        -> served at /osteopathy
     //   dist/osteopathy/index.html  -> served at /osteopathy/
     // Static hosts differ on which form they look for first; emitting both
-    // means neither falls through to the SPA rewrite in vercel.json.
+    // means neither is answered with the 404 page.
     const outFiles =
       route.path === '/'
         ? [join(distDir, 'index.html')]
@@ -128,6 +128,20 @@ async function main() {
   }
 
   console.log(`\n${routes.length} pages written to dist/`)
+
+  // The not-found screen. vercel.json has no catch-all rewrite, so an address
+  // with no file of its own gets this page with a 404 status rather than a
+  // copy of the home page with a 200. It has no canonical URL or structured
+  // data, and tells search engines not to index it.
+  let notFound = template
+    .replace('<!--app-html-->', () => render(NOT_FOUND.path))
+    .replace(/<title>[^<]*<\/title>/i, `<title>${escapeText(NOT_FOUND.title)}</title>`)
+  notFound = setMeta(notFound, 'name', 'description', NOT_FOUND.description)
+  notFound = setMeta(notFound, 'property', 'og:title', NOT_FOUND.title)
+  notFound = setMeta(notFound, 'property', 'og:description', NOT_FOUND.description)
+  notFound = setMeta(notFound, 'name', 'robots', 'noindex')
+  await writeFile(join(distDir, '404.html'), notFound, 'utf8')
+  console.log('404.html written to dist/')
 
   await writeFile(join(distDir, 'robots.txt'), robotsTxt(SITE_URL), 'utf8')
   if (SITE_URL) {

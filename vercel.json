@@ -5,11 +5,5 @@
       "destination": "/conditions#:slug",
       "permanent": true
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/((?!api/|.*\\..*).*)",
-      "destination": "/index.html"
-    }
   ]
 }
